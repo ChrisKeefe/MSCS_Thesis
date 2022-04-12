@@ -5,7 +5,7 @@ sample:
 dissertation_template_latex_sample.tex
 
 pdf:
-	./latexmk.sh -cd -interaction=batchmode -pdf -xelatex \
+	./latexmk.sh -f -cd -interaction=batchmode -pdf -xelatex \
 dissertation_template_latex.tex
 
 continuous:

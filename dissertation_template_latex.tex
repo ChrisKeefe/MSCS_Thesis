@@ -45,28 +45,26 @@
 % Title page, input
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listadd{\titlelines}%
-  {First Line of the Title}             %<Enter the title of the dissertation
+  {IMPROVING IN SILICO SCIENTIFIC REPRODUCIBILITY IN QIIME 2}             %<Enter the title of the dissertation
 \listadd{\titlelines}%
-  {Second Line of the Title}            % If you want to
+  {WITH SOFTWARE FOR PROVENANCE REPLAY}            % If you want to
                                         %   split the title across lines,
                                         %   use another \listadd command for the
                                         %   second line
-\newcommand*\Author{Your Name}          %<Enter your name; must match official transcript
+\newcommand*\Author{Christopher R. Keefe}          %<Enter your name; must match official transcript
 \newcommand*{\documentname}%
-  {Dissertation}                        %<Enter the type of document (capitalized)
+  {Thesis}                        %<Enter the type of document (capitalized)
 \newcommand*{\degreename}
-  {Doctor of Philosophy}                %<Enter the type of degree (capitalized)
-\newcommand*\defdate{Month Year}        %<Give month (written out fully) and year of
-                                        %   the oral defense
-\listadd{\committeechair}{Chair Name}   %<Enter committee chair name; use \listadd for
+  {Master of Science \ \\ in Computer Science}                %<Enter the type of degree (capitalized)
+\listadd{\committeechair}{J. Gregory Caporaso, Ph.D.}   %<Enter committee chair name; use \listadd for
 %\listadd{\committeechair}{Another name}%   for additional names
 \newcommand*{\chairlabel}{Chair}        %<If you have co-chairs, replace this text with
                                         %   'Co-Chair'
-\listadd{\committeemember}{Member Name} %<Enter committee member names; use \listadd for
-\listadd{\committeemember}{Member Name} %   additional names
-\newcommand*{\gradmonth}{Month}         %<Enter the graduation date; month can only be:
+\listadd{\committeemember}{Nicholas Bokulich, Ph.D.} %<Enter committee member names; use \listadd for
+\listadd{\committeemember}{Marco Aurelio Gerosa, Ph.D.} %   additional names
+\newcommand*{\gradmonth}{May}         %<Enter the graduation date; month can only be:
                                         %  May, August, or December
-\newcommand*{\gradyear}{Year}           %<Enter the graduation year, e.g. 2014
+\newcommand*{\gradyear}{2022}           %<Enter the graduation year, e.g. 2014
 
 \listadd{\keywords}{keyword 1}          %<Enter keywords; use \listadd for
 \listadd{\keywords}{keyword 2}          %   additional names (up to 6)
@@ -228,21 +226,25 @@
   \thispagestyle{empty}
     \renewcommand*{\do}[1]{##1 \\[\baselineskip]}
     \dolistloop{\titlelines}
-    by \\[\baselineskip]
-    \Author \\[5\baselineskip]
-    A \documentname~Presented in Partial Fulfillment \\
-    of the Requirements for the Degree \\
+    \SingleSpacing
+    By \Author \\[3\baselineskip]
+    \DoubleSpacing
+    A \documentname \\
+    Submitted in Partial Fulfillment \\
+    of the Requirements for the Degree of \\
     \degreename \\
     \vfill                              % Vertically center the portion below
-    Approved \defdate~by the \\
-    Graduate Supervisory Committee: \\[\baselineskip]
+    \SingleSpacing
+    Northern Arizona University \\[\baselineskip]
+    \graddate
+    \vfill                              % Vertically center the portion above
+    \DoubleSpacing
+    Approved: \\
     \renewcommand*{\do}[1]{##1, \chairlabel \\}
     \dolistloop{\committeechair}
     \renewcommand*{\do}[1]{##1 \\}
     \dolistloop{\committeemember}
-    \vfill                              % Vertically center the portion above
-    ARIZONA STATE UNIVERSITY \\[\baselineskip]
-    \graddate
+    \vfill
   \end{center}
   \clearpage
   \closetitlepagesetup
@@ -937,10 +939,10 @@
 \fi
 
 \edef\pdfsummary{%                      % Build pdf summary
-  A \documentname Presented in\space
-  Partial Fulfillment of the\space
-  Requirements for a \degreename\space
-  from Arizona State University}
+  A \documentname
+  Submitted in Partial Fulfillment
+  of the Requirements for the \degreename\space
+  of \degreename}
 
 %%% Enter metadata and other settings
 \hypersetup{                            % Set pdf metadata
@@ -1064,7 +1066,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
 \titlepageASU
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Front matter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapterstyle{ASU}
+\pagestyle{ASU}
+% \frontmatter
+
+\chapter*{Abstract}                     % Abstract is required
+\begin{center}
+    \ \\
+    \renewcommand*{\do}[1]{#1 \\}
+    \dolistloop{\titlelines} \\
+    \ \\
+    \MakeUppercase{\Author}
+\end{center}
+\input{src/content/abstract}             %<Enter the name of the .tex file containing your
+\clearpage                              %   your abstract or omit this line and type in
+                                        %   your abstract here.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Copyright page
@@ -1073,30 +1095,16 @@
                                         %   comment out this line
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Front matter
+% Acknowledgments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapterstyle{ASU}
-\pagestyle{ASU}
-\frontmatter
-
-\chapter*{Abstract}                     % Abstract is required
-\input{src/sample/abstract}             %<Enter the name of the .tex file containing your
-                                        %   your abstract or omit this line and type in
-                                        %   your abstract here.
-
-\chapter*{Dedication}                   %~Dedication is optional
-%\clearpage                             %~If you don't wish to display the heading
-                                        %   'Dedication', comment out the previous line
-                                        %   and use this one instead.
-\input{src/sample/dedication}           %<Enter the name of the .tex file containing your
-                                        %   your dedication or omit this line and type in
-                                        %   your dedication here.
-
 \chapter*{Acknowledgments}              %~Acknowledgments are optional
 \input{src/sample/acknowledgments}      %<Enter the name of the .tex file containing your
                                         %   acknowledgments or omit this line and type in
                                         %   your acknowledgments here.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Contents (TOC)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \iftoggle{usemicrotype}                 % If 'microtype' is in use, turn off protrusion
   {\microtypesetup{protrusion=false}}%  %   for TOC
   {}
@@ -1110,6 +1118,9 @@
     {0em}%
   }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of Tables (LoT)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \ifnumcomp{\tottab}{>}{0}{%
   \pagestyle{ASUlot}
@@ -1118,6 +1129,9 @@
   \clearpage
 }{}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of Figures (LoF)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifnumcomp{\totfig}{>}{0}{%
   \pagestyle{ASUlof}
   \listoffigures                        % List of Figures should appear in TOC, so use
@@ -1158,6 +1172,18 @@
 \pagestyle{ASU}                         % Switch back to regular page style for remainder
                                         %   of the document
 \closecontentslistsetup                 % Undo page layout for contents lists
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedication
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter*{Dedication}                   %~Dedication is optional
+%\clearpage                             %~If you don't wish to display the heading
+                                        %   'Dedication', comment out the previous line
+                                        %   and use this one instead.
+\input{src/sample/dedication}           %<Enter the name of the .tex file containing your
+                                        %   your dedication or omit this line and type in
+                                        %   your dedication here.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Body

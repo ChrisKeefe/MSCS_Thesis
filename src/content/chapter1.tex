@@ -444,3 +444,139 @@ Framework using a “registration” API. Registered plugins can be used by any
 QIIME 2 interface. This provides significant flexibility for users, and added
 value for plugin developers, who get API, CLI, GUI, and workflow language (WL)
 interfaces “free” through the framework.
+
+\subsection{QIIME 2 Actions}
+Defined in the documentation as “a generic term to describe a concrete Method,
+Visualizer, or Pipeline, Actions accept parameters and/or files (Artifacts or
+Metadata) as input, and generate some kind of output.” Users of QIIME 2 interact
+with their data primarily through the use of these plugin-defined Actions. Some
+Actions (specifically Pipelines) operate by executing multiple other actions.
+
+\subsection{QIIME 2 Results}
+Defined in the documentation as “a general term for an Artifact or a
+Visualization,” Results are the primary type of output produced by QIIME 2, and
+can be differentiated in terms of intended use. Artifacts are intermediate data
+results intended to be read by QIIME 2 itself. Visualizations are terminal
+outputs, intended to be read and interacted with by humans. 
+
+For example, an Artifact of the FeatureTable semantic type, stored on disk as a
+.qza file, contains binary-encoded data which would be very difficult for a
+human user to interpret, but which provides an efficient computer-readable
+format. A Visualization might be made from the Artifact by passing it into a
+Visualizer Action.
+
+Actions produce one or many Results as outputs.
+
+\subsection{Archive Versions}
+The documentation defines an Archive as “the directory structure of a QIIME 2
+Result”, containing “at least a root directory (named by UUID) and a VERSION
+file within that directory.” 
+
+Archives are formally defined and registered in the QIIME 2 archiver code, and
+any change to the structure of a QIIME 2 archive must be implemented as a new
+archive version. As QIIME 2 has grown in capability and complexity, six
+backwards-compatible archive versions have been registered. Any reproducibility
+tool aiming to support all QIIME 2 Results must account for variation in Archive
+Versions.
+
+The first (v0) Archive Version did not include any provenance data, because
+QIIME 2 did not capture provenance at that early stage in its development.
+Subsequent versions capture provenance data in a provenance directory within the
+Archive’s root directory.
+
+\subsection{UUIDs}
+Both QIIME 2 and the Provenance Replay tools described here make frequent use of
+v4 (random) UUIDs.[13] (We will refer to these simply as UUIDs going forward.)
+These are randomly-generated 128-bit labels composed of 32 hexadecimal
+characters broken by hyphens into character groups with lengths of 8-4-4-4-12
+characters each. These identifiers have no special significance, but rather were
+selected for use because they are a common and convenient way to label uniquely.
+Though collisions are theoretically possible, the 5.3×1036 possible v4 UUIDs
+make the probability of collision vanishingly small in the contexts where we
+apply them.
+
+The QIIME 2 framework assigns every Result a UUID, providing a valuable property
+for checking and tracking Result identity. 
+
+\subsection{MD5 Checksums}
+Beginning with Archive Version 5 (released in QIIME 2 2018.11), Archives contain an md5sum-formatted[14, 15] checksums.md5 file in their root directory. This is a digest of (checksum, relative file path) pairs, where each checksum is a hash of the file contents. Any change to the file contents is highly probable to result in a change to the file’s hash. The MD5Sum algorithm is cryptographically broken, but still widely used in non-secure contexts. Barring malicious tampering, checksums allow us to confirm the integrity of the contents of any QIIME 2 Archive.
+
+\subsection{Archive and Provenance data structure}
+The goals, structure, and contents of QIIME 2 Archives are treated at length in
+the “How Data is Stored” section of the developer documentation[35]. A few key
+ideas are worth mentioning here.
+
+\begin{itemize}
+    \item The QIIME 2 Archiver currently stores Archives to disk as ZIP files[16, 17], because ZIP is a ubiquitous, compact, open, and well understood archive file format.
+    \item Other ArchiveFormats may exist in the future.
+    \item Data and provenance are stored separately, allowing provenance data formats to be centrally defined, while allowing plugins to define their own preferred data structure. We need not concern ourselves with the contents of the data directory here.
+    \item The provenance directory of an Archive (if present) contains the provenance data for the Result whose data is stored in the archive, alongside a non-hierarchically-organized artifacts directory containing provenance data for all of the results required to create that Result - its dependencies, or ancestors. Study data is not stored in this archive for these ancestor Results - only provenance information. We may refer to the Result whose data is stored in an archive as the “terminal”, or “root” Result or node for the Archive.
+    \item Each ancestor Result’s provenance data is stored in a directory named with that Result’s UUID.
+    \item QIIME 2 Results are portable across versions of QIIME 2. As a result, an Archive may contain provenance data conforming to an arbitrary number of Archive Format Version specifications.
+\end{itemize}
+
+\subsection{QIIME 2 release/packaging model}
+At the time of writing, the QIIME 2 Framework is packaged with many “core”
+plugins on a quarterly release cycle. Most users install a conda package,
+container, or virtual machine, and get access to commonly used plugins.
+Third-party plugins must be installed separately, however, and there is no
+guarantee that a plugin used in a prior analysis will be present in a user’s
+current QIIME 2 deployment.
+
+This release model is currently in transition towards a less centralized and
+potentially less consistent model, in which third-party plugins are likely to
+play a more significant role. Awareness of this dynamic is likely to be
+important to any reproducibility tool targeting QIIME 2.
+
+\subsection{Potential users of Provenance Replay tools}
+So far, we have focused primarily on the case that human researchers can derive
+value from tools for in silico reproducibility. It is important to note that the
+consumers of these tools may be human or machine “users”. Study goals vary, as
+do software requirements, and a strong case can be made for the value of
+reproducibility tools that allow for the large-scale, mechanized corroboration
+or extension of existing Results.
+
+For example, the Knight Lab team at UCSD is interested in using provenance
+replay within their QIITA software platform, allowing them to identify
+performance bottlenecks in QIIME 2 workflows. Users' QIIME 2 analyses could be
+replayed and profiled for performance bottlenecks, supporting targeted
+development of performance optimizations.[46]
+
+Full, “touchless” automation of reproducibility solutions, especially in the
+contexts of corroboration and meta-analysis, is a valuable long-term target, so
+it is worth noting that machine users may have a different set of priorities
+than human users of the software. Automated systems are more likely to need high
+levels of time and space efficiency when working with large data. These are
+goals I have attempted to support directly through development, and by tracking
+clear opportunities for improvement in a public issue tracker[47, Issues #29,
+60, 62].
+
+Automation also requires a level of determinism adequate to alleviate the need
+for human judgment. The current implementation of Provenance Replay, for reasons
+that will be discussed below, is unable to support the full automation of study
+reproduction. Changes have been proposed to the QIIME 2 Framework that may allow
+this work to move forward in the near future. At the time of writing, however,
+human users are our primary target.
+
+
+\section{Provenance Replay for QIIME 2}
+
+The work presented here attempts to improve computational methods
+reproducibility in QIIME 2 by reducing the practical overhead of important
+reproducibility outcomes. Built around the automated, decentralized provenance
+capture implemented in the QIIME 2 Framework, I present user-friendly tools to
+validate the integrity of QIIME 2 Results, parse the provenance data they
+contain, and programmatically generate executable scripts that allow for the
+reproduction, study, and extension of the source analysis.
+
+The software, written in Python 3.8, depends heavily on the Python standard
+library, NetworkX[18], pyyaml[19], and QIIME 2 itself, from which it takes
+advantage especially of the PluginManager and the Usage API. Called “Provenance
+Replay”, the software ingests QIIME 2 Results and parses their provenance data
+into a Directed Acyclic Graph (DAG) implemented as a NetworkX DiGraph. It
+produces outputs by subsetting and manipulating this DiGraph and its contents.
+Outputs include bibtex-formatted[20] citations for all Actions used in a
+computational analysis, and executable scripts targeting the user’s preferred
+QIIME 2 interface. Users interact with the software through a command-line
+interface implemented with Click[20], or with a Python3 API. A graphical user
+interface built on the Galaxy platform[21] is targeted for future development.

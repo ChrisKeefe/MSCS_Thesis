@@ -581,12 +581,13 @@ users who are interested in the validity of the Archives they work with, an
 ordered scale of ValidationCodes has been established as an IntEnum. (Table \ref{tab:validationCodes})
 
 \begin{table}[htp]
-    \begin{tabular}{|p{0.33\textwidth} p{0.07\textwidth} p{0.5\textwidth}|}
+    \centering
+    \begin{tabular}{|p{0.28\textwidth}|p{0.06\textwidth}|p{0.55\textwidth}|}
     \hline
-    ValidationCode      & Enum value & Description                                          \\
+    ValidationCode      & Enum value & Description                                          \\ \hline
     INVALID             & 0          & the Archive is known to be invalid                   \\
     VALIDATION\_OPTOUT  & 1          & the user opted out of checksum validation            \\
-    PREDATES\_CHECKSUMS & 2          & V0-V4 Archives cannot be validated - assume validity \\
+    PREDATES\_CHECKSUMS & 2          & V0-V4 Archives cannot be validated: assume validity  \\
     VALID               & 3          & the archive is known to be invalid                   \\ \hline
     \end{tabular}
     \caption[Defined ValidationCodes, ordered from least to most valid, with their descriptions]%

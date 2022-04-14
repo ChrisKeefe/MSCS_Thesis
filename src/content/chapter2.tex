@@ -7,14 +7,14 @@ requirements funded by the US National Cancer Institute’s Informatics Technolo
 for Cancer Research program (grant number 1U24CA248454-01). In addition, we
 undertook an internal requirements engineering process, involving requirements
 elicitation by focus group, and requirements validation using Technology
-Acceptance Model (TAM)[29] and Net Promoter Score[30] (NPS)-based survey
-instruments. These two processes (initial development and requirements
-engineering research) will be discussed in separate sections roughly
-corresponding to the chronological order of the work, in which an Alpha release
-version of Provenance Replay was developed first based on funding agency
-requirements and literature review, and requirements engineering processes were
-used to refine software requirements and validate the success of the initial
-implementation. 
+Acceptance Model (TAM) \parencite{davis_perceived_1989} and Net Promoter Score
+\parencite{reichheld_one_2003} (NPS)-based survey instruments. These two
+processes (initial development and requirements engineering research) will be
+discussed in separate sections roughly corresponding to the chronological order
+of the work, in which an Alpha release version of Provenance Replay was
+developed first based on funding agency requirements and literature review, and
+requirements engineering processes were used to refine software requirements and
+validate the success of the initial implementation.
 
 %%
 %%
@@ -24,8 +24,8 @@ implementation.
 \section{Overview}
 
 As initially proposed, the aim of Provenance Replay is to “generate executable
-code directly from a Result’s provenance”[46]. Framed as functional
-requirements:
+code directly from a Result’s provenance” \parencite{caporaso_nci_2022}.
+Framed as functional requirements:
 \begin{itemize}
     \item Provenance Replay must ingest QIIME 2 Results, and from them produce command-line (BASH) and Python scripts
     \item These scripts must be usable with QIIME 2’s q2cli and Python 3 API interfaces
@@ -74,9 +74,9 @@ named with the archive UUID - this serves as the Archive’s identity, and I wil
 refer to it when needed as the “root UUID”. Within this root directory, all
 archives contain a VERSION file, which holds the necessary information to
 identify what version of the Archive Format specification this archive complies
-with.[31] By determining which archive version we are working with, it is
-possible to identify and parse all files within the Archive which are relevant
-to Provenance Replay.
+with \parencite{qiime_2_development_team_anatomy_2018}. By determining which
+archive version we are working with, it is possible to identify and parse all
+files within the Archive which are relevant to Provenance Replay.
 
 We will discuss the handling of various archive versions in greater detail
 below. Here we will focus on the lower-level work of parsing the relevant data
@@ -130,7 +130,8 @@ VERSION files are specified in a simple, custom format. The root-level VERSION
 file is checked for validity against a regular expression. If valid, the Archive
 version is parsed using Python’s standard-library string manipulation methods,
 and used to determine how to parse the rest of the archive. Bibtex files are
-parsed with the bibtexparser library[20], pandas[32, 33] is used to read the
+parsed with the bibtexparser library \parencite{boulogne_bibtexparser_nodate},
+pandas (\cite{reback_pandas-devpandas_2020}; \cite{mckinney_data_2010}) is used to read the
 metadata .tsv files, and pyyaml is used to handle the critical metadata.yaml and
 action.yaml files.
 
@@ -295,10 +296,11 @@ The QIIME 2 Framework defines six Archive Format versions, numbered from 0 to 5,
 which have increased in complexity as provenance capture has become more robust.
 Results created in the earliest of these Archive Formats (v0) do not contain
 provenance data at all. I have covered the details of these archive structure
-changes at length in the developer documentation [34], so will focus on the
-architectural decisions made to support this structure in Provenance Replay.
-Archive Formats are explicitly versioned, because change is anticipated and must
-be supported, so extensibility is a key non-functional requirement. 
+changes at length in the developer documentation \parencite{qiime_2_development_team_archive_2018},
+so will focus on the architectural decisions made to support this structure in
+Provenance Replay.  Archive Formats are explicitly versioned, because change is
+anticipated and must be supported, so extensibility is a key non-functional
+requirement.
 
 Archive parsing proceeds roughly as follows.
 \begin{enumerate}
@@ -527,8 +529,8 @@ the minimal set of QIIME 2 Actions a user might run to produce the parsed
 Results.
 
 A third, expanded view of QIIME 2 provenance excluding Pipelines and including
-all inner Actions may be targeted for future development[47, Issue #74]. This
-view has potential utility as a tool for deeper inspection of analytical
+all inner Actions may be targeted for future development \parencite[Issue #74]{keefe_issues_nodate}.
+This view has potential utility as a tool for deeper inspection of analytical
 workflows, allowing users to study, modify, and re-run all of the fundamental
 Actions being run by Pipelines. 
 
@@ -613,11 +615,11 @@ the terminal Results.
 
 Provenance replay relies heavily on the QIIME 2 Usage API, which offers a set of
 tools for producing interface-specific examples of how Actions might be used
-from interface-agnostic abstractions.[36] The Usage API supports the generation
-of documentation, and also the execution of Usage examples through a Usage
-class, which can be subclassed to support specific interfaces and behaviors. In
-addition, the API defines a set of methods which example authors can use to
-define examples. 
+from interface-agnostic abstractions \parencite{qiime_2_development_team_usage_2018}.
+The Usage API supports the generation of documentation, and also the execution
+of Usage examples through a Usage class, which can be subclassed to support
+specific interfaces and behaviors. In addition, the API defines a set of methods
+which example authors can use to define examples.
 
 In standard use, an author defines some data, and writes one or more usage
 examples using these methods. Each component method of an example takes some

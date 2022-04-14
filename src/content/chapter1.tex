@@ -157,8 +157,8 @@ interfaces. In addition to facilitating this behavior, the framework implements
 functionality required universally, including systems for recording QIIME 2
 results and for capturing provenance data. “Details of all analysis steps with
 references to intermediate data are automatically stored in the results. Users
-can thus retrospectively determine exactly how any result was generated.”[5] Key
-to understanding this model is the idea that provenance capture is
+can thus retrospectively determine exactly how any result was generated \parencite[854]{bolyen_reproducible_2019}”.
+Key to understanding this model is the idea that provenance capture is
 decentralized, with provenance data stored in results, rather than storing it in
 some centralized resource or relying on users to correctly associate research
 outputs with the code that generated them. Every visualization or data output
@@ -234,7 +234,7 @@ published scientific work in digital media, and included in each figure’s
 caption references and/or buttons that allowed trivial re-running of the
 analysis that created that figure. They claimed that in this reproducible work,
 “[j]udgement of the reproducibility of computationally oriented research no
-longer requires an expert—a clerk can do it” (as cited in Plesser 2018, 76).
+longer requires an expert—a clerk can do it” (as cited in \cite[76]{plesser_reproducibility_2018}).
 This “one-click” approach to reproducibility provides clear value for its
 simplicity in corroborating the provenance of a single figure, and so is a
 useful end goal to consider in the broader context of possible positive outcomes
@@ -426,20 +426,23 @@ stated above.
 
 The QIIME 2 team has attempted to reduce confusion around frequently-used (and
 frequently overloaded) terminology by explicitly defining and documenting key
-terms for users and developers in the context of the software platform.[5] We
-will rely on some of these definitions heavily, and will discuss them here
-alongside other key features. These QIIME 2-specific terms will be capitalized
-whenever possible to reduce confusion with other definitions.
+terms for users \parencite{qiime_2_development_team_glossary_2016} and
+developers \parencite{qiime_2_development_team_glossary_2018} in the context of
+the software platform.  We will rely on some of these definitions heavily, and
+will discuss them here alongside other key features. These QIIME 2-specific
+terms will be capitalized whenever possible to reduce confusion with other
+definitions.
 
 \subsection{The QIIME 2 Framework (the Framework)}
 The QIIME 2 framework is an “engine of orchestration that enables QIIME 2 to
-function together as a cohesive unit.”[5] The framework is both interface
-agnostic and domain agnostic, but implements the common core of functionality
-that allows users to interact with bioinformatics methods (defined in plugins)
-through a variety of different interfaces. This includes key features like a
-Semantic Type system that enforces type validity and supports pipelining and
-cross-plugin interoperability, and systems for retrospective provenance capture
-and the construction of consistently structured Archives.
+function together as a cohesive unit" \parencite{qiime_2_development_team_glossary_2018}.
+The framework is both interface agnostic and domain agnostic, but implements the
+common core of functionality that allows users to interact with bioinformatics
+methods (defined in plugins) through a variety of different interfaces. This
+includes key features like a Semantic Type system that enforces type validity
+and supports pipelining and cross-plugin interoperability, and systems for
+retrospective provenance capture and the construction of consistently structured
+Archives.
 
 QIIME 2 plugins declare their available methods (and other key concepts) to the
 Framework using a “registration” API. Registered plugins can be used by any

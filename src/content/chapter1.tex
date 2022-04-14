@@ -590,9 +590,9 @@ validate the integrity of QIIME 2 Results, parse the provenance data they
 contain, and programmatically generate executable scripts that allow for the
 reproduction, study, and extension of the source analysis.
 
-The software, written in Python 3.8, depends heavily on the Python standard
-library, NetworkX \parencite{hagberg_exploring_2008}, pyyaml \parencite{noauthor_pyyaml_nodate},
-and QIIME 2 itself, from which it takes
+The software, written in Python 3.8 \parencite{python_software_foundation_python_2001},
+depends heavily on the Python standard library, NetworkX \parencite{hagberg_exploring_2008},
+pyyaml \parencite{simonov_pyyaml_2006}, and QIIME 2 itself, from which it takes
 advantage especially of the PluginManager and the Usage API. Called “Provenance
 Replay”, the software ingests QIIME 2 Results and parses their provenance data
 into a Directed Acyclic Graph (DAG) implemented as a NetworkX DiGraph. It
@@ -601,5 +601,5 @@ Outputs include bibtex-formatted \parencite{boulogne_bibtexparser_nodate}
 citations for all Actions used in a computational analysis, and executable
 scripts targeting the user’s preferred QIIME 2 interface. Users interact with
 the software through a command-line interface implemented with Click \parencite{pallets_click_2014},
-or with a Python3 API. A graphical user interface built on the Galaxy platform
+or with a Python 3 API. A graphical user interface built on the Galaxy platform
 \parencite{afgan_galaxy_2018} is targeted for future development.

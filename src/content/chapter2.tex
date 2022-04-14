@@ -509,9 +509,10 @@ of their internal Actions.
 Again for reasons of completeness, Provenance Replay’s Archive parsers include
 all captured provenance data in the ParserResults objects they return. We can
 call this the complete view of provenance. Many use cases require subgraphs,
-which we implement with NetworkX GraphViews.[18] These are lightweight read-only
-subgraphs generated from the complete DiGraph, which allow us to exclude sets of
-unneeded nodes without actually removing them from the original data structure.
+which we implement with NetworkX GraphViews \parencite{hagberg_exploring_2008}.
+These are lightweight read-only subgraphs generated from the complete DiGraph,
+which allow us to exclude sets of unneeded nodes without actually removing them
+from the original data structure.
 
 Most users, for example, are concerned only with the Actions they actually ran,
 or would need to run to reproduce some analysis. In other words, they care only
@@ -637,8 +638,9 @@ output in memory, which is then written to the user-passed location on disk.
 This module’s core functionality is exposed at the package level, and supports
 the handling of both ProvDAG objects in-memory and one-shot parse-and-replay
 operations through the Python interpreter. A command-line interface written with
-Click[21] in the click\_commands module exposes the one-shot methods for use from
-the command line, and provides documentation and tab-completion functionality.
+Click \parencite{pallets_click_2014} in the click\_commands module exposes the
+one-shot methods for use from the command line, and provides documentation and
+tab-completion functionality.
 
 %%
 %%

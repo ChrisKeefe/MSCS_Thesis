@@ -123,27 +123,23 @@ processes upon which it depends. Put differently, published results must include
 information about their own derivation history, or provenance, which others can
 use in reproducing their analytical systems and methods. The nomenclature of
 provenance data capture provides useful context. According to Zhao et al,
-approaches to provenance tracking can be broken down into:
-
-\begin{quote}
-the aspects of the procedure or workflow used to create a data object 
-(prospective provenance, or “recipe”)... [and] information about the runtime
-environment in which a procedure was executed and the resources used in its
-invocation (retrospective provenance). [4]
-\end{quote}
-
-There are many different ways to serve one or both of these needs. Prospective
-approaches may include tools for the annotation of executable code and/or the
-generation of documentation from executable code (e.g. Jupyter Notebooks,
-RMarkdown), or may be based on workflow automation specifications with tools
-like Common Workflow Language (CWL) or NextFlow. The paradigm here is frequently
-one in which a provenance document is written by the user and then executed to
-produce the results. Retrospective approaches function by capturing information
-about an analysis during execution. Benefits to this approach include the
-ability to record information about the underlying system at run time, including
-hardware and software environments, resource use, passed data and metadata, and
-identifiers for both intermediate and final results. Hybrid approaches have also
-been developed, blending prospective and retrospective methods.[27]
+approaches to provenance tracking can be broken down into "the aspects of the
+procedure or workflow used to create a data object (prospective provenance, or
+“recipe”)... [and] information about the runtime environment in which a
+procedure was executed and the resources used in its invocation (retrospective
+provenance)" \parencite[149]{hutchison_applying_2006}. There are many different ways
+to serve one or both of these needs. Prospective approaches may include tools
+for the annotation of executable code and/or the generation of documentation
+from executable code (e.g. Jupyter Notebooks, RMarkdown), or may be based on
+workflow automation specifications with tools like Common Workflow Language
+(CWL) or NextFlow. The paradigm here is frequently one in which a provenance
+document is written by the user and then executed to produce the results.
+Retrospective approaches function by capturing information about an analysis
+during execution. Benefits to this approach include the ability to record
+information about the underlying system at run time, including hardware and
+software environments, resource use, passed data and metadata, and identifiers
+for both intermediate and final results. Hybrid approaches have also been
+developed, blending prospective and retrospective methods \parencite{zhang_revealing_2017}.
 
 %%
 %%

@@ -242,16 +242,16 @@ from reproducible research.
 
 Gunderson and Kjensmo, in their work on reproducibility in Artificial
 Intelligence (AI), propose a hierarchical three-value system for ranking the
-reproducibility of an AI based upon that AI’s degree of generality. 
+reproducibility of an AI based upon that AI’s degree of generality:
 \begin{itemize}
     \item Experiment Reproducible systems “produce the same results when [the same implementation is] executed on the same data."
     \item Data Reproducible systems produce the same results when executing “an alternative implementation of the AI method… on the same data.”
-    \item Method Reproducible systems produce the same results when executing “an alternative implementation of the AI method… on different data”.[8]
+    \item Method Reproducible systems produce the same results when executing “an alternative implementation of the AI method… on different data” \parencite[4]{gundersen_state_2018}.
 \end{itemize}
 % TODO: Inexplicably, the rest of the document indents if we don't end twice here.
 \end{itemize}
 
-The Turing Way Community’s definitions of “Reproducible”, “Robust”, and
+\noindent The Turing Way Community’s definitions of “Reproducible”, “Robust”, and
 “Generalisable” align (respectively) with these definitions, but exchange a
 clear ordering for the ability to include an additional combination of factors,
 defining:
@@ -260,7 +260,7 @@ defining:
     \item “Replicable” systems “produce qualitatively similar answers”, when “the same analysis is performed on different datasets” \parencite{community_definitions_2021}.
 \end{itemize}
 
-Though varying slightly in scope and intent, these two systems both classify
+\noindent Though varying slightly in scope and intent, these two systems both classify
 distinct “types of reproducibility”, based on study design or outcome. There is
 no “correct” or standard nomenclature in the literature, so we will impose a
 Gunderson-like hierarchy on the Turing Way terminology here. (Figure \ref{fig:repro_classes})
@@ -356,7 +356,7 @@ with relatively low operational costs.
 The potential benefits are enormous. Supporting public data access allows us to
 wring the most possible value out of expensive data collection processes. With
 sufficient effort and creativity, even highly protected private data can be
-leveraged to provide ongoing public value without compromising its privacy.[28]
+leveraged to provide ongoing public value without compromising its privacy \parencite{schaffter_nlp_2022}.
 Strong reproducibility documentation practices provide a basis for complete
 attribution, allowing us to appropriately credit prior researchers and method
 developers for their contributions to the field. This, in turn, helps
@@ -375,9 +375,10 @@ undertake the reproduction or extension of any study. Any solution that proposes
 to improve reproducibility must satisfy users from both groups. It should a)
 simplify the process of documenting the production of a scientific result, and
 b) simplify the process of reproducing and extending that result. We should
-“make reproducible research too easy not to do.”[12] Claerbout’s early work, by
-leaning on automation, sets a high standard for ease of use, but may fail to
-address the expertise problem in cases where simple corroboration is inadequate.
+“make reproducible research too easy not to do" \parencite[19]{whitaker_turing_2019}
+Claerbout’s early work, by leaning on automation, sets a high standard for ease
+of use, but may fail to address the expertise problem in cases where simple
+corroboration is inadequate.
 
 Biologists today have widely varying levels of biological and computational
 expertise. They work in the field, in wet labs, in computational settings, and

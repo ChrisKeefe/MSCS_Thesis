@@ -138,23 +138,24 @@
   %
   % Sometimes something simple like the following will work:
   %
-    \setmainfont{Lato}
+    % \setmainfont{Lato}
   %
   % But often the easiest solution is to move font files (*.otf or *.ttf) into
   % a sub-directory and provide the direct path to them here.
   %
   % See `fontspec` documentation for more on using local font files.
   %
-  % \setmainfont{EBGaramond12}[           %<Set the main font; make sure the font is correct
-  %                                       %   for the font size (See ASU Style Guide)
-  %   Path          = /usr/share/fonts/opentype/ebgaramond/,
-  %   Extension     = .otf ,
-  %   UprightFont   = *-Regular ,
-  %   ItalicFont    = *-Italic ,
-  %   % Notice that bold is missing here because the Docker image does not have
-  %   % a bold typeface for Garamond; it would probably be possible to find
-  %   % one on your local system or online.
-  % ]
+  \setmainfont[
+    Path          = fonts/,                       % This is the parent dir filepath
+    Extension     = .ttf ,                        % the font file's extension
+    UprightFont   = * ,                           % the following are suffixes
+    ItalicFont    = *i ,                          % filepaths are concatenated from [path][main font name][suffix][extension]
+    BoldFont      = *bd ,                         % e.g. /usr/share/fonts/truetype/timesi.ttf
+    % Notice that bold is missing here because the Docker image does not have
+    % a bold typeface for Garamond; it would probably be possible to find
+    % one on your local system or online.
+  ]{times}                              %<Set the main font; make sure the font is correct
+                                        %   for the font size (See ASU Style Guide)
 
 %  \setmathfont(Digits,Latin,Greek)%     %~Uncomment two lines to set a font for math%
 %    {MATHFONT}

@@ -30,7 +30,7 @@ Replay provides a basic “one-shot” tool for reporting study provenance -
 augmenting it with additional reports will improve the completeness of
 provenance documentation while reducing the time-cost required to do so.
 
-\subsection{A methods manifest \parencite[Issue #75]{keefe_issues_2021} }
+\subsection{A methods manifest \parencite[Issue 75]{keefe_issues_2021}}
 \label{methods_manifest}
 
 Because provenance replay is organized in terms of QIIME 2 Actions, the
@@ -56,7 +56,7 @@ methods applied during the analysis. When replay is conducted on all analysis
 results (rather than a curated set), readers will have better transparency into
 which Results were not reported.
 
-\subsection{Analysis metadata \parencite[Issue #76]{keefe_issues_2021}}
+\subsection{Analysis metadata \parencite[Issue 76]{keefe_issues_2021}}
 
 There is a class of information that, while not strictly required for
 reproducibility, has the potential to make provenance replay much more pleasant
@@ -67,7 +67,7 @@ need to share. Details on the size and type of this data could help with
 estimating compute times. Overall and per-action summaries of runtime and
 hardware provisioning could simplify the process of re-running jobs.
 
-\subsection{Improving computer system reporting \parencite[Issue #77]{keefe_issues_2021}}
+\subsection{Improving computer system reporting \parencite[Issue 77]{keefe_issues_2021}}
 \label{comp_env_reporting}
 
 Computing environment reproducibility is currently served by a basic report  on
@@ -94,7 +94,7 @@ Generally, improving capture and reporting of the computer system would advance
 completeness goals, and open the door to many positive outcomes.
 
 
-\section{Automating Computing Environment Reproducibility \parencite[Issue #78]{keefe_issues_2021}}
+\section{Automating Computing Environment Reproducibility \parencite[Issue 78]{keefe_issues_2021}}
 \label{automating_comp_env_repr}
 
 Computing environment reproducibility is frequently one of the more challenging
@@ -130,7 +130,7 @@ replay would allow us to fully trust that the plugin, action, and parameter
 names captured in provenance would match those expected by the active
 environment, without requiring input from the Plugin Manager.
 
-\section{Diversity in interfaces and usage drivers (\cite[Issue #65]{keefe_issues_2021}; \cite[Issue #79]{keefe_issues_2021})}
+\section{Diversity in interfaces and usage drivers (\cite[Issue 65]{keefe_issues_2021}; \cite[Issue 79]{keefe_issues_2021})}
 
 Readability, learning-readiness, and communication/collaboration goals all
 benefit from an increased number and diversity of provenance replay interfaces,
@@ -149,7 +149,7 @@ actions the user should perform within the GUI in order to replay an analysis.
 In the mid to long term, R interface support would help support valuable
 cross-language analysis “translation” outcomes.
 
-\section{Improved in-memory replay support \parencite[Issue #22]{keefe_issues_2021}}
+\section{Improved in-memory replay support \parencite[Issue 22]{keefe_issues_2021}}
 QIIME 2’s Python API provides strong support for interactivity, and can speed up
 analysis noticeably in some cases by removing the requirement that Results in
 memory be saved to disk. Provenance Replay does not currently provide support
@@ -171,7 +171,7 @@ results parsing.
 
 \section{Simplifying the corroboration of results}
 
-\subsection{“Touchless replay” \parencite[Issue #63]{keefe_issues_2021}}
+\subsection{“Touchless replay” \parencite[Issue 63]{keefe_issues_2021}}
 \label{touchless_replay}
 
 Claerbout’s “automatic” replay of figures is an inspiring example of how easy
@@ -211,7 +211,7 @@ low-priority target in the short term. Automation-oriented user stories like
 those of the QIITA meta-analysis targeting optimization from Section \ref{potential_users}
 make this an attractive mid to long-term target for development.
 
-\subsection{Variables in scripts and guaranteeing metadata identity \parencite[Issue #44]{keefe_issues_2021}}
+\subsection{Variables in scripts and guaranteeing metadata identity \parencite[Issue 44]{keefe_issues_2021}}
 
 In addition to input data (e.g. sequences), the production of almost all Results
 requires one or more sample metadata tables/columns. One Focus Group participant
@@ -241,7 +241,7 @@ provides more sophisticated Metadata tracking in Provenance, and should be
 considered reviewed for adequacy in meeting this requirement before development
 effort is put into these goals.
 
-\section{Improving performance for large-scale analyses \parencite[Issue #29]{keefe_issues_2021}}
+\section{Improving performance for large-scale analyses \parencite[Issue 29]{keefe_issues_2021}}
 
 Over 95\% of the runtime of any replay action on a large (many-Results) analysis
 can be attributed to parsing, and adequate support for large-scale automation
@@ -255,7 +255,7 @@ DiGraph when this occurs. A more granular approach can reduce redundant reads
 dramatically, if the parser skips any nodes within a Result that already exist
 in the digraph.
 
-\section{Graph operations for meta-analysis \parencite[Issue #30]{keefe_issues_2021}}
+\section{Graph operations for meta-analysis \parencite[Issue 30]{keefe_issues_2021}}
 \label{section:graph_ops}
 
 The DiGraph structure of provenance lends itself to a number of graph operations
@@ -292,7 +292,7 @@ which users can apply directly to the DiGraph object (or a copy of it) stored in
 \texttt{ProvDag.dag}. Commonly-used operations should be wrapped as methods on
 ProvDAG when they might affect inconsistency of internal state, as does union.
 
-\section{Provenance Replay in q2view \parencite[Issue #123]{qiime_2_development_team_issues_2016}}
+\section{Provenance Replay in q2view \parencite[Issue 123]{qiime_2_development_team_issues_2016}}
 Graphical interfaces like q2view have a lot of potential to improve user
 interactions with provenance data and provide unique opportunities to support
 advanced applications of provenance replay. User comments during the focus group
@@ -312,7 +312,7 @@ be built, likely with significant supporting software. Finally, q2view itself
 would likely need to be extended to accommodate the visualization of provenance
 graphs representing multiple QIIME 2 results.
 
-\section{Annotating transitions into and out of QIIME 2 analysis \parencite[Issue #80]{keefe_issues_2021}}
+\section{Annotating transitions into and out of QIIME 2 analysis \parencite[Issue 80]{keefe_issues_2021}}
 Multiple focus group participants noted that provenance replay would fail to
 fully document analyses in which data was exported from QIIME 2 results for
 analysis outside of QIIME 2. This is particularly challenging in cases where the

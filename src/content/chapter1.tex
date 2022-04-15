@@ -2,11 +2,7 @@
 % Chapter 1 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{INTRODUCTION}
-%%
-%%
-%%      1
-%%
-%%
+
 \section{Reproducibility}
 The trustworthiness of scientific research is maintained through the
 processes of peer review and study reproduction. In the former, expert readers
@@ -84,11 +80,6 @@ thesis, we are primarily concerned with this fundamental problem - failures in
 methods reproducibility preclude any effort at higher levels of corroboration,
 and failures in documentation may preclude methods reproducibility.
 
-%%
-%%
-%%    2
-%%   
-%%
 \section{Provenance}
 
 All three of the types of reproducibility discussed above share methods
@@ -142,11 +133,7 @@ software environments, resource use, passed data and metadata, and identifiers
 for both intermediate and final results. Hybrid approaches have also been
 developed, blending prospective and retrospective methods \parencite{zhang_revealing_2017}.
 
-%%
-%%
-%%    3
-%%   
-%%
+
 \section{Provenance in QIIME 2}
 
 This work targets the QIIME 2 platform for microbiome bioinformatics, which
@@ -163,7 +150,7 @@ decentralized, with provenance data stored in results, rather than storing it in
 some centralized resource or relying on users to correctly associate research
 outputs with the code that generated them. Every visualization or data output
 created by QIIME 2 contains a full history of the analysis that produced it.
-(See figure \ref{fig:provenance_graph})
+(Figure \ref{fig:provenance_graph})
 
 \begin{figure}[htp]
 \centering
@@ -221,11 +208,7 @@ knitting them together into runnable code for the 25-30 actions that produced
 them. Even if we could assume user expertise sufficient to do the work
 efficiently, the process would be painstaking and prone to human error. 
 
-%%
-%%
-%%      4
-%%
-%%
+
 \section{Reproducible research goals}
 \label{section:repro_goals}
 
@@ -415,11 +398,6 @@ aim for:
 \end{itemize}
 
 
-%%
-%%
-%%      5
-%%
-%%
 \section{QIIME 2 concepts}
 
 In this section, I will discuss features of the QIIME 2 Framework and associated
@@ -550,6 +528,7 @@ play a more significant role. Awareness of this dynamic is likely to be
 important to any reproducibility tool targeting QIIME 2.
 
 \subsection{Potential users of Provenance Replay tools}
+\label{potential_users}
 So far, we have focused primarily on the case that human researchers can derive
 value from tools for in silico reproducibility. It is important to note that the
 consumers of these tools may be human or machine “users”. Study goals vary, as

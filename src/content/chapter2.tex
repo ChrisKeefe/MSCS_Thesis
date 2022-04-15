@@ -31,7 +31,6 @@ Framed as functional requirements:
     \item These scripts must be usable with QIIME 2’s q2cli and Python 3 API interfaces
 \end{itemize}
 
-% EXAMPLE: don't indent "new paragraph" after itemize bullet list
 \noindent Framed as a user story: \\
 A QIIME 2 user, in a setting where new data must continuously be
 merged with existing data, wants to parse a result from the previous iteration
@@ -354,7 +353,7 @@ implementation in Parserv1 is used by all of the classes that depend on it.
 Changes in parser behavior from V1-V5 are effected through simple changes in
 class data, and ‘private’ helper methods like \_validate\_checksums}
     \end{minipage}
-    % \label{fig:allParsersUML}
+    \label{fig:allParsersUML}
 \end{figure}
 
 Low-level parsing/loading work is handled by file-type-specific classes, which
@@ -376,8 +375,6 @@ re-implementation of a helper function, and a call to super().parse\_prov. The
 code for all of these Parsers is minimal, as nearly all behavior is inherited. 
 (Figure \ref{fig:parserCodeBlock})
 
-% TODO: This ref ^ is borked, pointing to the prior figure
-
 \begin{figure}[htp]
 \centering
 \includegraphics[width=\textwidth]{figures/parserCodeBlock.png}
@@ -387,11 +384,7 @@ inheritance and low-level parser flexibility in reducing code surface area.}
 \label{fig:parserCodeBlock}
 \end{figure}
 
-%%
-%%
-%%      6
-%%
-%%
+
 \section{Representing single Results or full analyses with DiGraphs}
 
 Many studies require information from more than one QIIME 2 Result in order to
@@ -455,11 +448,7 @@ with the ability to interrogate the structure of their parsed provenance DAGs.
 It is, for example, trivial to determine whether a provenance DAG is composed of
 one continuous, or many discontinuous subgraphs.
 
-%%
-%%
-%%      7
-%%
-%%
+
 \section{Graph Union}
 
 Because provenance data is captured in a decentralized (per-Result) way, the
@@ -535,7 +524,7 @@ workflows, allowing users to study, modify, and re-run all of the fundamental
 Actions being run by Pipelines. 
 
 The collapsed view will be familiar to users of q2view, in which it is used to
-present analysis provenance with a minimum of visual clutter (see Fig 1).
+present analysis provenance with a minimum of visual clutter (Fig \ref{fig:provenance_graph}).
 Support for this fundamental idea that different users might require different
 views of provenance is extended to the Replay component of the software, in
 which replay scripts are assembled using an input DiGraph. Though replay of the
@@ -678,8 +667,8 @@ but presents additional, external challenges which will be addressed below. As a
 result, replay scripts are by default slightly incomplete, providing annotated
 input sections where users are directed to provide paths to raw data inputs.
 Future tooling that incorporates data management into the QIIME 2 platform will
-allow for the full automation of replay workflows in the future (see Section
-5.5.1). For users that indicate they are working with new sample metadata,
+allow for the full automation of replay workflows in the future (Section
+\ref{touchless_replay}). For users that indicate they are working with new sample metadata,
 sample metadata inputs are similarly annotated for easy search. In Python
 scripts, these annotations intentionally produce syntax errors, as these cause
 failure before any actions are run, reducing aggravation for users who might
@@ -694,14 +683,15 @@ plugins may be added to or removed from a deployment at will. As a result, it is
 impossible to guarantee that users of provenance replay will be working in a
 QIIME 2 deployment that offers the same functionality as that used when
 conducting the initial analysis. Dedicated tooling for environment management is
-planned for future work (see Section 5.2). In the meantime, provenance replay
-proactively checks for concordance between action/parameter names captured in
-provenance, and those available in the current QIIME 2 deployment. In cases of
-critical failure where replay is impossible, error messages are raised directing
-the user to approaches for solving the problem. In non-critical cases, where
-replay is possible but may result in a script that will not run in the local
-environment, the script is annotated with a “TODO” comment at the affected line,
-describing the issue and steps that should be taken to remedy it.
+planned for future work (Section \ref{automating_comp_env_repr}). In the
+meantime, provenance replay proactively checks for concordance between
+action/parameter names captured in provenance, and those available in the
+current QIIME 2 deployment. In cases of critical failure where replay is
+impossible, error messages are raised directing the user to approaches for
+solving the problem. In non-critical cases, where replay is possible but may
+result in a script that will not run in the local environment, the script is
+annotated with a “TODO” comment at the affected line, describing the issue and
+steps that should be taken to remedy it.
 
 In order to support users in navigating these manual data inputs/modifications,
 all provenance replay scripts begin with a header block containing instructions
@@ -858,7 +848,7 @@ documents. At this time, this “reproducibility supplement” contains replay
 scripts for all supported interfaces and a bibtex-formatted citation file. The
 function can easily be extended to include parsed Result archives and study
 metadata, and will in future include a “methods manifest”, as described in
-Section 5.1.1. This implementation is both computationally more efficient
+Section \ref{methods_manifest}. This implementation is both computationally more efficient
 (requiring a single parsing step to produce all outputs), and provides a
 streamlined way for users to package common supplemental materials for sharing
 or publication.

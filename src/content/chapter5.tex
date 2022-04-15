@@ -39,7 +39,7 @@ Anecdotally, methods-section writing in computational biology papers requires
 authors to find a balance between completeness and approachability. Few readers
 are likely to care about the details of every method you have used in a
 large-scale project, but a reader attempting to reproduce your study might
-benefit significantly from a plaintext description of the steps you have taken. 
+benefit significantly from a plaintext description of the steps you have taken.
 
 Brief descriptions of QIIME 2 actions, registered via the plugin registration
 API, can be written to disk, alongside the name of the plugin and action that
@@ -105,7 +105,7 @@ transition from a “core distribution” model, where QIIME 2 is packaged with 
 selected at will from the QIIME 2 library. QIIME 2 users benefit from the
 ability to run analyses across multiple Framework and plugin versions, but these
 different versions frequently require conflicting dependencies, and installing
-them side by side is not always recommended. 
+them side by side is not always recommended.
 
 QIIME 2 currently uses conda environments, docker images, and virtual machines
 to safely manage these conflicting dependencies through sequestration.
@@ -113,7 +113,7 @@ Re-running an analysis across multiple environments is not currently possible
 without significant user intervention - breaking the output script into
 environment-specific parts, activating and deactivating environments, and
 running those parts. Undertaking this process manually (with the reporting
-described in Section \ref{comp_env_reporting}) would be unpleasant but feasible. 
+described in Section \ref{comp_env_reporting}) would be unpleasant but feasible.
 
 A better approach would involve tooling for the aggregation of software
 dependencies, automatic generation of conda or similar environments, and the
@@ -128,7 +128,7 @@ Provenance Replay currently assumes that replay will occur in the QIIME 2
 environment used to generate the replay scripts. Support for multi-environment
 replay would allow us to fully trust that the plugin, action, and parameter
 names captured in provenance would match those expected by the active
-environment, without requiring input from the Plugin Manager. 
+environment, without requiring input from the Plugin Manager.
 
 \section{Diversity in interfaces and usage drivers (\cite[Issue #65]{keefe_issues_2021}; \cite[Issue #79]{keefe_issues_2021})}
 
@@ -267,14 +267,14 @@ could be applied to UUID-based digraphs. In an academic context, the ability to
 academic integrity with student Results alone. More interesting questions could
 be asked about the ways in which QIIME 2 analyses are performed by relabeling
 the graph nodes with meaningful data - action names, for example. Relabeling is
-fully supported in Provenance Replay. 
+fully supported in Provenance Replay.
 
 Basic graph operations could also be harnessed to produce algebraic approaches
 to provenance replay, in which a user could request, for example, a replay of
 all nodes downstream of a feature table, or all nodes upstream of some UUID.
 Conceived by Evan Bolyen, this feature could bring significant value to users by
 alleviating common issues that arise when updating output executables for
-replay. 
+replay.
 
 For example, if a public resource (e.g. a pre-trained classifier or reference
 database) that was produced by a third party was used in a QIIME 2 analysis, the
@@ -322,7 +322,7 @@ It is beyond the scope of Provenance Replay to manage analyses conducted outside
 of QIIME 2. Its potential to reduce the surface area of unreproducible
 analytical work is still a benefit. Though there is no clear path forward at
 this time, extensions to provenance replay and to the Framework could make it
-easier to identify places where external work may have occurred. 
+easier to identify places where external work may have occurred.
 
 \section{Catching bugs}
 Because replay has a relatively comprehensive view of the history of a given

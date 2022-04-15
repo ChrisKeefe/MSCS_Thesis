@@ -16,11 +16,6 @@ developed first based on funding agency requirements and literature review, and
 requirements engineering processes were used to refine software requirements and
 validate the success of the initial implementation.
 
-%%
-%%
-%%      1
-%%
-%%
 \section{Overview}
 
 As initially proposed, the aim of Provenance Replay is to “generate executable
@@ -58,11 +53,6 @@ be faster and more resilient to compromises in data quality.
 The following subsections explore the high-level architecture and select design
 decisions made in the creation of this software.
 
-%%
-%%
-%%      2
-%%
-%%
 \section{Parsing provenance data from Archives}
 
 The components of QIIME 2 Archives required for provenance parsing (e.g. the
@@ -161,11 +151,6 @@ and metadata.yaml.}
 \label{fig:ProvNode_UML}
 \end{figure}
 
-%%
-%%
-%%      3
-%%
-%%
 \section{Cross-version analyses and handling no-provenance nodes}
 
 The provenance parser attempts to represent provenance as completely as possible
@@ -196,11 +181,6 @@ attributes in cases where they are missing. Consumer functions may safely
 (without KeyError) check whether a node has\_provenance, and access ProvNode
 properties appropriately if provenance exists.
 
-%%
-%%
-%%      4
-%%
-%%
 \section{Provenance Parsers and Dispatch for provenance parsing}
 
 Provenance Replay implements an extensible dispatch system for parsing
@@ -284,11 +264,7 @@ accessible through e.g. ArchiveParser.get\_parser.}
 \label{fig:allParsersUML}
 \end{figure}
 
-%%
-%%
-%%      5
-%%
-%%
+
 \section{Handling Changes in Archive structure over time}
 
 The QIIME 2 Framework defines six Archive Format versions, numbered from 0 to 5,
@@ -475,11 +451,7 @@ possible information. Status descriptions like the provenance ValidationCode are
 handled by taking the minimum. A ProvDAGs validity level is represented as the
 minimum of the validity level of all of its component Results.
 
-%%
-%%
-%%      8
-%%
-%%
+
 \section{Graph views for graph manipulation}
 
 QIIME 2 implements three types of Action. One of these, the Pipeline, operates
@@ -532,11 +504,7 @@ collapsed view is currently hardcoded, this approach will make replaying an
 expanded view of provenance straightforward when and if that view is
 implemented.
 
-%%
-%%
-%%      9
-%%
-%%
+
 \section{Checksum Validation}
 
 The md5sum digest stored in the Archive’s root directory during provenance
@@ -588,11 +556,7 @@ ordered scale of ValidationCodes has been established as an IntEnum. (Table \ref
 representation of these ValidationCodes allows us to use builtins like min() to
 determine and capture the preferred level of validity.
 
-%%
-%%
-%%      9
-%%
-%%
+
 \section{Generating Executable Scripts with Provenance Replay}
 
 Once provenance data has been parsed into a DiGraph (stored in a ProvDAG
@@ -634,11 +598,7 @@ Click \parencite{pallets_click_2014} in the click\_commands module exposes the
 one-shot methods for use from the command line, and provides documentation and
 tab-completion functionality.
 
-%%
-%%
-%%      11
-%%
-%%
+
 \section{Provenance Replay Usage Drivers}
 
 Provenance replay relies on locally-defined usage drivers, implemented in
@@ -704,12 +664,6 @@ appended below the script itself. Both header and footer production are active
 by default, but may be disabled according to user preference.
 
 
-%%
-%%
-%%      12
-%%
-%%
-
 \section{Naming Results, and managing uniqueness within namespaces}
 
 In order to generate multi-step executables, our generated scripts must pass the
@@ -739,12 +693,6 @@ Action output-names were not captured in provenance prior to Archive Format
 Version 2. When available, we capture the output-name from provenance. Absent
 that, we fall back on the output’s registered semantic type.
 
-
-%%
-%%
-%%      13
-%%
-%%
 
 \section{Supporting Attribution with Citation Replay}
 
@@ -797,11 +745,7 @@ Citation replay tools for the Python API allow users to generate citations from
 a ProvDAG in memory, or from a directory structure of files on disk. The replay
 citations CLI command supports citation reporting from files on disk.
 
-%%
-%%
-%%      14
-%%
-%%
+
 \section{Metadata capture and reporting}
 
 The Framework captures all sample metadata passed to an Action in that Action’s
@@ -819,11 +763,7 @@ disambiguate between identical commands by order. If q2-demux’s emp-single
 command is used six times in an analysis, the metadata captured from the zeroth
 run will be captured in the folder where n=0, and so forth.
 
-%%
-%%
-%%      15
-%%
-%%
+
 \section{Communicating user preferences internally with Config and ReplayConfig objects}
 
 With a variety of potential users and use cases, these provenance parsing and
@@ -833,11 +773,7 @@ user-passed parameters, providing developers with a useful organizational
 abstraction, and reducing clutter in function signatures by replacing many flags
 with a single Python object. 
 
-%%
-%%
-%%      16
-%%
-%%
+
 \section{Supporting publication with a reproducibility supplement}
 
 In order to make the process of reproducibility documentation fast and easy for

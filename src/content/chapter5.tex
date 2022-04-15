@@ -1,0 +1,335 @@
+\chapter{A Roadmap for Future Work}
+\label{chapter:future_work}
+
+Provenance Replay as currently implemented provides strong initial support for
+in silico reproducibility in QIIME 2, but much additional work will be required
+in order to fully achieve the goals set out in the introduction. Chief among the
+concerns are:
+
+\begin{itemize}
+    \item the development of additional components of a comprehensive reproducibility package
+    \item the reproducibility of QIIME 2 computing environments
+    \item the creation of additional interfaces and target interfaces
+\end{itemize}
+
+We will explore these and lesser goals at a high level here, falling back on
+technical communication tools like the \texttt{provenance\_py} issue tracker
+\parencite{keefe_issues_2021} for low-level commentary and technical detail.
+Some of these ideas are fully fledged, but many are aspirational. Where open
+issues exist for an item, they will be referenced by number in the item title to
+allow readers to confirm completion status.
+
+\section{A comprehensive reproducibility package}
+
+As discussed above, in silico reproducibility requires the reproducer to be in
+possession of the original, or similar study data and sample metadata, computing
+resources, and complete reporting on the analytical methods used. To make the
+practice of documenting provenance truly “too easy not to do”, we must attempt
+to cover all of these requirements, and we must make it simple. Provenance
+Replay provides a basic “one-shot” tool for reporting study provenance -
+augmenting it with additional reports will improve the completeness of
+provenance documentation while reducing the time-cost required to do so.
+
+\subsection{A methods manifest \parencite[Issue #75]{keefe_issues_2021} }
+\label{methods_manifest}
+
+Because provenance replay is organized in terms of QIIME 2 Actions, the
+production of an ordered manifest of computational methods is possible.
+Anecdotally, methods-section writing in computational biology papers requires
+authors to find a balance between completeness and approachability. Few readers
+are likely to care about the details of every method you have used in a
+large-scale project, but a reader attempting to reproduce your study might
+benefit significantly from a plaintext description of the steps you have taken. 
+
+Brief descriptions of QIIME 2 actions, registered via the plugin registration
+API, can be written to disk, alongside the name of the plugin and action that
+were used, and reference keys that map to the keys in an output bibliography.
+Depending on the complexity of the tooling required, these could be simple
+numerical keys managed in Python, or this report and the reference list itself
+could be produced with LaTeX/BibTeX.
+
+Replay scripts, the methods manifest, and the methods reference list could be
+submitted for publication as an appendix or supplement, allowing authors to
+defer comprehensive methods descriptions in favor of references to the scripts
+and manifests, while still providing complete attribution to the authors of the
+methods applied during the analysis. When replay is conducted on all analysis
+results (rather than a curated set), readers will have better transparency into
+which Results were not reported.
+
+\subsection{Analysis metadata \parencite[Issue #76]{keefe_issues_2021}}
+
+There is a class of information that, while not strictly required for
+reproducibility, has the potential to make provenance replay much more pleasant
+to use. A brief report of this information, where available, could be
+well-received. A summary of data Artifact UUIDs and/or file path names could
+encourage good data sharing practices by helping users identify the files they
+need to share. Details on the size and type of this data could help with
+estimating compute times. Overall and per-action summaries of runtime and
+hardware provisioning could simplify the process of re-running jobs.
+
+\subsection{Improving computer system reporting \parencite[Issue #77]{keefe_issues_2021}}
+\label{comp_env_reporting}
+
+Computing environment reproducibility is currently served by a basic report  on
+the operating systems, versions of the QIIME 2 framework and plugins used in an
+analysis. With some effort, one or more computing environments could be
+assembled from these with a high probability of successfully replaying an
+analysis. Improving the sophistication of this reporting may be a useful
+short-term goal. Associating these computing environment data with specific
+methods (e.g. through the methods manifest) would make manual cross-version
+reproducibility much more tractable. Automating the creation of computing
+environments is the better long-term target, and will be discussed in Section
+\ref{automating_comp_env_repr}.
+
+Many underlying dependencies and system features are not captured in provenance,
+negatively impacting the completeness of our reporting: hardware and
+architecture characteristics, hardware allocations (e.g. in cluster
+environments), and non-Python dependencies, for example. Capturing some of these
+from within the Python Framework itself may be intractable, but interfaces
+designed to e.g. interact with cluster scheduling tools (\texttt{q2slurm},
+anyone?) could make job parameter capture possible, allowing for the inclusion
+of this data in provenance. This feature was frequently requested by focus group
+participants, and could significantly improve learning and automation goals.
+Generally, improving capture and reporting of the computer system would advance
+completeness goals, and open the door to many positive outcomes.
+
+
+\section{Automating Computing Environment Reproducibility \parencite[Issue #78]{keefe_issues_2021}}
+\label{automating_comp_env_repr}
+
+Computing environment reproducibility is frequently one of the more challenging
+parts of in silico reproducibility work, and Provenance Replay does not support
+it adequately at this time. The QIIME 2 distribution model is in the middle of a
+transition from a “core distribution” model, where QIIME 2 is packaged with a
+“core” plugin set, to a model in which plugins or sets of plugins can be
+selected at will from the QIIME 2 library. QIIME 2 users benefit from the
+ability to run analyses across multiple Framework and plugin versions, but these
+different versions frequently require conflicting dependencies, and installing
+them side by side is not always recommended. 
+
+QIIME 2 currently uses conda environments, docker images, and virtual machines
+to safely manage these conflicting dependencies through sequestration.
+Re-running an analysis across multiple environments is not currently possible
+without significant user intervention - breaking the output script into
+environment-specific parts, activating and deactivating environments, and
+running those parts. Undertaking this process manually (with the reporting
+described in Section \ref{comp_env_reporting}) would be unpleasant but feasible. 
+
+A better approach would involve tooling for the aggregation of software
+dependencies, automatic generation of conda or similar environments, and the
+output of a replay script capable of transitioning between these environments as
+required. The bones of this latter can be found in the methods manifest
+described in Section \ref{methods_manifest}. Full support for this type of
+replay could be expensive to develop, and would primarily be of value in
+simplifying the corroboration of results, and in the automation of large-scale
+analyses. 
+
+Provenance Replay currently assumes that replay will occur in the QIIME 2
+environment used to generate the replay scripts. Support for multi-environment
+replay would allow us to fully trust that the plugin, action, and parameter
+names captured in provenance would match those expected by the active
+environment, without requiring input from the Plugin Manager. 
+
+\section{Diversity in interfaces and usage drivers (\cite[Issue #65]{keefe_issues_2021}; \cite[Issue #79]{keefe_issues_2021})}
+
+Readability, learning-readiness, and communication/collaboration goals all
+benefit from an increased number and diversity of provenance replay interfaces,
+and usage drivers targeting different QIIME 2 interfaces for replay. Focus group
+participants described analysis workflows centered on jupyter notebooks in both
+the QIIME 2 Python 3 API and the command line interface (in a notebook running
+the BASH kernel). Usage drivers targeting the .ipynb format are likely to be
+relatively straightforward, and will greatly improve users ability to learn from
+and perform analyses interactively.
+
+GUI support for provenance replay through the q2Galaxy interface would be useful
+as q2galaxy gains traction. Replay “script” generation targeting the same
+interface could inherit from the GalaxyDriver, templating out a series of
+actions the user should perform within the GUI in order to replay an analysis.
+
+In the mid to long term, R interface support would help support valuable
+cross-language analysis “translation” outcomes.
+
+\section{Improved in-memory replay support \parencite[Issue #22]{keefe_issues_2021}}
+QIIME 2’s Python API provides strong support for interactivity, and can speed up
+analysis noticeably in some cases by removing the requirement that Results in
+memory be saved to disk. Provenance Replay does not currently provide support
+for the replay of Results in memory, reducing the utility of its Python API
+significantly. As a stopgap measure, replay of these in-memory Archives will be
+implemented by saving Results to a temporary directory and then parsing them, at
+significant I/O cost. This will provide a stable API for users, but no immediate
+performance benefits.
+
+Proper support for in-memory Results can be implemented by teaching the
+\texttt{\_ArchiveParser} how to interact with non-ZIP Archives in memory. Because the
+archive structure will be identical to that of a compressed .qza or .qzv on
+disk, the parsing logic can remain the same. In order to support this, the
+\texttt{\_ArchiveParser} module will need to be refactored to extract an internal API
+which can be implemented for specific  Archive variants and injected into the
+Parser. Looking forward, support for parsing artifacts from the Artifact Cache
+system (pending development) may provide a more robust approach to in-memory
+results parsing.
+
+\section{Simplifying the corroboration of results}
+
+\subsection{“Touchless replay” \parencite[Issue #63]{keefe_issues_2021}}
+\label{touchless_replay}
+
+Claerbout’s “automatic” replay of figures is an inspiring example of how easy
+basic methods reproduction should be. This type of “touchless” replay, in which
+a Result or ProvDAG is replayed automatically into the same Result or ProvDAG,
+is blocked in the context of QIIME 2 by two key issues.
+
+First, strict corroboration of results produced through stochastic processes is
+at least as challenging in QIIME 2 as it is elsewhere. Stochastic processes that
+could be controlled by setting a seed value do not always do so in a way that
+allows provenance to capture that seed value. q2\_feature\_table’s rarefy, for
+example, is used heavily for random subsampling in QIIME 2, but does not allow
+users to pass a seed as a parameter, rendering strict corroboration of output
+values impossible.
+
+Second, downstream Results do not contain the raw data required for their own
+replay. “Touchless” replay in QIIME 2 would, at a minimum, require some user to
+provide an input data file for importing. A touchless replay that accepts these
+data from the user could be constructed, but would be limited to strict
+corroboration, and would be a more complex problem than it initially appears.
+Many analyses begin with the import of multiple pieces of raw data, and a
+user-friendly approach for mapping the correct data inputs to the correct import
+commands would likely require both interactivity and some user expertise if they
+targeted human users.
+
+A more viable long-term solution would be to develop tooling for the QIIME 2
+platform capable of managing (or at least tracking) relevant data on disk. This
+could be built around a database mapping QIIME 2 data inputs, metadata, and
+Results to paths in some managed filesystem (or area of a file system), and
+would allow a storage-aware usage-driver to conduct touchless provenance replay
+reliably.
+
+Alongside these challenges/costs of development, the limited value of strict
+corroboration (as compared to the potential value of study extension to new data
+or new methods) to the average human user of provenance replay has made it a
+low-priority target in the short term. Automation-oriented user stories like
+those of the QIITA meta-analysis targeting optimization from Section \ref{potential_users}
+make this an attractive mid to long-term target for development.
+
+\subsection{Variables in scripts and guaranteeing metadata identity \parencite[Issue #44]{keefe_issues_2021}}
+
+In addition to input data (e.g. sequences), the production of almost all Results
+requires one or more sample metadata tables/columns. One Focus Group participant
+suggested that replay scripts with all user-sourced data inputs assigned to
+variables at the top of the script might be easier to use. Though I doubt this
+to be true for e.g. sequence data inputs, it would certainly be true for sample
+metadata, which tends to be reused frequently during many analyses.
+
+Assigning Metadata inputs to variables at the top of replay scripts would save
+users some toil finding/replacing the same value repeatedly, and should be a
+target for future development. Unfortunately, QIIME 2’s provenance capture
+system does not capture enough information about sample metadata for us to
+understand its identity and uniqueness (or lack thereof).
+
+Metadata is captured in tabular form in QIIME 2, with each Action’s metadata
+stored as a .tsv in the Action’s UUID-named provenance directory. These .tsvs,
+once extracted, can be referenced in a replay script, allowing for replay to
+target strict corroboration (original data, original metadata). In this
+scenario, each replay Action will receive a separate file path to the separate
+.tsv originally stored in its provenance, even if only one metadata sheet was
+used for all of the Actions in the original analysis. Until QIIME 2 captures
+enough information to confirm the identity of Metadata, replay cannot know how
+many Metadata inputs are required, or which Action uses which Metadata.
+
+Pull request #464 on the qiime2 repository \parencite{qiime_2_development_team_pull_2016}
+provides more sophisticated Metadata tracking in Provenance, and should be
+considered reviewed for adequacy in meeting this requirement before development
+effort is put into these goals.
+
+\section{Improving performance for large-scale analyses \parencite[Issue #29]{keefe_issues_2021}}
+
+Over 95\% of the runtime of any replay action on a large (many-Results) analysis
+can be attributed to parsing, and adequate support for large-scale automation
+workflows will likely require improvements in performance. The reading of
+provenance files is an I/O-intensive operation, and though formal profiling has
+not been conducted, it is likely to be the source of the bottleneck. Efforts to
+reduce the number of reads are likely to improve runtimes. Provenance parsing
+currently skips any Results whose root UUID is already contained in the DiGraph
+being constructed, as all tracked predecessors of a node must also be in the
+DiGraph when this occurs. A more granular approach can reduce redundant reads
+dramatically, if the parser skips any nodes within a Result that already exist
+in the digraph.
+
+\section{Graph operations for meta-analysis \parencite[Issue #30]{keefe_issues_2021}}
+\label{section:graph_ops}
+
+The DiGraph structure of provenance lends itself to a number of graph operations
+with potential to provide value to users. Graph intersection allows users to ask
+whether two analyses contain any common components, and symmetric difference
+allows users to ask what the unique characteristics of two analyses are. These
+could be applied to UUID-based digraphs. In an academic context, the ability to
+“diff” analyses by UUID would allow instructors to identify some violations of
+academic integrity with student Results alone. More interesting questions could
+be asked about the ways in which QIIME 2 analyses are performed by relabeling
+the graph nodes with meaningful data - action names, for example. Relabeling is
+fully supported in Provenance Replay. 
+
+Basic graph operations could also be harnessed to produce algebraic approaches
+to provenance replay, in which a user could request, for example, a replay of
+all nodes downstream of a feature table, or all nodes upstream of some UUID.
+Conceived by Evan Bolyen, this feature could bring significant value to users by
+alleviating common issues that arise when updating output executables for
+replay. 
+
+For example, if a public resource (e.g. a pre-trained classifier or reference
+database) that was produced by a third party was used in a QIIME 2 analysis, the
+user that is documenting for replay may not have access to the raw data used to
+create that resource. Provenance replay will currently document the commands all
+the way back to the import of that (potentially unavailable) raw data. A cleaner
+solution would be for the user to provide the resource \texttt{.qza} as part of the
+reproducibility supplement, and for Provenance Replay to replace the Actions
+that created the resource with an import of the resource itself. By allowing
+users to exclude parts of their DiGraph from replay, the documentation process
+could be made to better support these real-world needs.
+
+Finally, NetworkX provides a rich library of graph operations and algorithms,
+which users can apply directly to the DiGraph object (or a copy of it) stored in
+\texttt{ProvDag.dag}. Commonly-used operations should be wrapped as methods on
+ProvDAG when they might affect inconsistency of internal state, as does union.
+
+\section{Provenance Replay in q2view \parencite[Issue #123]{qiime_2_development_team_issues_2016}}
+Graphical interfaces like q2view have a lot of potential to improve user
+interactions with provenance data and provide unique opportunities to support
+advanced applications of provenance replay. User comments during the focus group
+sessions indicate there is significant demand for bundling provenance replay
+into q2view, as this would allow users to replay interesting results without
+leaving the GUI (or even installing QIIME 2). A graphical interface like this is
+probably the most compelling interface for implementing the graph-algebraic
+operations described in Section \ref{section:graph_ops}, because describing
+the “parts” of an analysis a user would like to run would likely be much easier
+with tools like click-and-drag to select.
+
+Unfortunately, there are significant technical hurdles here, so a short-term
+implementation is unlikely. The primary challenge is that provenance replay
+would likely need to be rebuilt in Rust for compilation to WASM. Dedicated usage
+drivers that do not rely on the presence of a QIIME 2 distribution would need to
+be built, likely with significant supporting software. Finally, q2view itself
+would likely need to be extended to accommodate the visualization of provenance
+graphs representing multiple QIIME 2 results.
+
+\section{Annotating transitions into and out of QIIME 2 analysis \parencite[Issue #80]{keefe_issues_2021}}
+Multiple focus group participants noted that provenance replay would fail to
+fully document analyses in which data was exported from QIIME 2 results for
+analysis outside of QIIME 2. This is particularly challenging in cases where the
+outside work produces an interim result, which is then re-imported into QIIME 2.
+
+It is beyond the scope of Provenance Replay to manage analyses conducted outside
+of QIIME 2. Its potential to reduce the surface area of unreproducible
+analytical work is still a benefit. Though there is no clear path forward at
+this time, extensions to provenance replay and to the Framework could make it
+easier to identify places where external work may have occurred. 
+
+\section{Catching bugs}
+Because replay has a relatively comprehensive view of the history of a given
+result, and because data integrity bugs have been rare in QIIME 2, tooling to
+notify users that a given Result might be compromised by a data integrity bug
+could be a useful addition to both Provenance Replay and q2view. By querying
+DAGs for the presence of characteristics that correlate with loss of integrity
+(e.g. failing combinations of OS and a particular version of software) could
+help both researchers and reviewers catch potential problems before they go to
+press.

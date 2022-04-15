@@ -1078,11 +1078,12 @@
 
 \chapter*{Abstract}                     % Abstract is required
 \begin{center}
-    \ \\
-    \renewcommand*{\do}[1]{#1 \\}
-    \dolistloop{\titlelines} \\
-    \ \\
+    \vspace{.5\baselineskip}
+    \SingleSpacing
+    \renewcommand*{\do}[1]{#1 \\[\baselineskip]}
+    \dolistloop{\titlelines}
     \MakeUppercase{\Author}
+    \DoubleSpacing
 \end{center}
 \input{src/content/abstract}             %<Enter the name of the .tex file containing your
 \clearpage                              %   your abstract or omit this line and type in

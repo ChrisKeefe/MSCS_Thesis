@@ -188,12 +188,12 @@ provenance. All parsing is done by implementations of an abstract base class
 Parser, which defines the basic contract for any provenance parser. 
 \begin{itemize}
     \item A Parser implements the classmethod \texttt{get\_parse}, which ingests arbitrary input data. It either returns a Parser that can parse that data, or it raises an Error.
-    \item A Parser implements the method \texttt{parse\_prov}, which ingests an appropriate data payload, parses it, and returns a ParserResults object.
+    \item A Parser implements the method \texttt{parse\_prov}, which ingests an appropriate data payload, parses it, and returns a \texttt{ParserResults} object.
     \item A Parser has a string attribute \texttt{accepted\_data\_types} required for the production of error messages when the parser receives a type of data it cannot parse.
 \end{itemize}
 
 Parsers that meet this contract may be registered in \texttt{parse.select\_parser}.
-Briefly, parsing proceeds as follows. A user calls the ProvDAG class, which is a
+Briefly, parsing proceeds as follows. A user calls the \texttt{ProvDAG} class, which is a
 domain-specific wrapper around a networkx.DiGraph, with some input data.
 \texttt{ProvDAG.\_\_init\_\_} uses the \texttt{parse\_provenance} function, which calls
 \texttt{parse.select\_parser} with the input data. This function iterates over the known
@@ -203,24 +203,24 @@ aggregating the errors that result.
 If a Parser that can parse the payload is found, that parser will be returned
 immediately, and aggregated errors will not be reported. The returned Parser
 instance’s \texttt{parse\_prov} method parses the input data payload and returns a
-ParserResults object. A ProvDAG is then initialized from the DiGraph and other
-data contained in the ParserResult, exposing user-facing methods for accessing
+\texttt{ParserResults} object. A \texttt{ProvDAG} is then initialized from the DiGraph and other
+data contained in the \texttt{ParserResult}, exposing user-facing methods for accessing
 and manipulating the aggregated provenance data.
 
-ParserResults objects function as a common data interface between the Parsers
-which create them, and the ProvDAG class. (Figure \ref{fig:ParserResultsUML})
+\texttt{ParserResults} objects function as a common data interface between the Parsers
+which create them, and the \texttt{ProvDAG} class. (Figure \ref{fig:ParserResultsUML})
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=\textwidth]{figures/ParserResultsUML.png}
 \caption[UML Class diagram of the ParserResults class and its components]%
-{A UML class diagram of the ParserResults object with associated properties.
+{A UML class diagram of the \texttt{ParserResults} object with associated properties.
 Classes in beige are locally defined, while classes in blue are imported from
 NetworkX.}
 \label{fig:ParserResultsUML}
 \end{figure}
 
-If no adequate Parser is found, an UnparseableDataError is raised, and the user
+If no adequate Parser is found, an \texttt{UnparseableDataError} is raised, and the user
 receives a digest of error outputs which they can use to troubleshoot their
 input data. Should external tools make use of provenance parsing, this custom
 error type may simplify graceful error handling in cases where it is more
@@ -230,10 +230,10 @@ input data.
 Four “top-level” Parser implementations currently handle all parsing needs.
 These are:
 \begin{itemize}
-    \item ProvDAGParser: parses a ProvDAG object, enabling the copying of ProvDAG objects
-    \item EmptyParser: parses None enables the creation of empty ProvDAG objects
-    \item ArchiveParser: parses a single QIIME 2 Archive
-    \item DirectoryParser: parses a directory of QIIME2 Archives, returning a single ParserResults object which represents all parsed Archives in a single DiGraph
+    \item \texttt{ProvDAGParser}: parses a \texttt{ProvDAG} object, enabling the copying of \texttt{ProvDAG} objects
+    \item \texttt{EmptyParser}: parses \texttt{None}, enables the creation of empty \texttt{ProvDAG} objects
+    \item \texttt{ArchiveParser}: parses a single QIIME 2 Archive
+    \item \texttt{DirectoryParser}: parses a directory of QIIME2 Archives, returning a single \texttt{ParserResults} object which represents all parsed Archives in a single DiGraph
 \end{itemize}
 
 Parsers are responsible for deciding whether they can parse a data payload, and
@@ -286,7 +286,7 @@ Archive parsing proceeds roughly as follows.
         \item[3.1.]\texttt{ProvNode.\_\_init\_\_} iterates over whatever filepaths it receives, dispatching the actual parsing to appropriate helper functions. 
     \end{enumerate}
     \item The parser builds a DiGraph representing the provenance history of the Archive
-    \item The parser returns a ParserResults containing this DiGraph and other attributes
+    \item The parser returns a \texttt{ParserResults} containing this DiGraph and other attributes
 \end{enumerate}
 
 This approach forefronts extensibility through flexibility and encapsulation.
@@ -297,7 +297,7 @@ only where to dispatch different files for parsing. If it gets the file, it
 parses it. Parsers, on the other hand, are format-specific, and are responsible
 for checking the integrity of their input data against their understanding of
 the Archive Format version they target, collecting files and sending them out
-for parsing, and returning the resulting ParserResults object.
+for parsing, and returning the resulting \texttt{ParserResults} object.
 
 To date, changes to Archive formats have generally been additive, and have
 accreted in relatively small increments, which as a general trend lends itself
@@ -429,7 +429,7 @@ one continuous, or many discontinuous subgraphs.
 
 Because provenance data is captured in a decentralized (per-Result) way, the
 ability to union two DiGraphs is fundamental to our ability to efficiently
-represent complete QIIME 2 analyses. By implementing a ProvDAG.union method,
+represent complete QIIME 2 analyses. By implementing a \texttt{ProvDAG.union} method,
 individuals who need fine-grained control can manually assemble a DAG from
 arbitrary Results. Union is also used internally in the DirectoryParser, which
 traverses a (potentially nested) directory structure parsing individual Results
@@ -442,13 +442,13 @@ requires that the joined subgraphs be disjoint. \texttt{ProvDAG.union} wraps
 \texttt{DiGraph.compose\_all}, which does not impose this requirement, and allows for the
 joining of an arbitrary collection of DiGraphs.
 
-ProvDAG objects capture significant data in addition to the DAG itself,
+\texttt{ProvDAG} objects capture significant data in addition to the DAG itself,
 including the root UUIDs of all Results passed in for parsing, collections of
 terminal UUIDs, and information about the validity of the DAG’s provenance. As a
 result, some additional processing is required for safe graph union. Parsed
 Result UUIDs and ChecksumDiff objects are aggregated, preserving the most
 possible information. Status descriptions like the provenance ValidationCode are
-handled by taking the minimum. A ProvDAGs validity level is represented as the
+handled by taking the minimum. A \texttt{ProvDAG}'s validity level is represented as the
 minimum of the validity level of all of its component Results.
 
 
@@ -470,7 +470,7 @@ action.yaml file, allowing us to associate Pipeline Results with the provenance
 of their internal Actions. 
 
 Again for reasons of completeness, Provenance Replay’s Archive parsers include
-all captured provenance data in the ParserResults objects they return. We can
+all captured provenance data in the \texttt{ParserResults} objects they return. We can
 call this the complete view of provenance. Many use cases require subgraphs,
 which we implement with NetworkX GraphViews \parencite{hagberg_exploring_2008}.
 These are lightweight read-only subgraphs generated from the complete DiGraph,
@@ -481,7 +481,7 @@ Most users, for example, are concerned only with the Actions they actually ran,
 or would need to run to reproduce some analysis. In other words, they care only
 about the Pipeline, and not the nested Actions the pipeline executes on their
 behalf. During parsing, we capture the root UUID of each Result a user specifies
-for parsing. These are stored as a set in an attribute on the ProvDAG. By
+for parsing. These are stored as a set in an attribute on the \texttt{ProvDAG}. By
 traversing the complete graph backwards through all direct ancestor nodes,
 beginning from each of these UUIDs, we can build a set of all “outer” Results
 that disincludes the nested “inner” nodes created without direct user
@@ -559,7 +559,7 @@ determine and capture the preferred level of validity.
 
 \section{Generating Executable Scripts with Provenance Replay}
 
-Once provenance data has been parsed into a DiGraph (stored in a ProvDAG
+Once provenance data has been parsed into a DiGraph (stored in a \texttt{ProvDAG}
 object), we are able to “replay” that representation of analysis history into an
 executable script. DAGs can, by definition, be topologically ordered, allowing
 us to guarantee execution-order dependencies will always be satisfied. By
@@ -588,11 +588,11 @@ select from a hardcoded registry of supported usage drivers, which are injected
 into the generated examples. Specifically, the injected usage driver, once
 instantiated, is fed an ordered “chain” of calls to its initializer, import,
 metadata, action, and comment methods, representing the topologically sorted
-QIIME 2 Actions captured in a ProvDAG. The use.render method renders a script
+QIIME 2 Actions captured in a \texttt{ProvDAG}. The use.render method renders a script
 output in memory, which is then written to the user-passed location on disk.
 
 This module’s core functionality is exposed at the package level, and supports
-the handling of both ProvDAG objects in-memory and one-shot parse-and-replay
+the handling of both \texttt{ProvDAG} objects in-memory and one-shot parse-and-replay
 operations through the Python interpreter. A command-line interface written with
 Click \parencite{pallets_click_2014} in the \texttt{click\_commands} module exposes the
 one-shot methods for use from the command line, and provides documentation and
@@ -668,7 +668,7 @@ by default, but may be disabled according to user preference.
 
 In order to generate multi-step executables, our generated scripts must pass the
 outputs of prior actions into the inputs of later actions. At the Action level
-within the ProvDAG, we know the UUID of the input data, but not the output name
+within the \texttt{ProvDAG}, we know the UUID of the input data, but not the output name
 generated by replay. By using a {UUID: output} mapping in which captured or
 programmatically-generated output names are stored during each replay step, we
 provide subsequent steps with access to output names by UUID.
@@ -742,7 +742,7 @@ publication. Using a hard-coded citation ensures that users don’t double-cite
 the Framework, and properly cite the peer-reviewed article.
 
 Citation replay tools for the Python API allow users to generate citations from
-a ProvDAG in memory, or from a directory structure of files on disk. The replay
+a \texttt{ProvDAG} in memory, or from a directory structure of files on disk. The replay
 citations CLI command supports citation reporting from files on disk.
 
 
@@ -779,8 +779,8 @@ with a single Python object.
 
 In order to make the process of reproducibility documentation fast and easy for
 users, I have implemented a wrapper function that parses provenance from one or
-more QIIME 2 Results into a ProvDAG (if that provenance is not already a
-ProvDAG), and then generates a zip archive package of key reproducibility
+more QIIME 2 Results into a \texttt{ProvDAG} (if that provenance is not already a
+\texttt{ProvDAG}), and then generates a zip archive package of key reproducibility
 documents. At this time, this “reproducibility supplement” contains replay
 scripts for all supported interfaces and a bibtex-formatted citation file. The
 function can easily be extended to include parsed Result archives and study

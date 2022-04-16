@@ -176,7 +176,7 @@ results parsing.
 
 Claerbout’s “automatic” replay of figures is an inspiring example of how easy
 basic methods reproduction should be. This type of “touchless” replay, in which
-a Result or ProvDAG is replayed automatically into the same Result or ProvDAG,
+a Result or \texttt{ProvDAG} is replayed automatically into the same Result or \texttt{ProvDAG},
 is blocked in the context of QIIME 2 by two key issues.
 
 First, strict corroboration of results produced through stochastic processes is
@@ -290,7 +290,7 @@ could be made to better support these real-world needs.
 Finally, NetworkX provides a rich library of graph operations and algorithms,
 which users can apply directly to the DiGraph object (or a copy of it) stored in
 \texttt{ProvDag.dag}. Commonly-used operations should be wrapped as methods on
-ProvDAG when they might affect inconsistency of internal state, as does union.
+\texttt{ProvDAG} when they might affect inconsistency of internal state, as does union.
 
 \section{Provenance Replay in q2view \parencite[Issue 123]{qiime_2_development_team_issues_2016}}
 Graphical interfaces like q2view have a lot of potential to improve user

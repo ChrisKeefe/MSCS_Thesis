@@ -1267,7 +1267,7 @@
 \makeatletter                           % Clear page after printing appendix title
   \renewcommand{\memendofchapterhook}%
   {%
-    \clearpage
+    % \clearpage                          % Comment this out to begin appendix content on App. title page
     \m@mindentafterchapter
     \@afterheading
   }
@@ -1292,10 +1292,17 @@
                                         %   lines down and checking the output until
                                         %   the TOC headers appear correctly
 
-%\input{appendix1}                       %~Insert your appendices here; I recommend to use
-%\input{appendix2}                       %   \input rather than \include for appendices.
-%\input{appendix3}% etc.                 %   All heading commands are the same as above,
-                                         %   e.g., \chapter, \section, etc.
+\input{src/content/appendixA}            %~Insert your appendices here; I recommend to use
+\input{src/content/appendixB}            %   \input rather than \include for appendices.
+\input{src/content/appendixC}            %   All heading commands are the same as above,
+\input{src/content/appendixD}            %   e.g., \chapter, \section, etc.
+\input{src/content/appendixE}
+\input{src/content/appendixF}
+\input{src/content/appendixG}
+\input{src/content/appendixH}
+\input{src/content/appendixI}
+\input{src/content/appendixJ}
+
 \iftoggle{sample}{%
   \input{src/sample/appendix}%
 }{}

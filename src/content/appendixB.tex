@@ -1,0 +1,141 @@
+\chapter{Focus Group script}
+\label{app:FGScript}
+
+\section*{Introduction/Ground Rules}
+
+Hi, I’m Chris. I’m here to facilitate today’s conversation, but you’re the stars
+of the show, so please don’t be shy.  Before we begin the demo, I’d like to
+remind you of a few things, and set some ground rules so we all have a good
+time.
+
+\begin{itemize}
+    \item This session will be recorded. I may manually, or with software, transcribe the audio recording afterwards. Your statements may be included in academic publications, as may survey results. These data will all be anonymized, so they can not be linked back to you in any way. No video or audio recordings will ever be published, and your names will never be used.
+    \item Comments made during the focus group should be kept confidential, to protect the privacy of other participants.
+    \item I’m going to start recording now. Any questions or concerns before I do?
+    \item Participation is completely voluntary, and you may leave at any time
+    \item If you need to get up for any reason, at any time, please do. No need to ask permission.
+    \item Please mute yourselves now, and unmute when you have something you’d like to say. No need to raise hands - this is just to minimize background noise.
+    \item As with all QIIME 2 community activities, this is bound by the Community Code of Conduct. By attending, you are agreeing to abide by that code of conduct. I’m sure this won’t be an issue, but violations may result in permanent removal from the session.
+\end{itemize}
+
+
+\section*{Demonstration}
+
+We’re going to start with a quick demo of provenance replay. This is an alpha
+version, and may not look like the finished version will. Feel free to ask
+questions during the demo, but forgive me if I push longer or more interesting
+ones off to the discussion section. I want to keep this short so that we have
+plenty of time to talk afterward.
+
+\subsection*{Level set}
+
+Over the last 10 years or so, many in the scientific community have acknowledged
+what they call a “reproducibility crisis”. In short, the results, conclusions,
+and often even the methods from many studies have been shown to be unrepeatable.
+Without corroboration, it’s hard for us to trust scientific results, so it’s
+important for us to address the issue. Further, if we can’t reproduce the
+methods from an interesting study, we probably can’t extend that study to ask
+new questions either. QIIME 2 tries to address this by capturing the history, or
+provenance, of every result.
+
+\subsection*{Who here has used QIIME 2’s provenance features before?}
+
+\noindent a trick question. If you’ve ever run a QIIME 2 command, you have.
+
+\noindent Show q2view CancerMicrobiome volatility plot alongside provenance graph:
+inside the .qza or .qzv itself
+\begin{itemize}
+    \item QIIME 2 captures all of this provenance data: plugin, action, parameters, compute environment
+    \item It goes all the way back to the moment the raw data was imported into QIIME 2
+    \item If you started at the top and read through to the bottom, you would have the hardware, software, command, and parameter information you'd need to re-run this whole thing.
+\end{itemize}
+
+\noindent However, using provenance data to reproduce a study manually would take
+unreasonable effort, especially if we’re working with a complex analysis.
+
+\subsection*{Let’s ask the computer to reproduce the history of a result for us}
+
+\noindent Run provenance replay on unweighted\_unifrac\_emperor.qzv from Moving Pictures
+Tutorial, generating a q2cli script.
+
+\begin{itemize}
+    \item What is your preferred QIIME 2 interface - CLI, Python3 API, q2Galaxy, q2CWL…
+    \item Replay currently offers a Python3 API and a command line interface. We’ll use the CLI for this demo.
+    \item In a moment, you’ll see that this doesn’t limit our choice in target interfaces.
+    \item Provenance replay depends on QIIME 2, so I’ve activated a qiime2 conda environment and installed it. We don’t have time to cover install during the demo, but it’s pretty straightforward.
+    \item replay is the name of our command-line tool. We can replay –help
+    \item There are lots of options. For this first example, we’ll only consider the required inputs and outputs, and the usage driver.
+    \item I’ve created a folder for my replay scripts to keep things organized. I’ll use that in the out-fp
+    \item What file extension should I use here? Doesn’t really matter, but it depends on which interface we’re targeting. CLI outputs a bash script, so .\texttt{sh}. Python outputs a Python script, so \texttt{.py}.
+    \item Run it! We get a note about where the output script was written.
+\end{itemize}
+
+\subsection*{Checksum Validation - discuss while replay runs}
+
+We’re not going to demonstrate this because it’s less relevant for most of you,
+but if we run provenance replay on a result that has been tampered with, it will
+raise a ValidationError. The software uses MD5 checksums to confirm that the
+data inside the result hasn’t been modified since it was created by QIIME 2
+
+\subsection*{Running a replay script}
+
+\begin{itemize}
+    \item So we have this script now - let’s look it over.
+    \item At the top, we have information about how it was created, when, and instructions on how to use it.
+    \item Then the script
+    \item And at the bottom, we document all of the unique identifiers of the results we replayed.
+    \item Let’s follow the instructions!
+    \item And run - in the CLI, we’ll get all of the outputs from these actions by default. We can remove unwanted ones as necessary.
+\end{itemize}
+
+\subsection*{Generate citations from the whole directory}
+
+\begin{itemize}
+    \item Replay –help
+    \item Replay citations –help
+    \item replay citations –recursive –verbose
+    \item Look at the output
+    \item Mention we can import the bibtex into zotero, mendeley, etc. Show this if time allows.
+\end{itemize}
+
+\subsection*{Other things we can do:}
+
+\begin{itemize}
+    \item Hey *name*, how did you do that thing you showed us in lab meeting the other day?
+    \item “Here’s the thing - replay it and you’ll get a script”
+    \item “I performed this analysis using the GUI, but my collaborator prefers the Python API”. Convert my results to their preferred interface’s executable.
+\end{itemize}
+
+\subsection*{Any questions before we take 5?}
+
+\section*{5 minute break}
+
+\section*{Focus Group}
+
+\noindent Here’s the fun part - it’s your turn to talk now. First, some ground rules.
+\begin{itemize}
+    \item Be brave - your opinions matter
+    \item We’re just as interested in negative opinions as positive ones - we need to hear them sometimes in order to find good solutions
+    \item Let me know if you have any concerns - there’s a private chat option if you need to send me a message. Does anyone need to see how that works?
+    \item If you have to go, for any reason, at any time, you’re welcome to do so. No need to ask permission.
+    \item Be nice to one another. Listen before you speak. Don’t forget to have fun.
+\end{itemize}
+
+\noindent We will intentionally limit the number of questions we ask, in order to leave us
+plenty of time for discussion.
+
+\subsection*{Questions:}
+
+\begin{itemize}
+    \item Please each of you tell us your first name (only), what you do with QIIME 2, and something fun about yourself. Names will be dropped from any transcription etc etc.
+    \item Think of some times you’ve needed to investigate the QIIME 2 actions you ran during an analysis. This could be in troubleshooting an analysis, planning a new study, supporting a user with less experience, writing a paper, or anything else that comes to mind. What problems were you solving, and how did you solve them?
+    \item What did you think of the provenance replay tool I demonstrated?
+    \item Think back to the last time you worked with QIIME 2. Are there any features you’ve seen here that you wish you’d had then? Are there features you wish were here that we might be missing?
+    \item Again, think back to the last time you worked with QIIME 2. How would the features demonstrated here change your analysis, communication, notetaking, or writing/publishing workflows?
+    \item If I was building this software just for you, what features would you want me to focus on? These may be features you’ve seen, or features of your own invention. Are there any features you’ve seen here which you wouldn’t pay me to build?
+    \item What features demonstrated here didn’t work as you expected, or have behaviors you think could be improved?
+    \item Are there features we’ve demonstrated that you might be unwilling or unable to use? Do you have any concerns about any of the features we’ve discussed?
+    \item One last question, folks! We’re here because bioinformatics analyses and the computer systems they run on can make scientific reporting, training, communication, and reproducibility challenging. We want replay to use provenance data to improve your experience of science, whether that’s facilitating large-scale research methods meta-analyses, shipping your next paper, or onboarding a new lab mate or collaborator. Is there anything we’ve overlooked here?
+\end{itemize}
+
+\section*{Share link and password for Followup Survey}

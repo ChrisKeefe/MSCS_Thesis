@@ -749,14 +749,14 @@ citations CLI command supports citation reporting from files on disk.
 \section{Metadata capture and reporting}
 
 The Framework captures all sample metadata passed to an Action in that Action’s
-provenance, in .tsv format. These metadata files may be useful investigative
+provenance, in \texttt{.tsv} format. These metadata files may be useful investigative
 tools for provenance replay users attempting to reproduce an unfamiliar analysis
 with new data, as they can provide context about what types of metadata were
 used in a given analytical process.
 
 Provenance replay by default writes this captured sample metadata to disk so
 that it is available for review or reuse. To support association between
-metadata and the action in which it was used, all .tsv files are written in an
+metadata and the action in which it was used, all \texttt{.tsv} files are written in an
 action-specific directory, named according to the scheme
 \texttt{plugin\_name\_action\_name\_n}. Here, \texttt{n} (such that \texttt{n} ≥ 0) is an integer used to
 disambiguate between identical commands by order. If \texttt{q2-demux}’s \texttt{emp-single}

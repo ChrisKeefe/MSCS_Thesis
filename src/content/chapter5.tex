@@ -161,10 +161,10 @@ performance benefits.
 
 Proper support for in-memory Results can be implemented by teaching the
 \texttt{\_ArchiveParser} how to interact with non-ZIP Archives in memory. Because the
-archive structure will be identical to that of a compressed .qza or .qzv on
+archive structure will be identical to that of a compressed \texttt{.qza} or \texttt{.qzv} on
 disk, the parsing logic can remain the same. In order to support this, the
 \texttt{\_ArchiveParser} module will need to be refactored to extract an internal API
-which can be implemented for specific  Archive variants and injected into the
+which can be implemented for specific Archive variants and injected into the
 Parser. Looking forward, support for parsing artifacts from the Artifact Cache
 system (pending development) may provide a more robust approach to in-memory
 results parsing.
@@ -227,11 +227,11 @@ system does not capture enough information about sample metadata for us to
 understand its identity and uniqueness (or lack thereof).
 
 Metadata is captured in tabular form in QIIME 2, with each Action’s metadata
-stored as a .tsv in the Action’s UUID-named provenance directory. These .tsvs,
+stored as a \texttt{.tsv} in the Action’s UUID-named provenance directory. These \texttt{.tsvs},
 once extracted, can be referenced in a replay script, allowing for replay to
 target strict corroboration (original data, original metadata). In this
 scenario, each replay Action will receive a separate file path to the separate
-.tsv originally stored in its provenance, even if only one metadata sheet was
+\texttt{.tsv} originally stored in its provenance, even if only one metadata sheet was
 used for all of the Actions in the original analysis. Until QIIME 2 captures
 enough information to confirm the identity of Metadata, replay cannot know how
 many Metadata inputs are required, or which Action uses which Metadata.

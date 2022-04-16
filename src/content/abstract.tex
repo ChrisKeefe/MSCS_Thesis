@@ -1,20 +1,28 @@
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum ut,
-placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu libero,
-nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu neque.
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibulum urna
-fringilla ultrices. Phasellus eu tellus sit amet tortor gravida placerat. Integer sapien
-est, iaculis in, pretium quis, viverra ac, nunc.
+Bioinformatics workflows are often complex, consisting of dozens or hundreds of
+processes, with significant variation possible in computer and software systems,
+input data, method selection and parameterization during each step. This
+complexity creates known challenges for study organization, reporting, and
+reproducibility which may prevent study replication.
 
-Praesent eget sem vel leo ultrices bibendum. Aenean faucibus. Morbi dolor nulla,
-malesuada eu, pulvinar at, mollis ac, nulla. Curabitur auctor semper nulla. Donec varius
-orci eget risus. Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam. Duis
-eget orci sit amet orci dignissim rutrum.
+Here I present Provenance Replay - software for the documentation and enactment
+of in silico reproducibility in QIIME 2, a prominent free and open platform for
+microbiome science. QIIME 2 packages the full history (i.e. “provenance”) of
+every analysis result within the result itself, including software versions,
+methods, parameters, and user-provided metadata. Provenance Replay parses this
+captured provenance data into directed acyclic graphs and generates
+reproducibility documentation including full-analysis citation lists and
+executable scripts capable of replicating the Result(s) in question from the
+original input data, providing a robust tool for methods reproducibility. These
+executables may also be applied directly to similarly structured data, modified,
+or extended, supporting results reproducibility and generalization. This
+reproducibility documentation can be used in the automation of repeated
+analyses, and has potential to reduce record-keeping, training, and
+communication burdens in collaborative research contexts.
 
-Nam dui ligula, fringilla a, euismod sodales, sollicitudin vel, wisi. Morbi auc- tor
-lorem non justo. Nam lacus libero, pretium at, lobortis vitae, ultricies et, tellus.
-Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna, vitae ornare odio
-metus a mi. Morbi ac orci et nisl hendrerit mollis. Suspendisse ut massa. Cras nec ante.
-Pellentesque a nulla. Cum sociis natoque penatibus et magnis dis par- turient montes,
-nascetur ridiculus mus. Aliquam tincidunt urna. Nulla ullamcorper vestibulum turpis.
-Pellentesque cursus luctus mauris.
+Demonstrations, surveys, and focus groups were conducted with an alpha version
+of the software, targeting feature elicitation and requirements verification.
+In survey results, demonstration participants reported high perceived ease of
+use (mean PEOU 5.82 of 7) and high perceived usefulness (mean PU 5.96 of 7), and
+a net promoter score of +78.95\%. Overall, respondents report a positive general
+attitude toward using Provenance Replay, and a high likelihood of recommending
+the software to others.

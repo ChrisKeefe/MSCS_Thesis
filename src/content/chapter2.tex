@@ -127,7 +127,7 @@ action.yaml files.
 A number of custom-defined constructors are required in order to parse these
 YAML files, as pyyaml does not by default support serializing and deserializing
 Python sets, or the QIIME 2-specific !cite, !color, !metadata, !no-provenance,
-and !ref tags. The safe\_loader is used for all deserialization to reduce the
+and !ref tags. The \texttt{safe\_loader} is used for all deserialization to reduce the
 risk of malicious code injection.
 
 Parsed provenance information for each Result is captured in a ProvNode object.
@@ -136,7 +136,7 @@ implemented with a highly flexible initialization method, which initializes
 component classes if the files they depend on are provided. ProvNode attributes
 which depend on these component classes are frequently implemented using
 Python’s @property decorator to allow for the possibility of absence, and the
-ProvNode itself always has a property has\_provenance which downstream code can
+ProvNode itself always has a property \texttt{has\_provenance} which downstream code can
 use as a guard against nodes with no provenance data at all. In this way,
 ProvNodes can be parsed from Results that have Archive Format versions with
 varying levels of complexity. 
@@ -168,8 +168,8 @@ the action.yaml file of S’s immediate descendant.
 DiGraph nodes are literally UUID strings. The minimal DiGraph node has the
 following attributes:
 \begin{itemize}
-    \item has\_provenance - a flag indicating whether provenance data exists for this node
-    \item node\_data - either a ProvNode payload, or None
+    \item \texttt{has\_provenance} - a flag indicating whether provenance data exists for this node
+    \item \texttt{node\_data} - either a ProvNode payload, or None
 \end{itemize}
 
 The provenance parser, for completeness, must include a minimal node in the
@@ -178,7 +178,7 @@ with these graphs, archive parsers first construct ProvNode payloads for nodes
 which have provenance, add any no-provenance nodes to the graph, and then check
 each node for the absence of a provenance payload, setting the required
 attributes in cases where they are missing. Consumer functions may safely
-(without KeyError) check whether a node has\_provenance, and access ProvNode
+(without KeyError) check whether a node \texttt{has\_provenance}, and access ProvNode
 properties appropriately if provenance exists.
 
 \section{Provenance Parsers and Dispatch for provenance parsing}
@@ -187,22 +187,22 @@ Provenance Replay implements an extensible dispatch system for parsing
 provenance. All parsing is done by implementations of an abstract base class
 Parser, which defines the basic contract for any provenance parser. 
 \begin{itemize}
-    \item A Parser implements the classmethod get\_parse, which ingests arbitrary input data. It either returns a Parser that can parse that data, or it raises an Error.
-    \item A Parser implements the method parse\_prov, which ingests an appropriate data payload, parses it, and returns a ParserResults object.
-    \item A Parser has a string attribute accepted\_data\_types required for the production of error messages when the parser receives a type of data it cannot parse.
+    \item A Parser implements the classmethod \texttt{get\_parse}, which ingests arbitrary input data. It either returns a Parser that can parse that data, or it raises an Error.
+    \item A Parser implements the method \texttt{parse\_prov}, which ingests an appropriate data payload, parses it, and returns a ParserResults object.
+    \item A Parser has a string attribute \texttt{accepted\_data\_types} required for the production of error messages when the parser receives a type of data it cannot parse.
 \end{itemize}
 
-Parsers that meet this contract may be registered in parse.select\_parser.
+Parsers that meet this contract may be registered in \texttt{parse.select\_parser}.
 Briefly, parsing proceeds as follows. A user calls the ProvDAG class, which is a
 domain-specific wrapper around a networkx.DiGraph, with some input data.
-ProvDAG.\_\_init\_\_ uses the parse\_provenance function, which calls
-parse.select\_parser with the input data. This function iterates over the known
-parsers, testing the data payload against their get\_parser methods and
+\texttt{ProvDAG.\_\_init\_\_} uses the \texttt{parse\_provenance} function, which calls
+\texttt{parse.select\_parser} with the input data. This function iterates over the known
+parsers, testing the data payload against their \texttt{get\_parser} methods and
 aggregating the errors that result. 
 
 If a Parser that can parse the payload is found, that parser will be returned
 immediately, and aggregated errors will not be reported. The returned Parser
-instance’s parse\_prov method parses the input data payload and returns a
+instance’s \texttt{parse\_prov} method parses the input data payload and returns a
 ParserResults object. A ProvDAG is then initialized from the DiGraph and other
 data contained in the ParserResult, exposing user-facing methods for accessing
 and manipulating the aggregated provenance data.
@@ -239,12 +239,12 @@ These are:
 Parsers are responsible for deciding whether they can parse a data payload, and
 are not required to return an instance of their own class. This flexibility
 allows for the extension of individual Parsers to handle an arbitrary number of
-related data types. For example, if ArchiveParser.get\_parse() receives any type
+related data types. For example, if \texttt{ArchiveParser.get\_parse()} receives any type
 or version of QIIME 2 Archive, it will handle dispatch internally, returning an
 instance of a child class of ArchiveParser designed to address the specific
 needs of that type or version of Archive.
 
-This architecture reduces coupling between the high-level parse\_provenance
+This architecture reduces coupling between the high-level \texttt{parse\_provenance}
 function (and its callers), and the low-level parsing code, by replacing direct
 dependencies with dependencies on a shared abstraction (Parser). Modifications
 to existing Parsers are immaterial to the high-level code, and extending the
@@ -260,7 +260,7 @@ implementations. The element notation “C” to the left of the class name
 indicates a class, while “A” indicates an abstract class. Classes in beige are
 locally defined, while classes in light green are imported from the standard
 library. Note that many additional, specialized Parser implementations are
-accessible through e.g. ArchiveParser.get\_parser.}
+accessible through e.g. \texttt{ArchiveParser.get\_parser}.}
 \label{fig:allParsersUML}
 \end{figure}
 
@@ -283,7 +283,7 @@ Archive parsing proceeds roughly as follows.
     \item If any expected files are missing, the parser responds appropriately (e.g. raise/warn).
     \item The parser instantiates a ProvNode object for each Result by calling ProvNode with a collection of Result-specific filepaths.
     \begin{enumerate}
-        \item[3.1.]ProvNode.\_\_init\_\_ iterates over whatever filepaths it receives, dispatching the actual parsing to appropriate helper functions. 
+        \item[3.1.]\texttt{ProvNode.\_\_init\_\_} iterates over whatever filepaths it receives, dispatching the actual parsing to appropriate helper functions. 
     \end{enumerate}
     \item The parser builds a DiGraph representing the provenance history of the Archive
     \item The parser returns a ParserResults containing this DiGraph and other attributes
@@ -305,8 +305,8 @@ well to inheritance. In order to support a new Archive Format (v6) that captured
 a new type of provenance file with every Result, we might only need to:
 \begin{itemize}
     \item Define a class or function capable of the low-level parsing (e.g. loading serialized data)
-    \item Add a check for the new file to ProvNode.\_\_init\_\_(), calling this class/function
-    \item Subclass Parserv5, adding the new filename to the expected\_files\_in\_all\_nodes class attribute
+    \item Add a check for the new file to \texttt{ProvNode.\_\_init\_\_()}, calling this class/function
+    \item Subclass \texttt{Parserv5}, adding the new filename to the \texttt{expected\_files\_in\_all\_nodes} class attribute
 \end{itemize}
 
 % EXAMPLE: Caption to the right side of Figure
@@ -316,18 +316,18 @@ a new type of provenance file with every Result, we might only need to:
     \end{minipage}\hfill
     \begin{minipage}[c]{0.45\textwidth}
 \caption[UML Class diagram of the Version-specific Archive Parsers]%
-{This UML diagram depicts select features of the \_archive\_parser module. Classes
+{This UML diagram depicts select features of the \texttt{\_archive\_parser} module. Classes
 in beige are locally defined, while classes in light green are imported from the
 standard library. The element notation “C” to the left of the class name
 indicates a class, while “A” indicates an abstract class. The inheritance
 structure used in the definition of version-specific archive parsers mirrors the
 archive format definition itself in the QIIME 2 Framework, and dramatically
 reduces the amount of redundant code, resulting in a smaller maintenance surface
-area. Note that the get\_parser implementation in the ArchiveParser class can
-return instances of any of the child parser implementations, and the parse\_prov
+area. Note that the \texttt{get\_parser} implementation in the \texttt{ArchiveParser} class can
+return instances of any of the child parser implementations, and the \texttt{parse\_prov}
 implementation in Parserv1 is used by all of the classes that depend on it.
 Changes in parser behavior from V1-V5 are effected through simple changes in
-class data, and ‘private’ helper methods like \_validate\_checksums}
+class data, and ‘private’ helper methods like \texttt{\_validate\_checksums}}
     \end{minipage}
     \label{fig:archiveParsersUML}
 \end{figure}
@@ -347,7 +347,7 @@ Changes made to the structure of the action.yaml file in versions 2, 3 and 4
 required no changes to the parser logic. The addition of a citations.bib file to
 all Results in version 4 proceeded as described above. The addition of a
 checksums.md5 file in the root directory for V5 required this process, plus the
-re-implementation of a helper function, and a call to super().parse\_prov. The
+re-implementation of a helper function, and a call to \texttt{super().parse\_prov}. The
 code for all of these Parsers is minimal, as nearly all behavior is inherited. 
 (Figure \ref{fig:parserCodeBlock})
 
@@ -437,9 +437,9 @@ if they are not already represented in the DAG under construction, and unioning
 them into a whole.
 
 NetworkX implements a number of “union-like” operations on DiGraphs, and
-DiGraph.union itself is not appropriate for our common use cases, because it
-requires that the joined subgraphs be disjoint. ProvDAG.union wraps
-DiGraph.compose\_all, which does not impose this requirement, and allows for the
+\texttt{DiGraph.union} itself is not appropriate for our common use cases, because it
+requires that the joined subgraphs be disjoint. \texttt{ProvDAG.union} wraps
+\texttt{DiGraph.compose\_all}, which does not impose this requirement, and allows for the
 joining of an arbitrary collection of DiGraphs.
 
 ProvDAG objects capture significant data in addition to the DAG itself,
@@ -531,7 +531,7 @@ unintentionally. Second, it supports basic troubleshooting of these archives, by
 identifying which files have been added, removed, or modified. 
 
 Checksum validation proceeds simply - all non-checksum-digest files in the
-archive are hashed using hashlib.md5. The checksums.md5 file is parsed and a
+archive are hashed using \texttt{hashlib.md5}. The checksums.md5 file is parsed and a
 diff is created, reporting which files were added, removed, and modified. This
 re-hashing process could be time-consuming at large scale, so is optional. For
 users who are interested in the validity of the Archives they work with, an
@@ -541,19 +541,19 @@ ordered scale of ValidationCodes has been established as an IntEnum. (Table \ref
     \centering
     \begin{tabular}{|p{0.28\textwidth}|p{0.06\textwidth}|p{0.55\textwidth}|}
     \hline
-    ValidationCode      & Enum value & Description                                          \\ \hline
-    INVALID             & 0          & the Archive is known to be invalid                   \\
-    VALIDATION\_OPTOUT  & 1          & the user opted out of checksum validation            \\
-    PREDATES\_CHECKSUMS & 2          & V0-V4 Archives cannot be validated: assume validity  \\
-    VALID               & 3          & the archive is known to be invalid                   \\ \hline
+    \texttt{ValidationCode}      & Enum value & Description                                          \\ \hline
+    \texttt{INVALID}             & 0          & the Archive is known to be invalid                   \\
+    \texttt{VALIDATION\_OPTOUT}  & 1          & the user opted out of checksum validation            \\
+    \texttt{PREDATES\_CHECKSUMS} & 2          & V0-V4 Archives cannot be validated: assume validity  \\
+    \texttt{VALID}               & 3          & the Archive is known to be invalid                   \\ \hline
     \end{tabular}
     \caption[Defined ValidationCodes, ordered from least to most valid, with their descriptions]%
     {Defined ValidationCodes, ordered from least to most valid, with their descriptions}
     \label{tab:validationCodes}
 \end{table}
 
-\noindent In cases where Results must be compared, (e.g. graph union) the IntEnum
-representation of these ValidationCodes allows us to use builtins like min() to
+\noindent In cases where Results must be compared, (e.g. graph union) the \texttt{IntEnum}
+representation of these \texttt{ValidationCode}s allows us to use builtins like \texttt{min()} to
 determine and capture the preferred level of validity.
 
 
@@ -594,7 +594,7 @@ output in memory, which is then written to the user-passed location on disk.
 This module’s core functionality is exposed at the package level, and supports
 the handling of both ProvDAG objects in-memory and one-shot parse-and-replay
 operations through the Python interpreter. A command-line interface written with
-Click \parencite{pallets_click_2014} in the click\_commands module exposes the
+Click \parencite{pallets_click_2014} in the \texttt{click\_commands} module exposes the
 one-shot methods for use from the command line, and provides documentation and
 tab-completion functionality.
 
@@ -602,7 +602,7 @@ tab-completion functionality.
 \section{Provenance Replay Usage Drivers}
 
 Provenance replay relies on locally-defined usage drivers, implemented in
-\_usage\_drivers, to support the production of QIIME 2 scripts. ReplayCLIUsage
+\texttt{\_usage\_drivers}, to support the production of QIIME 2 scripts. ReplayCLIUsage
 targets the generation of q2cli scripts, and ReplayPythonUsage targets the
 generation of Python 3 API scripts. Both drivers target script rendering. Though
 example execution should work in theory, the examples generated by replay do not
@@ -679,7 +679,7 @@ causing data loss and script failure, or worse, the false appearance of script
 success despite a failure of data integrity. I handle this with UsageVarsDict, a
 modified UserDict in which keys are unique by virtue of being UUIDs, and values
 are also unique, providing a one-to-one mapping of UUID to value.
-UsageVarsDict.\_\_setitem\_\_ suffixes these values with \_n (where n is some
+\texttt{UsageVarsDict.\_\_setitem\_\_} suffixes these values with \texttt{\_n} (where n is some
 integer) whenever values are added. When potentially-colliding values are added,
 n is incremented as needed until the collision is avoided. 
 
@@ -758,10 +758,11 @@ Provenance replay by default writes this captured sample metadata to disk so
 that it is available for review or reuse. To support association between
 metadata and the action in which it was used, all .tsv files are written in an
 action-specific directory, named according to the scheme
-plugin\_name\_action\_name\_n. Here, n (such that n ≥ 0) is an integer used to
-disambiguate between identical commands by order. If q2-demux’s emp-single
-command is used six times in an analysis, the metadata captured from the zeroth
-run will be captured in the folder where n=0, and so forth.
+\texttt{plugin\_name\_action\_name\_n}. Here, \texttt{n} (such that \texttt{n} ≥ 0) is an integer used to
+disambiguate between identical commands by order. If \texttt{q2-demux}’s \texttt{emp-single}
+command is used multiple times in an analysis, the metadata captured from the first
+run will be captured in the folder where \texttt{n}=0, the metadata captured from the second
+run will be captured in the folder where \texttt{n}=1, and so forth.
 
 
 \section{Communicating user preferences internally with Config and ReplayConfig objects}

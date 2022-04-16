@@ -460,7 +460,7 @@ Actions produce one or many Results as outputs.
 \subsection{Archive Versions}
 
 The documentation defines an Archive as “the directory structure of a QIIME 2
-Result”, containing “at least a root directory (named by UUID) and a VERSION
+Result”, containing “at least a root directory (named by UUID) and a \texttt{VERSION}
 file within that directory.” 
 
 Archives are formally defined and registered in the QIIME 2 archiver code, and
@@ -495,8 +495,8 @@ for checking and tracking Result identity.
 
 Beginning with Archive Version 5 (released in QIIME 2 2018.11), Archives contain
 an md5sum-formatted (\cite{rivest_md5_1992}; \cite{ulrich_drepper_md5sum1_2010})
-checksums.md5 file in their root directory. This is a digest of (checksum,
-relative file path) pairs, where each checksum is a hash of the file contents.
+\texttt{checksums.md5} file in their root directory. This is a digest of \texttt{(checksum, relative file path)}
+pairs, where each checksum is a hash of the file contents.
 Any change to the file contents is highly probable to result in a change to the
 file’s hash. The MD5Sum algorithm is cryptographically broken, but still widely
 used in non-secure contexts. Barring malicious tampering, checksums allow us to

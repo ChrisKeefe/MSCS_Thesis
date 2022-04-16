@@ -56,12 +56,12 @@ decisions made in the creation of this software.
 \section{Parsing provenance data from Archives}
 
 The components of QIIME 2 Archives required for provenance parsing (e.g. the
-VERSION files and the contents of the provenance directory) are consistently
+\texttt{VERSION} files and the contents of the provenance directory) are consistently
 formatted, with variations clearly defined and versioned in the QIIME 2 core
 codebase. QIIME 2 guarantees that all Archives will contain a root directory
 named with the archive UUID - this serves as the Archive’s identity, and I will
 refer to it when needed as the “root UUID”. Within this root directory, all
-archives contain a VERSION file, which holds the necessary information to
+archives contain a \texttt{VERSION} file, which holds the necessary information to
 identify what version of the Archive Format specification this archive complies
 with \parencite{qiime_2_development_team_anatomy_2018}. By determining which
 archive version we are working with, it is possible to identify and parse all
@@ -86,11 +86,11 @@ view in the following figure.}
 \label{fig:archive_structure}
 \end{figure}
 A Result stored on disk as a zip file may have any filesystem-compliant
-filename, and will be suffixed with .qza or .qzv by default. Internally, the
+filename, and will be suffixed with \texttt{.qza} or \texttt{.qzv} by default. Internally, the
 root directory is named with the UUID representing the Results stored within the
 data directory. In a Version 5 Archive, the root directory contains an MD5sum
-digest, a VERSION file detailing the Archive version and the version of the
-QIIME 2 Framework that produced the Result, and a metadata.yaml file describing
+digest, a \texttt{VERSION} file detailing the Archive version and the version of the
+QIIME 2 Framework that produced the Result, and a \texttt{metadata.yaml} file describing
 primary characteristics of the Result itself. The data directory holds the
 Result data, and the provenance directory contains captured provenance data.
 Note that the artifacts directory may contain an arbitrary number of
@@ -110,19 +110,19 @@ IDs or locations on disk). (Figure \ref{fig:provenance_files})
 provenance files from a version 5 Archive. Each of these directories is uniquely
 identified with the UUID of the ancestor result whose provenance is described
 within. Information about the action that produced this Result is stored in an
-action directory, including .tsv-formatted files representing any metadata used
-in that action. Every provenance directory contains its own VERSION file,
-metadata.yaml, and a bibtex-formatted list of relevant citations.}
+action directory, including \texttt{.tsv}-formatted files representing any metadata used
+in that action. Every provenance directory contains its own \texttt{VERSION} file,
+\texttt{metadata.yaml}, and a bibtex-formatted list of relevant citations.}
 \label{fig:provenance_files}
 \end{figure}
-VERSION files are specified in a simple, custom format. The root-level VERSION
+\texttt{VERSION} files are specified in a simple, custom format. The root-level \texttt{VERSION}
 file is checked for validity against a regular expression. If valid, the Archive
 version is parsed using Python’s standard-library string manipulation methods,
 and used to determine how to parse the rest of the archive. Bibtex files are
-parsed with the bibtexparser library \parencite{boulogne_bibtexparser_nodate},
+parsed with the \texttt{bibtexparser} library \parencite{boulogne_bibtexparser_nodate},
 pandas (\cite{reback_pandas-devpandas_2020}; \cite{mckinney_data_2010}) is used to read the
-metadata .tsv files, and pyyaml is used to handle the critical metadata.yaml and
-action.yaml files.
+metadata \texttt{.tsv} files, and \texttt{pyyaml} is used to handle the critical \texttt{metadata.yaml} and
+\texttt{action.yaml} files.
 
 A number of custom-defined constructors are required in order to parse these
 YAML files, as pyyaml does not by default support serializing and deserializing
@@ -130,24 +130,24 @@ Python sets, or the QIIME 2-specific !cite, !color, !metadata, !no-provenance,
 and !ref tags. The \texttt{safe\_loader} is used for all deserialization to reduce the
 risk of malicious code injection.
 
-Parsed provenance information for each Result is captured in a ProvNode object.
-These serve as the data payloads in our provenance DAG. The ProvNode class is
+Parsed provenance information for each Result is captured in a \texttt{ProvNode} object.
+These serve as the data payloads in our provenance DAG. The \texttt{ProvNode} class is
 implemented with a highly flexible initialization method, which initializes
-component classes if the files they depend on are provided. ProvNode attributes
+component classes if the files they depend on are provided. \texttt{ProvNode} attributes
 which depend on these component classes are frequently implemented using
-Python’s @property decorator to allow for the possibility of absence, and the
-ProvNode itself always has a property \texttt{has\_provenance} which downstream code can
+Python’s \texttt{@property} decorator to allow for the possibility of absence, and the
+\texttt{ProvNode} itself always has a property \texttt{has\_provenance} which downstream code can
 use as a guard against nodes with no provenance data at all. In this way,
-ProvNodes can be parsed from Results that have Archive Format versions with
+\texttt{ProvNode}s can be parsed from Results that have Archive Format versions with
 varying levels of complexity. 
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=\textwidth]{figures/ProvNode_UML.png}
 \caption[UML Class diagram of the ProvNode class and its components]%
-{A UML class diagram of the ProvNode class and its component classes, each of
-which represents one of the key provenance files - action.yaml, citations.bib,
-and metadata.yaml.}
+{A UML class diagram of the \texttt{ProvNode} class and its component classes, each of
+which represents one of the key provenance files - \texttt{action.yaml}, \texttt{citations.bib},
+and \texttt{metadata.yaml}.}
 \label{fig:ProvNode_UML}
 \end{figure}
 
@@ -162,8 +162,8 @@ If a V1+ archive was constructed to represent a Result R with at least one V0
 Result (S) as an ancestor, then for some subgraph of the DAG representing R,
 there is no provenance data to parse describing S. To be more specific, there
 will be no provenance directory named with S’s UUID saved in R’s
-provenance/artifacts directory. A record of S’s UUID will, however, be saved in
-the action.yaml file of S’s immediate descendant.
+\texttt{provenance/artifacts} directory. A record of S’s UUID will, however, be saved in
+the \texttt{action.yaml} file of S’s immediate descendant.
 
 DiGraph nodes are literally UUID strings. The minimal DiGraph node has the
 following attributes:
@@ -174,11 +174,11 @@ following attributes:
 
 The provenance parser, for completeness, must include a minimal node in the
 DiGraph constructed to represent R during initial parsing. For safety in working
-with these graphs, archive parsers first construct ProvNode payloads for nodes
+with these graphs, archive parsers first construct \texttt{ProvNode} payloads for nodes
 which have provenance, add any no-provenance nodes to the graph, and then check
 each node for the absence of a provenance payload, setting the required
 attributes in cases where they are missing. Consumer functions may safely
-(without KeyError) check whether a node \texttt{has\_provenance}, and access ProvNode
+(without KeyError) check whether a node \texttt{has\_provenance}, and access \texttt{ProvNode}
 properties appropriately if provenance exists.
 
 \section{Provenance Parsers and Dispatch for provenance parsing}
@@ -281,7 +281,7 @@ Archive parsing proceeds roughly as follows.
 \begin{enumerate}
     \item The parser uses filename data stored in its class attributes to identify all file paths present that should be parsed. These are grouped by Result.
     \item If any expected files are missing, the parser responds appropriately (e.g. raise/warn).
-    \item The parser instantiates a ProvNode object for each Result by calling ProvNode with a collection of Result-specific filepaths.
+    \item The parser instantiates a \texttt{ProvNode} object for each Result by calling \texttt{ProvNode} with a collection of Result-specific filepaths.
     \begin{enumerate}
         \item[3.1.]\texttt{ProvNode.\_\_init\_\_} iterates over whatever filepaths it receives, dispatching the actual parsing to appropriate helper functions. 
     \end{enumerate}
@@ -290,8 +290,8 @@ Archive parsing proceeds roughly as follows.
 \end{enumerate}
 
 This approach forefronts extensibility through flexibility and encapsulation.
-The ProvNode initializer is a generalist with no knowledge of the requirements
-of the Parsers. Its single responsibility is to instantiate ProvNodes from the
+The \texttt{ProvNode} initializer is a generalist with no knowledge of the requirements
+of the Parsers. Its single responsibility is to instantiate \texttt{ProvNode}s from the
 data it receives, and it doesn’t need to know anything about archive versions -
 only where to dispatch different files for parsing. If it gets the file, it
 parses it. Parsers, on the other hand, are format-specific, and are responsible
@@ -343,10 +343,10 @@ user needs with simpler and therefore more performant code.
 
 This implementation allows some classes of extension to be made primarily by
 manipulating class attributes, resulting in a minimal maintenance surface area.
-Changes made to the structure of the action.yaml file in versions 2, 3 and 4
-required no changes to the parser logic. The addition of a citations.bib file to
+Changes made to the structure of the \texttt{action.yaml} file in versions 2, 3 and 4
+required no changes to the parser logic. The addition of a \texttt{citations.bib} file to
 all Results in version 4 proceeded as described above. The addition of a
-checksums.md5 file in the root directory for V5 required this process, plus the
+\texttt{checksums.md5} file in the root directory for V5 required this process, plus the
 re-implementation of a helper function, and a call to \texttt{super().parse\_prov}. The
 code for all of these Parsers is minimal, as nearly all behavior is inherited. 
 (Figure \ref{fig:parserCodeBlock})
@@ -447,7 +447,7 @@ including the root UUIDs of all Results passed in for parsing, collections of
 terminal UUIDs, and information about the validity of the DAG’s provenance. As a
 result, some additional processing is required for safe graph union. Parsed
 Result UUIDs and ChecksumDiff objects are aggregated, preserving the most
-possible information. Status descriptions like the provenance ValidationCode are
+possible information. Status descriptions like the provenance \texttt{ValidationCode} are
 handled by taking the minimum. A \texttt{ProvDAG}'s validity level is represented as the
 minimum of the validity level of all of its component Results.
 
@@ -466,7 +466,7 @@ result, both user-passed and pipeline-passed parameter sets are captured in
 separate UUID-named directories in provenance. When Pipelines are run, multiple
 directories representing the same Result exist in provenance. Pipelines have an
 alias-of field referencing the UUID of the nested Result within their
-action.yaml file, allowing us to associate Pipeline Results with the provenance
+\texttt{action.yaml} file, allowing us to associate Pipeline Results with the provenance
 of their internal Actions. 
 
 Again for reasons of completeness, Provenance Replay’s Archive parsers include
@@ -514,7 +514,7 @@ Replay allows us to confirm whether files have been added, removed, or changed
 in the Archive since it was originally created. 
 
 Checksum Validation is not intended as a tool for diagnosing intentional
-falsification of results. checksums.md5 is an unsecured plain text file, which a
+falsification of results. \texttt{checksums.md5} is an unsecured plain text file, which a
 modestly savvy user with the intention to falsify results could update with MD5
 hashes that match the tampered archive contents. Even were this not the case,
 MD5 hashes are not cryptographically secure, so a committed party would likely
@@ -531,11 +531,11 @@ unintentionally. Second, it supports basic troubleshooting of these archives, by
 identifying which files have been added, removed, or modified. 
 
 Checksum validation proceeds simply - all non-checksum-digest files in the
-archive are hashed using \texttt{hashlib.md5}. The checksums.md5 file is parsed and a
+archive are hashed using \texttt{hashlib.md5}. The \texttt{checksums.md5} file is parsed and a
 diff is created, reporting which files were added, removed, and modified. This
 re-hashing process could be time-consuming at large scale, so is optional. For
 users who are interested in the validity of the Archives they work with, an
-ordered scale of ValidationCodes has been established as an IntEnum. (Table \ref{tab:validationCodes})
+ordered scale of \texttt{ValidationCode}s has been established as an \texttt{IntEnum}. (Table \ref{tab:validationCodes})
 
 \begin{table}[htp]
     \centering
@@ -548,7 +548,7 @@ ordered scale of ValidationCodes has been established as an IntEnum. (Table \ref
     \texttt{VALID}               & 3          & the Archive is known to be invalid                   \\ \hline
     \end{tabular}
     \caption[Defined ValidationCodes, ordered from least to most valid, with their descriptions]%
-    {Defined ValidationCodes, ordered from least to most valid, with their descriptions}
+    {Defined \texttt{ValidationCodes}, ordered from least to most valid, with their descriptions}
     \label{tab:validationCodes}
 \end{table}
 
@@ -588,7 +588,7 @@ select from a hardcoded registry of supported usage drivers, which are injected
 into the generated examples. Specifically, the injected usage driver, once
 instantiated, is fed an ordered “chain” of calls to its initializer, import,
 metadata, action, and comment methods, representing the topologically sorted
-QIIME 2 Actions captured in a \texttt{ProvDAG}. The use.render method renders a script
+QIIME 2 Actions captured in a \texttt{ProvDAG}. The \texttt{use.render} method renders a script
 output in memory, which is then written to the user-passed location on disk.
 
 This module’s core functionality is exposed at the package level, and supports
@@ -669,7 +669,7 @@ by default, but may be disabled according to user preference.
 In order to generate multi-step executables, our generated scripts must pass the
 outputs of prior actions into the inputs of later actions. At the Action level
 within the \texttt{ProvDAG}, we know the UUID of the input data, but not the output name
-generated by replay. By using a {UUID: output} mapping in which captured or
+generated by replay. By using a \texttt{\{UUID: output\}} mapping in which captured or
 programmatically-generated output names are stored during each replay step, we
 provide subsequent steps with access to output names by UUID.
 
@@ -684,7 +684,7 @@ integer) whenever values are added. When potentially-colliding values are added,
 n is incremented as needed until the collision is avoided. 
 
 This serves as a UUID-queryable "namespace" of strings that can be passed to the
-usage API to serve as unique variable names. In practice, potential {UUID: name}
+usage API to serve as unique variable names. In practice, potential \texttt{\{UUID: name\}}
 pairs are added to the collection, during which process name is mutated for
 uniqueness. The unique name is then retrieved by UUID, and passed to the usage
 driver for use.

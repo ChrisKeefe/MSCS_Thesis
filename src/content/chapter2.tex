@@ -241,7 +241,7 @@ are not required to return an instance of their own class. This flexibility
 allows for the extension of individual Parsers to handle an arbitrary number of
 related data types. For example, if \texttt{ArchiveParser.get\_parse()} receives any type
 or version of QIIME 2 Archive, it will handle dispatch internally, returning an
-instance of a child class of ArchiveParser designed to address the specific
+instance of a child class of \texttt{ArchiveParser} designed to address the specific
 needs of that type or version of Archive.
 
 This architecture reduces coupling between the high-level \texttt{parse\_provenance}

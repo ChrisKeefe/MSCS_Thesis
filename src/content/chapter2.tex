@@ -165,7 +165,7 @@ will be no provenance directory named with S’s UUID saved in R’s
 \texttt{provenance/artifacts} directory. A record of S’s UUID will, however, be saved in
 the \texttt{action.yaml} file of S’s immediate descendant.
 
-DiGraph nodes are literally UUID strings. The minimal DiGraph node has the
+\texttt{DiGraph} nodes are literally UUID strings. The minimal \texttt{DiGraph} node has the
 following attributes:
 \begin{itemize}
     \item \texttt{has\_provenance} - a flag indicating whether provenance data exists for this node
@@ -173,7 +173,7 @@ following attributes:
 \end{itemize}
 
 The provenance parser, for completeness, must include a minimal node in the
-DiGraph constructed to represent R during initial parsing. For safety in working
+\texttt{DiGraph} constructed to represent R during initial parsing. For safety in working
 with these graphs, archive parsers first construct \texttt{ProvNode} payloads for nodes
 which have provenance, add any no-provenance nodes to the graph, and then check
 each node for the absence of a provenance payload, setting the required
@@ -194,7 +194,7 @@ Parser, which defines the basic contract for any provenance parser.
 
 Parsers that meet this contract may be registered in \texttt{parse.select\_parser}.
 Briefly, parsing proceeds as follows. A user calls the \texttt{ProvDAG} class, which is a
-domain-specific wrapper around a networkx.DiGraph, with some input data.
+domain-specific wrapper around a \texttt{networkx.DiGraph}, with some input data.
 \texttt{ProvDAG.\_\_init\_\_} uses the \texttt{parse\_provenance} function, which calls
 \texttt{parse.select\_parser} with the input data. This function iterates over the known
 parsers, testing the data payload against their \texttt{get\_parser} methods and
@@ -203,7 +203,7 @@ aggregating the errors that result.
 If a Parser that can parse the payload is found, that parser will be returned
 immediately, and aggregated errors will not be reported. The returned Parser
 instance’s \texttt{parse\_prov} method parses the input data payload and returns a
-\texttt{ParserResults} object. A \texttt{ProvDAG} is then initialized from the DiGraph and other
+\texttt{ParserResults} object. A \texttt{ProvDAG} is then initialized from the \texttt{DiGraph} and other
 data contained in the \texttt{ParserResult}, exposing user-facing methods for accessing
 and manipulating the aggregated provenance data.
 
@@ -233,7 +233,7 @@ These are:
     \item \texttt{ProvDAGParser}: parses a \texttt{ProvDAG} object, enabling the copying of \texttt{ProvDAG} objects
     \item \texttt{EmptyParser}: parses \texttt{None}, enables the creation of empty \texttt{ProvDAG} objects
     \item \texttt{ArchiveParser}: parses a single QIIME 2 Archive
-    \item \texttt{DirectoryParser}: parses a directory of QIIME2 Archives, returning a single \texttt{ParserResults} object which represents all parsed Archives in a single DiGraph
+    \item \texttt{DirectoryParser}: parses a directory of QIIME2 Archives, returning a single \texttt{ParserResults} object which represents all parsed Archives in a single \texttt{DiGraph}
 \end{itemize}
 
 Parsers are responsible for deciding whether they can parse a data payload, and
@@ -285,8 +285,8 @@ Archive parsing proceeds roughly as follows.
     \begin{enumerate}
         \item[3.1.]\texttt{ProvNode.\_\_init\_\_} iterates over whatever filepaths it receives, dispatching the actual parsing to appropriate helper functions. 
     \end{enumerate}
-    \item The parser builds a DiGraph representing the provenance history of the Archive
-    \item The parser returns a \texttt{ParserResults} containing this DiGraph and other attributes
+    \item The parser builds a \texttt{DiGraph} representing the provenance history of the Archive
+    \item The parser returns a \texttt{ParserResults} containing this \texttt{DiGraph} and other attributes
 \end{enumerate}
 
 This approach forefronts extensibility through flexibility and encapsulation.
@@ -361,7 +361,7 @@ inheritance and low-level parser flexibility in reducing code surface area.}
 \end{figure}
 
 
-\section{Representing single Results or full analyses with DiGraphs}
+\section{Representing single Results or full analyses with \texttt{DiGraph}s}
 
 Many studies require information from more than one QIIME 2 Result in order to
 adequately address their research questions. We must therefore support user
@@ -384,7 +384,7 @@ data in the graph nodes produced by that action, for loose parity with the
 representation of that data in both the Archive structure and in the widely used
 q2view provenance graph visualization. 
 
-These DAGs are implemented as DiGraph objects, defined by the NetworkX library
+These DAGs are implemented as \texttt{DiGraph} objects, defined by the NetworkX library
 for graph analysis. NetworkX was selected for many reasons. It is widely-used
 and well-supported, offers most common graph operations built in, and supports
 export to common graph visualization libraries (e.g. Cytoscape). There are a
@@ -392,7 +392,7 @@ number of significantly more performant graph libraries available for Python,
 but as a pure Python library NetworkX presents a reduced risk of dependency
 management challenges.
 
-In our implementation, DiGraph nodes are literal UUID strings, with provenance
+In our implementation, \texttt{DiGraph} nodes are literal UUID strings, with provenance
 information stored as node attributes. NetworkX supports the creation of graphs
 with user-defined hashable objects as nodes, but our approach results in a graph
 in which common interactions with nodes (e.g. querying the graph, asserting
@@ -401,7 +401,7 @@ against node properties) are simpler and more intuitive.
 QIIME 2 provenance data folders are archived in a non-hierarchical format for
 reasons of simplicity and ease of access. Every parent Result’s provenance is
 stored in its own UUID-named directory, and these are all placed into a single
-parent directory. Creating a DiGraph, then, requires us to parse the provenance
+parent directory. Creating a \texttt{DiGraph}, then, requires us to parse the provenance
 data in each of these provenance directories, capturing ancestry information
 about each node, and using it to define the edges that connect a node to its
 input dependencies.
@@ -411,9 +411,9 @@ only the provenance data directly relevant to its own creation. It is common for
 two Results from a single analysis to share many, or even all of their data
 dependencies. DAGs with multiple terminal nodes are common, making the DAG a
 natural fit for representing complete QIIME 2 analyses, with an arbitrary number
-of import nodes, and an arbitrary number of terminal nodes. NetworkX DiGraphs
+of import nodes, and an arbitrary number of terminal nodes. NetworkX \texttt{DiGraph}s
 support arbitrary numbers of disconnected subgraph components, allowing the
-DiGraph data structure to accommodate many different needs. 
+\texttt{DiGraph} data structure to accommodate many different needs.
 
 Users may parse a single Result, many nested directories of Results from a
 single analysis (i.e. which share a common history), and even multiple Results
@@ -428,7 +428,7 @@ one continuous, or many discontinuous subgraphs.
 \section{Graph Union}
 
 Because provenance data is captured in a decentralized (per-Result) way, the
-ability to union two DiGraphs is fundamental to our ability to efficiently
+ability to union two \texttt{DiGraph}s is fundamental to our ability to efficiently
 represent complete QIIME 2 analyses. By implementing a \texttt{ProvDAG.union} method,
 individuals who need fine-grained control can manually assemble a DAG from
 arbitrary Results. Union is also used internally in the DirectoryParser, which
@@ -436,11 +436,11 @@ traverses a (potentially nested) directory structure parsing individual Results
 if they are not already represented in the DAG under construction, and unioning
 them into a whole.
 
-NetworkX implements a number of “union-like” operations on DiGraphs, and
+NetworkX implements a number of “union-like” operations on \texttt{DiGraph}s, and
 \texttt{DiGraph.union} itself is not appropriate for our common use cases, because it
 requires that the joined subgraphs be disjoint. \texttt{ProvDAG.union} wraps
 \texttt{DiGraph.compose\_all}, which does not impose this requirement, and allows for the
-joining of an arbitrary collection of DiGraphs.
+joining of an arbitrary collection of \texttt{DiGraph}s.
 
 \texttt{ProvDAG} objects capture significant data in addition to the DAG itself,
 including the root UUIDs of all Results passed in for parsing, collections of
@@ -473,7 +473,7 @@ Again for reasons of completeness, Provenance Replay’s Archive parsers include
 all captured provenance data in the \texttt{ParserResults} objects they return. We can
 call this the complete view of provenance. Many use cases require subgraphs,
 which we implement with NetworkX GraphViews \parencite{hagberg_exploring_2008}.
-These are lightweight read-only subgraphs generated from the complete DiGraph,
+These are lightweight read-only subgraphs generated from the complete \texttt{DiGraph},
 which allow us to exclude sets of unneeded nodes without actually removing them
 from the original data structure.
 
@@ -499,7 +499,7 @@ The collapsed view will be familiar to users of q2view, in which it is used to
 present analysis provenance with a minimum of visual clutter (Fig \ref{fig:provenance_graph}).
 Support for this fundamental idea that different users might require different
 views of provenance is extended to the Replay component of the software, in
-which replay scripts are assembled using an input DiGraph. Though replay of the
+which replay scripts are assembled using an input \texttt{DiGraph}. Though replay of the
 collapsed view is currently hardcoded, this approach will make replaying an
 expanded view of provenance straightforward when and if that view is
 implemented.
@@ -559,7 +559,7 @@ determine and capture the preferred level of validity.
 
 \section{Generating Executable Scripts with Provenance Replay}
 
-Once provenance data has been parsed into a DiGraph (stored in a \texttt{ProvDAG}
+Once provenance data has been parsed into a \texttt{DiGraph} (stored in a \texttt{ProvDAG}
 object), we are able to “replay” that representation of analysis history into an
 executable script. DAGs can, by definition, be topologically ordered, allowing
 us to guarantee execution-order dependencies will always be satisfied. By

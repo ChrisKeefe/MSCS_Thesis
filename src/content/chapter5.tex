@@ -249,20 +249,20 @@ workflows will likely require improvements in performance. The reading of
 provenance files is an I/O-intensive operation, and though formal profiling has
 not been conducted, it is likely to be the source of the bottleneck. Efforts to
 reduce the number of reads are likely to improve runtimes. Provenance parsing
-currently skips any Results whose root UUID is already contained in the DiGraph
+currently skips any Results whose root UUID is already contained in the \texttt{DiGraph}
 being constructed, as all tracked predecessors of a node must also be in the
-DiGraph when this occurs. A more granular approach can reduce redundant reads
+\texttt{DiGraph} when this occurs. A more granular approach can reduce redundant reads
 dramatically, if the parser skips any nodes within a Result that already exist
-in the digraph.
+in the \texttt{DiGraph}.
 
 \section{Graph operations for meta-analysis \parencite[Issue 30]{keefe_issues_2021}}
 \label{section:graph_ops}
 
-The DiGraph structure of provenance lends itself to a number of graph operations
+The \texttt{DiGraph} structure of provenance lends itself to a number of graph operations
 with potential to provide value to users. Graph intersection allows users to ask
 whether two analyses contain any common components, and symmetric difference
 allows users to ask what the unique characteristics of two analyses are. These
-could be applied to UUID-based digraphs. In an academic context, the ability to
+could be applied to UUID-based \texttt{DiGraph}s. In an academic context, the ability to
 “diff” analyses by UUID would allow instructors to identify some violations of
 academic integrity with student Results alone. More interesting questions could
 be asked about the ways in which QIIME 2 analyses are performed by relabeling
@@ -284,11 +284,11 @@ the way back to the import of that (potentially unavailable) raw data. A cleaner
 solution would be for the user to provide the resource \texttt{.qza} as part of the
 reproducibility supplement, and for Provenance Replay to replace the Actions
 that created the resource with an import of the resource itself. By allowing
-users to exclude parts of their DiGraph from replay, the documentation process
+users to exclude parts of their \texttt{DiGraph} from replay, the documentation process
 could be made to better support these real-world needs.
 
 Finally, NetworkX provides a rich library of graph operations and algorithms,
-which users can apply directly to the DiGraph object (or a copy of it) stored in
+which users can apply directly to the \texttt{DiGraph} object (or a copy of it) stored in
 \texttt{ProvDag.dag}. Commonly-used operations should be wrapped as methods on
 \texttt{ProvDAG} when they might affect inconsistency of internal state, as does union.
 

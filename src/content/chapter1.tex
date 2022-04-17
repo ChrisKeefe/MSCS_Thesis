@@ -514,8 +514,7 @@ A few key ideas are worth mentioning here.
     \item Other Archive formats may exist in the future.
     \item Data and provenance are stored separately, allowing provenance data
         formats to be centrally defined, while allowing plugins to define their own
-        preferred data structure. We need not concern ourselves with the contents of
-        the data directory here.
+        preferred data structure. We can disregard the contents of the data directory here.
     \item The provenance directory of an Archive (if present) contains the
         provenance data for the Result whose data is stored in the archive,
         alongside a non-hierarchically-organized artifacts directory containing
@@ -591,8 +590,8 @@ depends heavily on the Python standard library, NetworkX \parencite{hagberg_expl
 pyyaml \parencite{simonov_pyyaml_2006}, and QIIME 2 itself, from which it takes
 advantage especially of the PluginManager and the Usage API. Called “Provenance
 Replay”, the software ingests QIIME 2 Results and parses their provenance data
-into a Directed Acyclic Graph (DAG) implemented as a NetworkX DiGraph. It
-produces outputs by subsetting and manipulating this DiGraph and its contents.
+into a Directed Acyclic Graph (DAG) implemented as a NetworkX \texttt{DiGraph}. It
+produces outputs by subsetting and manipulating this \texttt{DiGraph} and its contents.
 Outputs include bibtex-formatted \parencite{boulogne_bibtexparser_nodate}
 citations for all Actions used in a computational analysis, and executable
 scripts targeting the user’s preferred QIIME 2 interface. Users interact with

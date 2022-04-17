@@ -325,7 +325,7 @@ archive format definition itself in the QIIME 2 Framework, and dramatically
 reduces the amount of redundant code, resulting in a smaller maintenance surface
 area. Note that the \texttt{get\_parser} implementation in the \texttt{ArchiveParser} class can
 return instances of any of the child parser implementations, and the \texttt{parse\_prov}
-implementation in Parserv1 is used by all of the classes that depend on it.
+implementation in \texttt{Parserv1} is used by all of the classes that depend on it.
 Changes in parser behavior from V1-V5 are effected through simple changes in
 class data, and ‘private’ helper methods like \texttt{\_validate\_checksums}}
     \end{minipage}
@@ -355,7 +355,7 @@ code for all of these Parsers is minimal, as nearly all behavior is inherited.
 \centering
 \includegraphics[width=\textwidth]{figures/parserCodeBlock.png}
 \caption[Code snippet illustrating the value of inheritance to ArchiveParser Versions]%
-{full code of the ParserV3 and ParserV4 classes, illustrating the value of
+{full code of the \texttt{ParserV3} and \texttt{ParserV4} classes, illustrating the value of
 inheritance and low-level parser flexibility in reducing code surface area.}
 \label{fig:parserCodeBlock}
 \end{figure}

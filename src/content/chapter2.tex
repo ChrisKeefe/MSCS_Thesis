@@ -325,7 +325,8 @@ a new type of provenance file with every Result, we might only need to:
 \begin{itemize}
     \item Define a class or function capable of the low-level parsing (e.g. loading serialized data)
     \item Add a check for the new file to \texttt{ProvNode.\_\_init\_\_()}, calling this class/function
-    \item Subclass \texttt{ParserV5}, adding the new filename to the \texttt{expected\_files\_in\_all\_nodes} class attribute
+    \item Subclass \texttt{ParserV5}, adding the new filename to the
+        \texttt{expected\_files\_in\_all\_nodes} class attribute
 \end{itemize}
 
 % EXAMPLE: Caption to the right side of Figure
@@ -746,7 +747,8 @@ risk of duplication in practice:
     \item Year
     \item Pages
     \end{itemize}
-\item All citations for the QIIME 2 Framework are ignored (for efficiency) and replaced by a single hard-coded citation.
+\item All citations for the QIIME 2 Framework are ignored (for efficiency) and
+    replaced by a single hard-coded citation.
 \end{itemize}
 
 The first two approaches are straightforward deduplication based on unique keys.

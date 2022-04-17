@@ -183,11 +183,19 @@ terms of the user stories introduced in Section \ref{section:repro_goals},
 provenance Replay supports:
 
 \begin{itemize}
-    \item Identification: a user can match UUIDs between replay outputs and the Results from which they were generated
-    \item Validation: the \texttt{ChecksumValidator} confirms Result integrity against the MD5Sums captured when Results were first generated
-    \item Reproduction: replay generates executables that require only the input of original sample data for reproduction/corroboration of any original result (using captured sample metadata) when run in a compatible computing environment
-    \item Extension/Generalization: replay generates executables that target extension to new data sets, sample metadata, and computing environments by flagging key inputs and changing parameter names for easy search
-    \item Scaling/Automation: replay provides command options to increase permissiveness and/or improve runtime performance during parsing and replay
+    \item Identification: a user can match UUIDs between replay outputs and the
+        Results from which they were generated
+    \item Validation: the \texttt{ChecksumValidator} confirms Result integrity
+        against the MD5Sums captured when Results were first generated
+    \item Reproduction: replay generates executables that require only the input
+        of original sample data for reproduction/corroboration of any original
+        result (using captured sample metadata) when run in a compatible computing
+        environment
+    \item Extension/Generalization: replay generates executables that target
+        extension to new data sets, sample metadata, and computing environments by
+        flagging key inputs and changing parameter names for easy search
+    \item Scaling/Automation: replay provides command options to increase
+        permissiveness and/or improve runtime performance during parsing and replay
     \item Completeness: replay provides comprehensive access to all captured
         provenance data via an efficiently queryable \texttt{Networkx.Digraph}
         wrapped in a \texttt{ProvDAG} object. The Archive \texttt{Parser}s are architected
@@ -199,12 +207,27 @@ Framed in terms of the “soft goals” for reproducibility from the same sectio
 Provenance Replay targets the following with a high level of success.
 
 \begin{itemize}
-    \item Ease of Documentation: users can generate a complete “reproducibility package” including replay scripts and citation information with a single command, using their preferred user interface. Outputs (e.g. citations) are designed for interoperability with other common research tools where possible.
-    \item Ease of Reproduction: replay scripts are executable with minimal modification, target a variety of interfaces, and are self-documenting, making them highly usable the first time.
-    \item Ease of Automation: support for automation is limited at this time, but machine users have been considered in the architecture and design of provenance replay, and will be targeted in future development.
-    \item Readability: replay documents are designed for humans, formatted nicely, and provide their own usage instructions.
-    \item Learning-readiness: A variety of common interface-specific executable output formats are provided, reducing interface-related barriers to readability and learning.
-    \item Interpretation and communication: By providing multiple user interfaces for provenance replay, as well as multiple target interfaces for its outputs, users with varied computational skills can translate analyses for one another. Optional reporting of the metadata captured from the replayed study provides context for interpretation.
+    \item Ease of Documentation: users can generate a complete “reproducibility
+        package” including replay scripts and citation information with a single
+        command, using their preferred user interface. Outputs (e.g. citations) are
+        designed for interoperability with other common research tools where
+        possible.
+    \item Ease of Reproduction: replay scripts are executable with minimal
+        modification, target a variety of interfaces, and are self-documenting,
+        making them highly usable the first time.
+    \item Ease of Automation: support for automation is limited at this time,
+        but machine users have been considered in the architecture and design of
+        provenance replay, and will be targeted in future development.
+    \item Readability: replay documents are designed for humans, formatted
+        nicely, and provide their own usage instructions.
+    \item Learning-readiness: A variety of common interface-specific executable
+        output formats are provided, reducing interface-related barriers to
+        readability and learning.
+    \item Interpretation and communication: By providing multiple user
+        interfaces for provenance replay, as well as multiple target interfaces for
+        its outputs, users with varied computational skills can translate analyses
+        for one another. Optional reporting of the metadata captured from the
+        replayed study provides context for interpretation.
 \end{itemize}
 
 By implementing these features, Provenance Replay simplifies the process of

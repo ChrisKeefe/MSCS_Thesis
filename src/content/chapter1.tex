@@ -508,12 +508,27 @@ the “How Data is Stored” section of the developer documentation \parencite{q
 A few key ideas are worth mentioning here.
 
 \begin{itemize}
-    \item The QIIME 2 Archiver currently stores Archives to disk as ZIP files (\cite{noauthor_appnote_nodate}; \cite{iso_isoiec_nodate}), because ZIP is a ubiquitous, compact, open, and well understood archive file format.
-    \item Other ArchiveFormats may exist in the future.
-    \item Data and provenance are stored separately, allowing provenance data formats to be centrally defined, while allowing plugins to define their own preferred data structure. We need not concern ourselves with the contents of the data directory here.
-    \item The provenance directory of an Archive (if present) contains the provenance data for the Result whose data is stored in the archive, alongside a non-hierarchically-organized artifacts directory containing provenance data for all of the results required to create that Result - its dependencies, or ancestors. Study data is not stored in this archive for these ancestor Results - only provenance information. We may refer to the Result whose data is stored in an archive as the “terminal”, or “root” Result or node for the Archive.
-    \item Each ancestor Result’s provenance data is stored in a directory named with that Result’s UUID.
-    \item QIIME 2 Results are portable across versions of QIIME 2. As a result, an Archive may contain provenance data conforming to an arbitrary number of Archive Format Version specifications.
+    \item The QIIME 2 Archiver currently stores Archives to disk as ZIP files
+        (\cite{noauthor_appnote_nodate}; \cite{iso_isoiec_nodate}), because ZIP is a
+        ubiquitous, compact, open, and well understood archive file format.
+    \item Other Archive formats may exist in the future.
+    \item Data and provenance are stored separately, allowing provenance data
+        formats to be centrally defined, while allowing plugins to define their own
+        preferred data structure. We need not concern ourselves with the contents of
+        the data directory here.
+    \item The provenance directory of an Archive (if present) contains the
+        provenance data for the Result whose data is stored in the archive,
+        alongside a non-hierarchically-organized artifacts directory containing
+        provenance data for all of the results required to create that Result - its
+        dependencies, or ancestors. Study data is not stored in this archive for
+        these ancestor Results - only provenance information. We may refer to the
+        Result whose data is stored in an archive as the “terminal”, or “root”
+        Result or node for the Archive.
+    \item Each ancestor Result’s provenance data is stored in a directory named
+        with that Result’s UUID.
+    \item QIIME 2 Results are portable across versions of QIIME 2. As a result,
+        an Archive may contain provenance data conforming to an arbitrary number of
+        Archive Format Version specifications.
 \end{itemize}
 
 \subsection{QIIME 2 release/packaging model}

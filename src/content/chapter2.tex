@@ -765,11 +765,11 @@ run will be captured in the folder where \texttt{n}=0, the metadata captured fro
 run will be captured in the folder where \texttt{n}=1, and so forth.
 
 
-\section{Communicating user preferences internally with Config and ReplayConfig objects}
+\section{Communicating user preferences internally with \texttt{Config} and \texttt{ReplayConfig} objects}
 
 With a variety of potential users and use cases, these provenance parsing and
 replay tools accept many parameters. These are required at all depths of the
-call stack. The Config and ReplayConfig objects centralize all of these
+call stack. The \texttt{Config} and \texttt{ReplayConfig} objects centralize all of these
 user-passed parameters, providing developers with a useful organizational
 abstraction, and reducing clutter in function signatures by replacing many flags
 with a single Python object. 

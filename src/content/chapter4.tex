@@ -91,11 +91,11 @@ appropriate.
 \subsection{Permissive Error-Handling}
 
 Because Provenance Replay targets both human and machine users, flexibility in
-error handling is built into its primary interfaces. The Checksum Validator
+error handling is built into its primary interfaces. The \texttt{ChecksumValidator}
 chooses to warn rather than raising errors, allowing human users to consider the
 risks of invalid input data, while allowing replay to proceed without
 interruption in automated processes. It may also be turned off, for users who do
-not need it. Failures in parsing are raised as a custom UnparseableDataError
+not need it. Failures in parsing are raised as a custom \texttt{UnparseableDataError}
 type, allowing API users to explicitly catch failures in parsing with a simple
 except clause where appropriate.
 
@@ -133,16 +133,15 @@ provide both users and developers with the key information required to
 understand the code and its rationale efficiently. Comments attempt to target
 why questions rather than what is happening here questions wherever possible,
 and best efforts have been made to write self-documenting code with clear and
-descriptive naming conventions.  mypy type annotations \parencite{lehtosalo_mypy_2014}
+descriptive naming conventions. mypy type annotations \parencite{lehtosalo_mypy_2014}
 are used throughout the code base, improving readability and allowing
 maintainers to confirm the type-correctness of changes, without requiring them
 to do so.
 
-Special attention has been paid, as described
-above, to software extensibility in areas where extensibility is known to be of
-benefit. Specifically, the parser dispatch process, and the Archive Parser
-version architecture are designed to support simple extension, which we can
-reasonably expect will be necessary. 
+Special attention has been paid, as described above, to software extensibility
+in areas where extensibility is known to be of benefit. Specifically, the parser
+dispatch process, and the \texttt{ArchiveParser} version architecture are designed to
+support simple extension, which we can reasonably expect will be necessary. 
 
 Finally, the Future Work component of this document (chapter \ref{chapter:future_work})
 is framed as a roadmap for next steps in the development and maintenance of
@@ -169,7 +168,7 @@ Helptext is available from the command line or the python interpreter, in
 expected ways (e.g. \texttt{-–help} in the CLI and \texttt{?} in ipython).
 Effort has been made to keep the installation process as simple as possible, and
 high-level documentation supporting installation and basic use is available in
-the repository README.
+the repository \texttt{README}.
 
 Finally, the Replay Usage drivers produce self-documenting outputs. For users
 who intend to execute the scripts produced by Replay, step-by-step instructions
@@ -185,11 +184,15 @@ provenance Replay supports:
 
 \begin{itemize}
     \item Identification: a user can match UUIDs between replay outputs and the Results from which they were generated
-    \item Validation: the ChecksumValidator confirms Result integrity against the MD5Sums captured when Results were first generated
+    \item Validation: the \texttt{ChecksumValidator} confirms Result integrity against the MD5Sums captured when Results were first generated
     \item Reproduction: replay generates executables that require only the input of original sample data for reproduction/corroboration of any original result (using captured sample metadata) when run in a compatible computing environment
     \item Extension/Generalization: replay generates executables that target extension to new data sets, sample metadata, and computing environments by flagging key inputs and changing parameter names for easy search
     \item Scaling/Automation: replay provides command options to increase permissiveness and/or improve runtime performance during parsing and replay
-    \item Completeness: replay provides comprehensive access to all captured provenance data via an efficiently queryable \texttt{Networkx.Digraph} wrapped in a \texttt{ProvDAG} object. The Archive Parsers are architected with the goal of minimizing the cost of extension to accommodate additions to captured provenance.
+    \item Completeness: replay provides comprehensive access to all captured
+        provenance data via an efficiently queryable \texttt{Networkx.Digraph}
+        wrapped in a \texttt{ProvDAG} object. The Archive \texttt{Parser}s are architected
+        with the goal of minimizing the cost of extension to accommodate additions
+        to captured provenance.
 \end{itemize}
 
 Framed in terms of the “soft goals” for reproducibility from the same section (\ref{section:repro_goals}),

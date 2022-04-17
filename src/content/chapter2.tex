@@ -22,7 +22,8 @@ As initially proposed, the aim of Provenance Replay is to “generate executable
 code directly from a Result’s provenance” \parencite{caporaso_nci_2022}.
 Framed as functional requirements:
 \begin{itemize}
-    \item Provenance Replay must ingest QIIME 2 Results, and from them produce command-line (BASH) and Python scripts
+    \item Provenance Replay must ingest QIIME 2 Results, and from them produce
+        command-line (BASH) and Python scripts
     \item These scripts must be usable with QIIME 2’s q2cli and Python 3 API interfaces
 \end{itemize}
 
@@ -185,14 +186,20 @@ properties appropriately if provenance exists.
 
 Provenance Replay implements an extensible dispatch system for parsing
 provenance. All parsing is done by implementations of an abstract base class
-Parser, which defines the basic contract for any provenance parser. 
+\texttt{Parser,} which defines the basic contract for any provenance parser. 
 \begin{itemize}
-    \item A Parser implements the classmethod \texttt{get\_parse}, which ingests arbitrary input data. It either returns a Parser that can parse that data, or it raises an Error.
-    \item A Parser implements the method \texttt{parse\_prov}, which ingests an appropriate data payload, parses it, and returns a \texttt{ParserResults} object.
-    \item A Parser has a string attribute \texttt{accepted\_data\_types} required for the production of error messages when the parser receives a type of data it cannot parse.
+    \item A \texttt{Parser} implements the classmethod \texttt{get\_parse},
+        which ingests arbitrary input data. It either returns a \texttt{Parser} that
+        can parse that data, or it raises an Error.
+    \item A \texttt{Parser} implements the method \texttt{parse\_prov}, which
+        ingests an appropriate data payload, parses it, and returns a
+        \texttt{ParserResults} object.
+    \item A \texttt{Parser} has a string attribute
+        \texttt{accepted\_data\_types} required for the production of error messages
+        when the \texttt{Parser} receives a type of data it cannot parse.
 \end{itemize}
 
-Parsers that meet this contract may be registered in \texttt{parse.select\_parser}.
+\texttt{Parser}s that meet this contract may be registered in \texttt{parse.select\_parser}.
 Briefly, parsing proceeds as follows. A user calls the \texttt{ProvDAG} class, which is a
 domain-specific wrapper around a \texttt{networkx.DiGraph}, with some input data.
 \texttt{ProvDAG.\_\_init\_\_} uses the \texttt{parse\_provenance} function, which calls
@@ -200,14 +207,14 @@ domain-specific wrapper around a \texttt{networkx.DiGraph}, with some input data
 parsers, testing the data payload against their \texttt{get\_parser} methods and
 aggregating the errors that result. 
 
-If a Parser that can parse the payload is found, that parser will be returned
-immediately, and aggregated errors will not be reported. The returned Parser
+If a \texttt{Parser} that can parse the payload is found, that parser will be returned
+immediately, and aggregated errors will not be reported. The returned \texttt{Parser}
 instance’s \texttt{parse\_prov} method parses the input data payload and returns a
 \texttt{ParserResults} object. A \texttt{ProvDAG} is then initialized from the \texttt{DiGraph} and other
 data contained in the \texttt{ParserResult}, exposing user-facing methods for accessing
 and manipulating the aggregated provenance data.
 
-\texttt{ParserResults} objects function as a common data interface between the Parsers
+\texttt{ParserResults} objects function as a common data interface between the \texttt{Parser}s
 which create them, and the \texttt{ProvDAG} class. (Figure \ref{fig:ParserResultsUML})
 
 \begin{figure}[htp]
@@ -220,25 +227,29 @@ NetworkX.}
 \label{fig:ParserResultsUML}
 \end{figure}
 
-If no adequate Parser is found, an \texttt{UnparseableDataError} is raised, and the user
+If no adequate \texttt{Parser} is found, an \texttt{UnparseableDataError} is raised, and the user
 receives a digest of error outputs which they can use to troubleshoot their
 input data. Should external tools make use of provenance parsing, this custom
 error type may simplify graceful error handling in cases where it is more
 important to continue processing input data than to consider/correct failed
 input data. 
 
-Four “top-level” Parser implementations currently handle all parsing needs.
+Four “top-level” \texttt{Parser} implementations currently handle all parsing needs.
 These are:
 \begin{itemize}
-    \item \texttt{ProvDAGParser}: parses a \texttt{ProvDAG} object, enabling the copying of \texttt{ProvDAG} objects
-    \item \texttt{EmptyParser}: parses \texttt{None}, enables the creation of empty \texttt{ProvDAG} objects
+    \item \texttt{ProvDAGParser}: parses a \texttt{ProvDAG} object, enabling the
+        copying of \texttt{ProvDAG} objects
+    \item \texttt{EmptyParser}: parses \texttt{None}, enables the creation of
+        empty \texttt{ProvDAG} objects
     \item \texttt{ArchiveParser}: parses a single QIIME 2 Archive
-    \item \texttt{DirectoryParser}: parses a directory of QIIME2 Archives, returning a single \texttt{ParserResults} object which represents all parsed Archives in a single \texttt{DiGraph}
+    \item \texttt{DirectoryParser}: parses a directory of QIIME2 Archives,
+        returning a single \texttt{ParserResults} object which represents all parsed
+        Archives in a single \texttt{DiGraph}
 \end{itemize}
 
-Parsers are responsible for deciding whether they can parse a data payload, and
+\texttt{Parser}s are responsible for deciding whether they can parse a data payload, and
 are not required to return an instance of their own class. This flexibility
-allows for the extension of individual Parsers to handle an arbitrary number of
+allows for the extension of individual \texttt{Parser}s to handle an arbitrary number of
 related data types. For example, if \texttt{ArchiveParser.get\_parse()} receives any type
 or version of QIIME 2 Archive, it will handle dispatch internally, returning an
 instance of a child class of \texttt{ArchiveParser} designed to address the specific
@@ -246,20 +257,20 @@ needs of that type or version of Archive.
 
 This architecture reduces coupling between the high-level \texttt{parse\_provenance}
 function (and its callers), and the low-level parsing code, by replacing direct
-dependencies with dependencies on a shared abstraction (Parser). Modifications
-to existing Parsers are immaterial to the high-level code, and extending the
-codebase with an additional “top-level” Parser requires only the implementation
-and registration of the Parser. 
+dependencies with dependencies on a shared abstraction (\texttt{Parser}). Modifications
+to existing \texttt{Parser}s are immaterial to the high-level code, and extending the
+codebase with an additional “top-level” \texttt{Parser} requires only the implementation
+and registration of the \texttt{Parser}. 
 
 \begin{figure}[htp]
 \centering
 \includegraphics[width=\textwidth]{figures/allParsersUML.png}
 \caption[UML Class diagram of the abstract Parser class and its implementations]%
-{This UML class diagram describes the abstract Parser class and its top-level
+{This UML class diagram describes the abstract \texttt{Parser} class and its top-level
 implementations. The element notation “C” to the left of the class name
 indicates a class, while “A” indicates an abstract class. Classes in beige are
 locally defined, while classes in light green are imported from the standard
-library. Note that many additional, specialized Parser implementations are
+library. Note that many additional, specialized \texttt{Parser} implementations are
 accessible through e.g. \texttt{ArchiveParser.get\_parser}.}
 \label{fig:allParsersUML}
 \end{figure}
@@ -273,28 +284,35 @@ Results created in the earliest of these Archive Formats (V0) do not contain
 provenance data at all. I have covered the details of these archive structure
 changes at length in the developer documentation \parencite{qiime_2_development_team_archive_2018},
 so will focus on the architectural decisions made to support this structure in
-Provenance Replay.  Archive Formats are explicitly versioned, because change is
+Provenance Replay. Archive Formats are explicitly versioned, because change is
 anticipated and must be supported, so extensibility is a key non-functional
 requirement.
 
 Archive parsing proceeds roughly as follows.
 \begin{enumerate}
-    \item The parser uses filename data stored in its class attributes to identify all file paths present that should be parsed. These are grouped by Result.
+    \item The parser uses filename data stored in its class attributes to
+        identify all file paths present that should be parsed. These are grouped by
+        Result.
     \item If any expected files are missing, the parser responds appropriately (e.g. raise/warn).
-    \item The parser instantiates a \texttt{ProvNode} object for each Result by calling \texttt{ProvNode} with a collection of Result-specific filepaths.
+    \item The parser instantiates a \texttt{ProvNode} object for each Result by
+        calling \texttt{ProvNode} with a collection of Result-specific filepaths.
     \begin{enumerate}
-        \item[3.1.]\texttt{ProvNode.\_\_init\_\_} iterates over whatever filepaths it receives, dispatching the actual parsing to appropriate helper functions. 
+        \item[3.1.]\texttt{ProvNode.\_\_init\_\_} iterates over whatever
+            filepaths it receives, dispatching the actual parsing to appropriate
+            helper functions. 
     \end{enumerate}
-    \item The parser builds a \texttt{DiGraph} representing the provenance history of the Archive
-    \item The parser returns a \texttt{ParserResults} containing this \texttt{DiGraph} and other attributes
+    \item The parser builds a \texttt{DiGraph} representing the provenance
+        history of the Archive
+    \item The parser returns a \texttt{ParserResults} containing this
+        \texttt{DiGraph} and other attributes
 \end{enumerate}
 
 This approach forefronts extensibility through flexibility and encapsulation.
 The \texttt{ProvNode} initializer is a generalist with no knowledge of the requirements
-of the Parsers. Its single responsibility is to instantiate \texttt{ProvNode}s from the
+of the \texttt{Parser}s. Its single responsibility is to instantiate \texttt{ProvNode}s from the
 data it receives, and it doesn’t need to know anything about archive versions -
 only where to dispatch different files for parsing. If it gets the file, it
-parses it. Parsers, on the other hand, are format-specific, and are responsible
+parses it. \texttt{Parser}s, on the other hand, are format-specific, and are responsible
 for checking the integrity of their input data against their understanding of
 the Archive Format version they target, collecting files and sending them out
 for parsing, and returning the resulting \texttt{ParserResults} object.
@@ -348,7 +366,7 @@ required no changes to the parser logic. The addition of a \texttt{citations.bib
 all Results in version 4 proceeded as described above. The addition of a
 \texttt{checksums.md5} file in the root directory for V5 required this process, plus the
 re-implementation of a helper function, and a call to \texttt{super().parse\_prov}. The
-code for all of these Parsers is minimal, as nearly all behavior is inherited. 
+code for all of these \texttt{Parser}s is minimal, as nearly all behavior is inherited. 
 (Figure \ref{fig:parserCodeBlock})
 
 \begin{figure}[htp]
@@ -431,7 +449,7 @@ Because provenance data is captured in a decentralized (per-Result) way, the
 ability to union two \texttt{DiGraph}s is fundamental to our ability to efficiently
 represent complete QIIME 2 analyses. By implementing a \texttt{ProvDAG.union} method,
 individuals who need fine-grained control can manually assemble a DAG from
-arbitrary Results. Union is also used internally in the DirectoryParser, which
+arbitrary Results. Union is also used internally in the \texttt{DirectoryParser}, which
 traverses a (potentially nested) directory structure parsing individual Results
 if they are not already represented in the DAG under construction, and unioning
 them into a whole.
@@ -446,7 +464,7 @@ joining of an arbitrary collection of \texttt{DiGraph}s.
 including the root UUIDs of all Results passed in for parsing, collections of
 terminal UUIDs, and information about the validity of the DAG’s provenance. As a
 result, some additional processing is required for safe graph union. Parsed
-Result UUIDs and ChecksumDiff objects are aggregated, preserving the most
+Result UUIDs and \texttt{ChecksumDiff} objects are aggregated, preserving the most
 possible information. Status descriptions like the provenance \texttt{ValidationCode} are
 handled by taking the minimum. A \texttt{ProvDAG}'s validity level is represented as the
 minimum of the validity level of all of its component Results.
@@ -571,7 +589,7 @@ Provenance replay relies heavily on the QIIME 2 Usage API, which offers a set of
 tools for producing interface-specific examples of how Actions might be used
 from interface-agnostic abstractions \parencite{qiime_2_development_team_usage_2018}.
 The Usage API supports the generation of documentation, and also the execution
-of Usage examples through a Usage class, which can be subclassed to support
+of Usage examples through a \texttt{Usage} class, which can be subclassed to support
 specific interfaces and behaviors. In addition, the API defines a set of methods
 which example authors can use to define examples.
 
@@ -602,11 +620,11 @@ tab-completion functionality.
 \section{Provenance Replay Usage Drivers}
 
 Provenance replay relies on locally-defined usage drivers, implemented in
-\texttt{\_usage\_drivers}, to support the production of QIIME 2 scripts. ReplayCLIUsage
-targets the generation of q2cli scripts, and ReplayPythonUsage targets the
-generation of Python 3 API scripts. Both drivers target script rendering. Though
-example execution should work in theory, the examples generated by replay do not
-support this behavior, as will be discussed later.
+\texttt{\_usage\_drivers}, to support the production of QIIME 2 scripts. \texttt{ReplayCLIUsage}
+targets the generation of q2cli scripts, and \texttt{ReplayPythonUsage} targets the
+generation of Python 3 API scripts. Both drivers target script rendering, and though
+example execution could work in theory, the examples generated by replay do not
+support this behavior due to external barriers.
 
 Both drivers subclass existing usage drivers imported from the Framework, but
 deviate from them significantly in both requirements and behavior. The key
@@ -623,8 +641,8 @@ the original raw data. Users may replay a script for many reasons - study,
 extension to new data, extension to new applications, etc - and may not have
 access (or need access) to the original data inputs. Support for “touchless”
 corroboration of results with input data available is a useful future target,
-but presents additional, external challenges which will be addressed below. As a
-result, replay scripts are by default slightly incomplete, providing annotated
+but presents additional, external challenges discussed in Section \ref{section:touchless_replay}.
+As a result, replay scripts are by default slightly incomplete, providing annotated
 input sections where users are directed to provide paths to raw data inputs.
 Future tooling that incorporates data management into the QIIME 2 platform will
 allow for the full automation of replay workflows in the future (Section
@@ -676,8 +694,8 @@ provide subsequent steps with access to output names by UUID.
 Complicating this slightly, these output names must be unique. Failure to
 guarantee uniqueness could result in variables or file names being overwritten,
 causing data loss and script failure, or worse, the false appearance of script
-success despite a failure of data integrity. I handle this with UsageVarsDict, a
-modified UserDict in which keys are unique by virtue of being UUIDs, and values
+success despite a failure of data integrity. I handle this with \texttt{UsageVarsDict,} a
+modified \texttt{UserDict} in which keys are unique by virtue of being UUIDs, and values
 are also unique, providing a one-to-one mapping of UUID to value.
 \texttt{UsageVarsDict.\_\_setitem\_\_} suffixes these values with \texttt{\_n} (where n is some
 integer) whenever values are added. When potentially-colliding values are added,
@@ -714,7 +732,7 @@ The utility of this information is reduced by a high level of duplication. The
 same citation will have a different unique key in different plugin versions,
 resulting in tenfold duplication in some analyses. By default, I apply the
 following heuristic approaches to deduplicate citations, resulting in a very low
-level of duplication in practice:
+risk of duplication in practice:
 
 \begin{itemize}
 \item Capture each unique key no more than once
@@ -732,7 +750,7 @@ level of duplication in practice:
 
 The first two approaches are straightforward deduplication based on unique keys.
 Content-based deduplication is handled through the creation of hashable
-BibContent objects, with a hash representing all of the above fields, which are
+\texttt{BibContent} objects, with a hash representing all of the above fields, which are
 stored and looked up in a set. Many fields are used, because false negatives
 (i.e. self ≠ other) are preferable to false positives, which would result in
 the inappropriate removal of non-duplicate citations.  QIIME 2 Framework
@@ -742,8 +760,8 @@ publication. Using a hard-coded citation ensures that users don’t double-cite
 the Framework, and properly cite the peer-reviewed article.
 
 Citation replay tools for the Python API allow users to generate citations from
-a \texttt{ProvDAG} in memory, or from a directory structure of files on disk. The replay
-citations CLI command supports citation reporting from files on disk.
+a \texttt{ProvDAG} in memory, or from a directory structure of files on disk.
+The \texttt{replay citations} CLI command supports citation reporting from files on disk.
 
 
 \section{Metadata capture and reporting}

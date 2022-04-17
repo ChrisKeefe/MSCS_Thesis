@@ -165,14 +165,14 @@ archive structure will be identical to that of a compressed \texttt{.qza} or \te
 disk, the parsing logic can remain the same. In order to support this, the
 \texttt{\_ArchiveParser} module will need to be refactored to extract an internal API
 which can be implemented for specific Archive variants and injected into the
-Parser. Looking forward, support for parsing artifacts from the Artifact Cache
+\texttt{Parser}. Looking forward, support for parsing artifacts from the Artifact Cache
 system (pending development) may provide a more robust approach to in-memory
 results parsing.
 
 \section{Simplifying the corroboration of results}
 
 \subsection{“Touchless replay” \parencite[Issue 63]{keefe_issues_2021}}
-\label{touchless_replay}
+\label{section:touchless_replay}
 
 Claerbout’s “automatic” replay of figures is an inspiring example of how easy
 basic methods reproduction should be. This type of “touchless” replay, in which

@@ -137,7 +137,7 @@ benefit from an increased number and diversity of provenance replay interfaces,
 and usage drivers targeting different QIIME 2 interfaces for replay. Focus group
 participants described analysis workflows centered on jupyter notebooks in both
 the QIIME 2 Python 3 API and the command line interface (in a notebook running
-the BASH kernel). Usage drivers targeting the .ipynb format are likely to be
+the BASH kernel). Usage drivers targeting the \texttt{.ipynb} format are likely to be
 relatively straightforward, and will greatly improve users ability to learn from
 and perform analyses interactively.
 
@@ -182,8 +182,8 @@ is blocked in the context of QIIME 2 by two key issues.
 First, strict corroboration of results produced through stochastic processes is
 at least as challenging in QIIME 2 as it is elsewhere. Stochastic processes that
 could be controlled by setting a seed value do not always do so in a way that
-allows provenance to capture that seed value. \texttt{q2\_feature\_table}’s rarefy, for
-example, is used heavily for random subsampling in QIIME 2, but does not allow
+allows provenance to capture that seed value. \texttt{q2\_feature\_table}’s \texttt{rarefy},
+for example, is used heavily for random subsampling in QIIME 2, but does not allow
 users to pass a seed as a parameter, rendering strict corroboration of output
 values impossible.
 

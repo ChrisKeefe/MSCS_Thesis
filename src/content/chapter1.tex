@@ -222,8 +222,8 @@ efficiently, the process would be painstaking and prone to human error.
 \section{Reproducible research goals}
 \label{section:repro_goals}
 
-Breaking the expertise barrier described above has been a target of
-computational reproducibility since at least \textcite{claerbout_electronic_1992},
+Reducing the level of expertise and effort required to reproduce scientific
+workflows has been a target of computational reproducibility since at least \textcite{claerbout_electronic_1992},
 whose team published scientific work in digital media, and included in each figure’s
 caption references and/or buttons that allowed trivial re-running of the
 analysis that created that figure. They claimed that in this reproducible work,
@@ -250,7 +250,7 @@ reproducibility of an AI based upon that AI’s degree of generality:
 \end{itemize}
 
 \noindent The Turing Way Community’s definitions of “Reproducible”, “Robust”, and
-“Generalisable” align (respectively) with these definitions, but exchange a
+“Generalizable” align (respectively) with these definitions, but exchange a
 clear ordering for the ability to include an additional combination of factors,
 defining:
 
@@ -295,10 +295,10 @@ results show that the work is not dependent on the specificities of [e.g.] the
 programming language chosen to perform the analysis”
 \parencite{community_definitions_2021}, and replicable results
 play a similar role in validating that the results are not just an artifact of
-overfitting to the data. Generalisable results provide the highest possible
+overfitting to the data. Generalizable results provide the highest possible
 level of generality without necessarily providing generalized results. More work
-may be required, but we can think of generalisable studies as the building
-blocks of generalized scientific conclusions. Studies that are generalisable
+may be required, but we can think of generalizable studies as the building
+blocks of generalized scientific conclusions. Studies that are generalizable
 likely meet the requirements for Goodman’s Inferential reproducibility.
 
 With this framework in place, it becomes clear that there are many valuable
@@ -540,7 +540,7 @@ A few key ideas are worth mentioning here.
         preferred data structure. We can disregard the contents of the data directory here.
     \item The provenance directory of an Archive (if present) contains the
         provenance data for the Result whose data is stored in the archive,
-        alongside a non-hierarchically-organized artifacts directory containing
+        alongside a non-hierarchically-organized \texttt{artifacts} directory containing
         provenance data for all of the results required to create that Result - its
         dependencies, or ancestors. Study data is not stored in this archive for
         these ancestor Results - only provenance information. We may refer to the

@@ -2,19 +2,27 @@
 % Chapter 2 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Provenance Replay Software}
-The Provenance Replay software, as implemented, attempts to meet the loose
-requirements funded by the US National Cancer Institute’s Informatics Technology
-for Cancer Research program (grant number 1U24CA248454-01). In addition, we
-undertook an internal requirements engineering process, involving requirements
-elicitation by focus group, and requirements validation using Technology
-Acceptance Model (TAM) \parencite{davis_perceived_1989} and Net Promoter Score
-\parencite{reichheld_one_2003} (NPS)-based survey instruments. These two
-processes (initial development and requirements engineering research) will be
-discussed in separate sections roughly corresponding to the chronological order
-of the work, in which an Alpha release version of Provenance Replay was
-developed first based on funding agency requirements and literature review, and
-requirements engineering processes were used to refine software requirements and
-validate the success of the initial implementation.
+
+Here I present Provenance Replay ‐ software for the documentation and enactment
+of in silico reproducibility in QIIME 2. Provenance Replay, as implemented,
+attempts to fulfill a set of loose requirements for computational
+reproducibility in QIIME 2 proposed to and funded by the US National Cancer
+Institute’s Informatics Technology for Cancer Research program (grant number
+1U24CA248454-01). Initial software design was based on literature review,
+existing API targets, and discussion with members of the Caporaso lab team
+with domain and software engineering expertise. In addition, we undertook an
+internal requirements engineering process, involving requirements elicitation by
+focus group, and requirements validation using Technology Acceptance Model (TAM)
+\parencite{davis_perceived_1989} and Net Promoter Score
+\parencite{reichheld_one_2003} (NPS)-based survey instruments.
+
+These two processes (initial development and requirements
+engineering research) will be discussed in separate sections roughly
+corresponding to the chronological order of the work, in which an Alpha release
+version of Provenance Replay was developed first based on funding agency
+requirements and literature review, and requirements engineering processes were
+used to refine software requirements and validate the success of the initial
+implementation.
 
 \section{Overview}
 
@@ -94,7 +102,7 @@ digest, a \texttt{VERSION} file detailing the Archive version and the version of
 QIIME 2 Framework that produced the Result, and a \texttt{metadata.yaml} file describing
 primary characteristics of the Result itself. The data directory holds the
 Result data, and the \texttt{provenance} directory contains captured provenance data.
-Note that the artifacts directory may contain an arbitrary number of
+Note that the \texttt{artifacts} directory may contain an arbitrary number of
 provenance-files directories, and that these contain only provenance
 information. By not capturing ancestral data in provenance, we reduce the risk
 of unmanageably-sized Archives, at the “cost” of users needing multiple archives
@@ -127,8 +135,8 @@ metadata \texttt{.tsv} files, and \texttt{pyyaml} is used to handle the critical
 
 A number of custom-defined constructors are required in order to parse these
 YAML files, as pyyaml does not by default support serializing and deserializing
-Python sets, or the QIIME 2-specific !cite, !color, !metadata, !no-provenance,
-and !ref tags. The \texttt{safe\_loader} is used for all deserialization to reduce the
+Python sets, or the QIIME 2-specific \texttt{!cite}, \texttt{!color}, \texttt{!metadata}, \texttt{!no-provenance},
+and \texttt{!ref} tags. The \texttt{safe\_loader} is used for all deserialization to reduce the
 risk of malicious code injection.
 
 Parsed provenance information for each Result is captured in a \texttt{ProvNode} object.
@@ -482,7 +490,7 @@ unwieldy.
 
 To support completeness, QIIME 2 captures provenance information for all of
 these Actions - the Pipeline itself, and the nested Actions it executes. As a
-result, both user-passed and pipeline-passed parameter sets are captured in
+result, both user-passed and Pipeline-passed parameter sets are captured in
 separate UUID-named directories in provenance. When Pipelines are run, multiple
 directories representing the same Result exist in provenance. Pipelines have an
 alias-of field referencing the UUID of the nested Result within their
@@ -499,7 +507,7 @@ from the original data structure.
 
 Most users, for example, are concerned only with the Actions they actually ran,
 or would need to run to reproduce some analysis. In other words, they care only
-about the Pipeline, and not the nested Actions the pipeline executes on their
+about the Pipeline, and not the nested Actions the Pipeline executes on their
 behalf. During parsing, we capture the root UUID of each Result a user specifies
 for parsing. These are stored as a set in an attribute on the \texttt{ProvDAG}. By
 traversing the complete graph backwards through all direct ancestor nodes,
@@ -602,7 +610,7 @@ its own behavior, allowing the author to write a single example, which produces
 varied results depending on which dependency is injected. These tools provide
 the foundation for Replay behavior, which makes use of both “sides” of the API. 
 
-The replay module provides user-facing actions for documenting parsed provenance
+The \texttt{replay} module provides user-facing actions for documenting parsed provenance
 data, some of which programmatically define minimal usage examples. Users may
 select from a hardcoded registry of supported usage drivers, which are injected
 into the generated examples. Specifically, the injected usage driver, once
@@ -705,12 +713,12 @@ n is incremented as needed until the collision is avoided.
 
 This serves as a UUID-queryable "namespace" of strings that can be passed to the
 usage API to serve as unique variable names. In practice, potential \texttt{\{UUID: name\}}
-pairs are added to the collection, during which process name is mutated for
-uniqueness. The unique name is then retrieved by UUID, and passed to the usage
+pairs are added to the collection, during which process \texttt{name} is mutated for
+uniqueness. The unique \texttt{name} is then retrieved by UUID, and passed to the usage
 driver for use.
 
-Action output-names were not captured in provenance prior to Archive Format
-Version 2. When available, we capture the output-name from provenance. Absent
+Action \texttt{output-name}s were not captured in provenance prior to Archive Format
+Version 2. When available, we capture the \texttt{output-name} from provenance. Absent
 that, we fall back on the output’s registered semantic type.
 
 

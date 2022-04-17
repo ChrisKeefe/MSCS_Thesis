@@ -463,14 +463,14 @@ The documentation defines an Archive as “the directory structure of a QIIME 2
 Result”, containing “at least a root directory (named by UUID) and a \texttt{VERSION}
 file within that directory.” 
 
-Archives are formally defined and registered in the QIIME 2 archiver code, and
+Archives are formally defined and registered in the QIIME 2 \texttt{Archiver} code, and
 any change to the structure of a QIIME 2 archive must be implemented as a new
 archive version. As QIIME 2 has grown in capability and complexity, six
 backwards-compatible archive versions have been registered. Any reproducibility
 tool aiming to support all QIIME 2 Results must account for variation in Archive
 Versions.
 
-The first (v0) Archive Version did not include any provenance data, because
+The first (V0) Archive Version did not include any provenance data, because
 QIIME 2 did not capture provenance at that early stage in its development.
 Subsequent versions capture provenance data in a provenance directory within the
 Archive’s root directory.
@@ -478,13 +478,13 @@ Archive’s root directory.
 \subsection{UUIDs}
 
 Both QIIME 2 and the Provenance Replay tools described here make frequent use of
-v4 (random) UUIDs \parencite{leach_universally_2005}.
+version 4 (V4) UUIDs \parencite{leach_universally_2005}.
 (We will refer to these simply as UUIDs going forward.)
 These are randomly-generated 128-bit labels composed of 32 hexadecimal
 characters broken by hyphens into character groups with lengths of 8-4-4-4-12
 characters each. These identifiers have no special significance, but rather were
 selected for use because they are a common and convenient way to label uniquely.
-Though collisions are theoretically possible, the 5.3×1036 possible v4 UUIDs
+Though collisions are theoretically possible, the 5.3×1036 possible V4 UUIDs
 make the probability of collision vanishingly small in the contexts where we
 apply them.
 

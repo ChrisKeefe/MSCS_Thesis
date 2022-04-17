@@ -69,7 +69,7 @@ archive version we are working with, it is possible to identify and parse all
 files within the Archive which are relevant to Provenance Replay.
 
 We will discuss the handling of various archive versions in greater detail
-below. Here we will focus on the lower-level work of parsing the relevant data
+in Section \ref{section:archive_versions}. Here we will focus on the lower-level work of parsing the relevant data
 from a version-5 Archive, the current and most complex Archive Format version.
 (Figure \ref{fig:archive_structure})
 
@@ -179,8 +179,8 @@ with these graphs, archive parsers first construct \texttt{ProvNode} payloads fo
 which have provenance, add any no-provenance nodes to the graph, and then check
 each node for the absence of a provenance payload, setting the required
 attributes in cases where they are missing. Consumer functions may safely
-(without KeyError) check whether a node \texttt{has\_provenance}, and access \texttt{ProvNode}
-properties appropriately if provenance exists.
+(i.e. without \texttt{KeyError}) check whether a node \texttt{has\_provenance},
+and access \texttt{ProvNode} properties appropriately if provenance exists.
 
 \section{Provenance Parsers and Dispatch for provenance parsing}
 
@@ -190,13 +190,13 @@ provenance. All parsing is done by implementations of an abstract base class
 \begin{itemize}
     \item A \texttt{Parser} implements the classmethod \texttt{get\_parse},
         which ingests arbitrary input data. It either returns a \texttt{Parser} that
-        can parse that data, or it raises an Error.
+        can parse that data, or it raises an \texttt{UnparseableDataError}.
     \item A \texttt{Parser} implements the method \texttt{parse\_prov}, which
         ingests an appropriate data payload, parses it, and returns a
         \texttt{ParserResults} object.
-    \item A \texttt{Parser} has a string attribute
-        \texttt{accepted\_data\_types} required for the production of error messages
-        when the \texttt{Parser} receives a type of data it cannot parse.
+    \item A \texttt{Parser} has a string attribute \texttt{accepted\_data\_types}
+        required for the production of error messages when the \texttt{Parser}
+        receives a type of data it cannot parse.
 \end{itemize}
 
 \texttt{Parser}s that meet this contract may be registered in \texttt{parse.select\_parser}.
@@ -277,6 +277,7 @@ accessible through e.g. \texttt{ArchiveParser.get\_parser}.}
 
 
 \section{Handling Changes in Archive structure over time}
+\label{section:archive_versions}
 
 The QIIME 2 Framework defines six Archive Format versions, numbered from 0 to 5,
 which have increased in complexity as provenance capture has become more robust.
@@ -490,7 +491,7 @@ of their internal Actions.
 Again for reasons of completeness, Provenance Replay’s Archive parsers include
 all captured provenance data in the \texttt{ParserResults} objects they return. We can
 call this the complete view of provenance. Many use cases require subgraphs,
-which we implement with NetworkX GraphViews \parencite{hagberg_exploring_2008}.
+which we implement with NetworkX Graph Views \parencite{hagberg_exploring_2008}.
 These are lightweight read-only subgraphs generated from the complete \texttt{DiGraph},
 which allow us to exclude sets of unneeded nodes without actually removing them
 from the original data structure.

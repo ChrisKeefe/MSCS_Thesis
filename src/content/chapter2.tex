@@ -88,7 +88,7 @@ view in the following figure.}
 A Result stored on disk as a zip file may have any filesystem-compliant
 filename, and will be suffixed with \texttt{.qza} or \texttt{.qzv} by default. Internally, the
 root directory is named with the UUID representing the Results stored within the
-data directory. In a Version 5 Archive, the root directory contains an MD5sum
+data directory. In a Version 5 Archive, the root directory contains an MD5Sum
 digest, a \texttt{VERSION} file detailing the Archive version and the version of the
 QIIME 2 Framework that produced the Result, and a \texttt{metadata.yaml} file describing
 primary characteristics of the Result itself. The data directory holds the
@@ -507,7 +507,7 @@ implemented.
 
 \section{Checksum Validation}
 
-The md5sum digest stored in the Archive’s root directory during provenance
+The MD5Sum digest stored in the Archive’s root directory during provenance
 capture lists the relative file paths of all Archive contents, paired with MD5
 hashes of each file.  By re-hashing all of the files in the Archive, Provenance
 Replay allows us to confirm whether files have been added, removed, or changed

@@ -621,7 +621,8 @@ output in memory, which is then written to the user-passed location on disk.
 
 This module’s core functionality is exposed at the package level, and supports
 the handling of both \texttt{ProvDAG} objects in-memory and one-shot parse-and-replay
-operations through the Python interpreter. A command-line interface written with
+operations through the Python interpreter (Figure \ref{fig:simple_py_command}).
+A command-line interface written with
 Click \parencite{pallets_click_2014} in the \texttt{click\_commands} module exposes the
 one-shot methods for use from the command line, and provides documentation and
 tab-completion functionality. See Appendices \ref{app:CLIScript},

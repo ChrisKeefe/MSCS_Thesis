@@ -162,13 +162,26 @@ allow commands to run with only input and output filepath parameters wherever
 possible. Tab completion is enabled by default. The Python 3 API provides
 slightly more flexibility (in line with the preferences of API users), but
 exposes wrapper functions wherever appropriate that provide common workflows as
-one-line commands.
+one-line commands. (Figure \ref{fig:simple_py_command})
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{figures/supplement_replay_jn.png}
+\caption[Screenshot of a simple Python 3 replay command]%
+{Screenshot of a one-line wrapper command that parses provenance data and
+writes a reproducibility supplement to disk. The command, shown within a
+Jupyter Notebook, is passed required input and output filepath arguments, and
+an optional argument to \texttt{verbose}. It generates scripts targeting all
+supported interfaces and a bibtex-formatted citation library.}
+\label{fig:simple_py_command}
+\end{figure}
 
 Helptext is available from the command line or the python interpreter, in
 expected ways (e.g. \texttt{-–help} in the CLI and \texttt{?} in ipython).
 Effort has been made to keep the installation process as simple as possible, and
 high-level documentation supporting installation and basic use is available in
-the repository \texttt{README} (See Appendix \ref{app:basicDocs}).
+the repository \texttt{README} (See Appendices \ref{app:basicDocs} and
+\ref{app:cliHelp}).
 
 Finally, the Replay Usage drivers produce self-documenting outputs. For users
 who intend to execute the scripts produced by Replay, step-by-step instructions

@@ -1,0 +1,74 @@
+\chapter{Sample CLI Help Text}
+\label{app:cliHelp}
+
+\begin{footnotesize}
+\begin{verbatim}
+(provenance) chris@compy:~/data > replay --help
+Usage: replay [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  citations                   Reports all citations from a QIIME 2 Artifact...
+  provenance                  Replay provenance from a QIIME 2 Artifact...
+  reproducibility-supplement  Produces a zipfile package of useful...
+\end{verbatim}
+\end{footnotesize}
+
+\clearpage
+
+\begin{footnotesize}
+\begin{verbatim}
+(provenance) chris@compy:~/data > replay reproducibility-supplement --help
+Usage: replay reproducibility-supplement [OPTIONS]
+
+  Produces a zipfile package of useful documentation for enabling in silico
+  reproducibility of some QIIME 2 Result(s) from a QIIME 2 Artifact or
+  directory of Artifacts.
+
+  Package includes: - replay scripts for all supported interfaces - a
+  bibtex-formatted collection of all citations
+
+Options:
+  --i-in-fp TEXT                  filepath to a QIIME 2 Archive or directory
+                                  of Archives  [required]
+
+  --p-recurse / --p-no-recurse    if in-fp is a directory, will also search
+                                  sub-directories when finding .qza/.qzv files
+                                  to parse  [default: False]
+
+  --p-deduplicate / --p-no-deduplicate
+                                  If deduplicate, duplicate citations will be
+                                  removed heuristically, e.g. by comparing DOI
+                                  fields. This greatly reduces manual curation
+                                  of reference lists, but introduces a small
+                                  risk of reference loss.  [default: True]
+
+  --p-validate-checksums / --p-no-validate-checksums
+                                  check that replayed archives are intact and
+                                  uncorrupted  [default: True]
+
+  --p-parse-metadata / --p-no-parse-metadata
+                                  parse the original metadata captured by
+                                  provenance for review or replay  [default:
+                                  True]
+
+  --p-use-recorded-metadata / --p-no-use-recorded-metadata
+                                  re-use the original metadata captured by
+                                  provenance  [default: False]
+
+  --p-suppress-header / --p-no-suppress-header
+                                  do not write header/footer blocks in the
+                                  output files  [default: False]
+
+  --p-verbose / --p-no-verbose    print status messages to stdout while
+                                  processing  [default: True]
+
+  --o-out-fp TEXT                 the filepath where your reproduciblity
+                                  supplement zipfile should be written.
+                                  [required]
+
+  --help                          Show this message and exit.
+\end{verbatim}
+\end{footnotesize}

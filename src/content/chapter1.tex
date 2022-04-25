@@ -12,7 +12,7 @@ and recommendations on the work’s validity and publication merit. In the latte
 scientific questions are revisited, often by new researchers, in efforts to
 support or disprove original results.
 
-As defined in a report by the U.S. National Science foundation,
+As defined in a report by the U.S. National Science Foundation,
 “reproducibility refers to the ability of a researcher to duplicate the results
 of a prior study using the same materials as were used by the original
 investigator. That is, a second researcher might use the same raw data to build
@@ -125,12 +125,12 @@ At a minimum, a reproducible research outcome must document the systems and
 processes upon which it depends. Put differently, published results must include
 information about their own derivation history, or provenance, which others can
 use in reproducing their analytical systems and methods. The nomenclature of
-provenance data capture provides useful context. According to Zhao et al,
+provenance data capture provides useful context. According to \textcite[149]{hutchison_applying_2006},
 approaches to provenance tracking can be broken down into "the aspects of the
 procedure or workflow used to create a data object (prospective provenance, or
 “recipe”)... [and] information about the runtime environment in which a
 procedure was executed and the resources used in its invocation (retrospective
-provenance)" \parencite[149]{hutchison_applying_2006}. There are many different ways
+provenance)". There are many different ways
 to serve one or both of these needs. Prospective approaches may include tools
 for the annotation of executable code and/or the generation of documentation
 from executable code (e.g. Jupyter Notebooks, RMarkdown), or may be based on
@@ -150,7 +150,7 @@ developed, blending prospective and retrospective methods \parencite{zhang_revea
 This work targets the QIIME 2 platform for microbiome bioinformatics, which
 uses a decentralized, retrospective approach to provenance tracking. QIIME 2 is,
 conceptually, an application framework designed to expose plugin-defined
-bioinformatics methods for use via a variety of (potentially user-defined) user
+bioinformatics methods for use via a variety of dynamically generated user
 interfaces. In addition to facilitating this behavior, the framework implements
 functionality required universally, including systems for recording QIIME 2
 results and for capturing provenance data. “Details of all analysis steps with
@@ -186,16 +186,15 @@ commands and parameters used, and computational resource use.}
 \textcite{khan_sharing_2019} propose a framework of best practices for provenance capture,
 many of which are satisfied by QIIME 2’s existing provenance capture system.
 Data processing is done with versioned software rather than manual data
-manipulation. All commands executed are recorded, along with their parameters,
+manipulation. All commands executed are recorded, along with their parameters
 and the versions of software they ran on. These software environments are
-documented in provenance at run time, using the git version control system to
-indicate modifications made to installed QIIME 2 packages. Basic information on
-the hardware environment is recorded. Human-interpretable diagrams of result
+documented in provenance at run time. Basic information
+on the hardware environment is recorded. Human-interpretable diagrams of result
 history can be easily generated from any result and explored in a web browser
 with no software installation needed. Result “archives” are formatted
 consistently in clearly-defined ways, and when stored on disk they are packaged
-in a common zip file format that is likely to be accessible across systems for
-the foreseeable future.
+in a common zip file format (\cite{noauthor_appnote_2020}; \cite{iso_isoiec_2015})
+that is likely to be accessible across systems for the foreseeable future.
 
 The primary theoretical requirements for reproducing an in silico analysis in
 QIIME 2 are met. However, the practical costs of doing so remain prohibitive.
@@ -268,18 +267,17 @@ defining:
 \noindent Though varying slightly in scope and intent, these two systems both classify
 distinct “types of reproducibility”, based on study design or outcome. There is
 no “correct” or standard nomenclature in the literature, so we will impose a
-Gunderson-like hierarchy on the Turing Way terminology here. (Figure \ref{fig:repro_classes})
+Gunderson-like hierarchy on the Turing Way terminology (Figure \ref{fig:repro_classes}).
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.5\textwidth]{figures/repro_outcomes.jpg}
+\includegraphics[width=.5\textwidth]{figures/ReproOutcomes}
 \caption[Hierarchically arranged reproducibility classes]%
 {In this figure, Turing Way reproducibility classes are ordered in a
-Gunderson-like hierarchy based on generality. Each class includes a pair of
-descriptive two-letter codes, where the first letter abbreviates either Same or
-Different, and the second letter Data or Analysis. For example, a Robust study
-is coded DA/SD because it achieves the same results using a Different Analysis
-of the Same Data.}
+Gunderson-like hierarchy based on generality. Each class represents a
+situation in which the same results are produced using either the same or
+different data and the same or different analysis methods. For example, a Robust
+study achieves the same results using a Different Analysis of the Same Data.}
 \label{fig:repro_classes}
 \end{figure}
 
@@ -394,7 +392,7 @@ corroboration is inadequate.
 Biologists today have widely varying levels of biological and computational
 expertise. They work in the field, in wet labs, in computational settings, and
 in software roles. They collaborate across research domains. They use
-spreadsheets, R and Python, matlab, stata, C, C++, FORTRAN, and many other
+spreadsheets, R and Python, MATLAB, stata, C, C++, FORTRAN, and many other
 programming languages. They interact with data through command line interfaces
 (CLIs), application programming interfaces (APIs), Graphical User Interfaces
 (GUIs), with self-documenting notebooks (e.g. Jupyter Notebook, RMarkdown),
@@ -494,14 +492,14 @@ file within that directory.”
 Archives are formally defined and registered in the QIIME 2 \texttt{Archiver} code \parencite{qiime_2_development_team_qiime2_2016},
 and any change to the structure of a QIIME 2 archive must be implemented as a new
 archive version. As QIIME 2 has grown in capability and complexity, six
-backwards-compatible archive versions have been registered. Any reproducibility
-tool aiming to support all QIIME 2 Results must account for variation in Archive
-Versions.
+major revisions have been registered, described here as "Archive Format Versions"
+or, in short form, "Archive Versions". Any reproducibility tool aiming to support all
+QIIME 2 Results must account for variation in Archive Versions.
 
 The first (V0) Archive Version did not include any provenance data, because
 QIIME 2 did not capture provenance at that early stage in its development.
-Subsequent versions capture provenance data in a \texttt{provenance} directory within the
-Archive’s root directory.
+Subsequent versions capture provenance data in a \texttt{provenance} directory
+within the Archive’s root directory.
 
 \subsection{UUIDs}
 
@@ -512,7 +510,7 @@ These are randomly-generated 128-bit labels composed of 32 hexadecimal
 characters broken by hyphens into character groups with lengths of 8-4-4-4-12
 characters each. These identifiers have no special significance, but rather were
 selected for use because they are a common and convenient way to label uniquely.
-Though collisions are theoretically possible, the 5.3×1036 possible V4 UUIDs
+Though collisions are theoretically possible, the $5.3\times10^{36}$ possible V4 UUIDs
 make the probability of collision vanishingly small in the contexts where we
 apply them.
 
@@ -537,7 +535,7 @@ A few key ideas are worth mentioning here.
 
 \begin{itemize}
     \item The QIIME 2 Archiver currently stores Archives to disk as ZIP files
-        (\cite{noauthor_appnote_nodate}; \cite{iso_isoiec_nodate}), because ZIP is a
+        (\cite{noauthor_appnote_2020}; \cite{iso_isoiec_2015}), because ZIP is a
         ubiquitous, compact, open, and well understood archive file format.
     \item Other Archive formats may exist in the future.
     \item Data and provenance are stored separately, allowing provenance data
@@ -560,7 +558,7 @@ A few key ideas are worth mentioning here.
 
 \subsection{QIIME 2 release/packaging model}
 At the time of writing, the QIIME 2 Framework is packaged with many “core”
-plugins on a quarterly release cycle. Most users install a conda package,
+plugins on a quarterly release cycle. Most users install a conda environment,
 container, or virtual machine, and get access to commonly used plugins.
 Third-party plugins must be installed separately, however, and there is no
 guarantee that a plugin used in a prior analysis will be present in a user’s

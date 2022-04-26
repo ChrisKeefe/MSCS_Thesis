@@ -77,16 +77,18 @@ to the documentation style of QIIME 2 itself to keep things familiar.
 
 \subsection{Compatibility}
 
-Provenance replay is packaged for use across Linux, MacOS, and Windows (via
-WSL2), using conda, which provides powerful dependency management and environment
-solving tools. Installing provenance replay within a clean QIIME 2 conda
-environment ensures compatibility with the framework itself, and with many
-commonly used QIIME 2 plugins. Integration into the QIIME 2 framework, or
-placement on the QIIME 2 library, will increase our ability to guarantee
-compatibility through access to integration testing pipelines. Core dependencies
-of Provenance Replay were selected with compatibility in mind, through a
-preference for well-maintained, commonly-used, pure Python packages where
-appropriate.
+Provenance Replay is packaged for use across Linux, MacOS, and Windows (via
+WSL2) using conda, which provides powerful dependency management and environment
+solving tools. QIIME 2 versions \texttt{2021.11} and newer support Provenance
+Replay, through their implementation of the Usage API and upstream usage drivers.
+Results produced by any version(s) of QIIME 2 can be parsed and replayed.
+Installing provenance replay within a clean QIIME 2 conda environment ensures
+compatibility with the framework itself, and with many commonly used QIIME 2
+plugins. Integration into the QIIME 2 framework, or placement in the QIIME 2
+Library, will increase our ability to guarantee compatibility through access to
+integration testing pipelines. Core dependencies of Provenance Replay were
+selected with compatibility in mind, through a preference for well-maintained,
+commonly-used, pure Python packages where appropriate.
 
 \subsection{Permissive Error-Handling}
 

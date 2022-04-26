@@ -330,7 +330,7 @@ for parsing, and returning the resulting \texttt{ParserResults} object.
 
 To date, changes to Archive formats have generally been additive, and have
 accreted in relatively small increments, which as a general trend lends itself
-well to inheritance. In order to support a new Archive Format (v6) that captured
+well to inheritance (Figure \ref{fig:archiveParsersUML}). In order to support a new Archive Format (v6) that captured
 a new type of provenance file with every Result, we might only need to:
 \begin{itemize}
     \item Define a class or function capable of the low-level parsing (e.g. loading serialized data)
@@ -383,10 +383,12 @@ code for all of these \texttt{Parser}s is minimal, as nearly all behavior is inh
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=\textwidth]{figures/parserCodeBlock.png}
+\includegraphics[width=\textwidth]{figures/parserCodeBlock2}
 \caption[Code snippet illustrating the value of inheritance to ArchiveParser Versions]%
-{full code of the \texttt{ParserV3} and \texttt{ParserV4} classes, illustrating the value of
-inheritance and low-level parser flexibility in reducing code surface area.}
+{full code of the \texttt{ParserV4} and \texttt{ParserV5} classes, illustrating the value of
+inheritance and low-level parser flexibility in reducing code surface area.
+For many additive changes to the Archive Format specification, little or no
+change is required in the Archive parsers themselves.}
 \label{fig:parserCodeBlock}
 \end{figure}
 

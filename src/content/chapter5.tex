@@ -295,12 +295,12 @@ which users can apply directly to the \texttt{DiGraph} object (or a copy of it) 
 \texttt{ProvDag.dag}. Commonly-used operations should be wrapped as methods on
 \texttt{ProvDAG} when they might affect inconsistency of internal state, as does union.
 
-\section{Provenance Replay in q2view \parencite[Issue 123]{qiime_2_development_team_issues_2016}}
-Graphical interfaces like q2view have a lot of potential to improve user
+\section{Provenance Replay in QIIME 2 View \parencite[Issue 123]{qiime_2_development_team_issues_2016}}
+Graphical interfaces like QIIME 2 View have a lot of potential to improve user
 interactions with provenance data and provide unique opportunities to support
 advanced applications of provenance replay. User comments during the focus group
 sessions indicate there is significant demand for bundling provenance replay
-into q2view, as this would allow users to replay interesting results without
+into QIIME 2 View, as this would allow users to replay interesting results without
 leaving the GUI (or even installing QIIME 2). A graphical interface like this is
 probably the most compelling interface for implementing the graph-algebraic
 operations described in Section \ref{section:graph_ops}, because describing
@@ -308,13 +308,16 @@ the “parts” of an analysis a user would like to run would likely be much eas
 with tools like click-and-drag to select.
 
 Unfortunately, there are significant technical hurdles here, so a short-term
-implementation is unlikely. The primary challenge is that provenance replay would
-likely need to be compiled to WASM for use in the browser. We might approach
-this with a targeted rebuild of \texttt{provenance\_lib} in the Rust language.
-Dedicated usage drivers that do not rely on the presence of a QIIME 2 distribution
-would need to be built, likely with significant supporting software. Finally,
-q2view itself would likely need to be extended to accommodate the visualization
-of provenance graphs representing multiple QIIME 2 results.
+implementation is unlikely. The primary challenge is that in-browser support for
+Python libraries like \texttt{provenance\_lib} is very limited. Projects
+like Pyodide and \texttt{python-wasm} have successfully run the CPython interpreter
+in browser, but they are still relatively young efforts. We are more likely to approach
+this with a targeted rebuild of \texttt{provenance\_lib} in the Rust language,
+which can be compiled to WASM for efficient use in the browser.  Dedicated usage
+drivers that do not rely on the presence of a QIIME 2 distribution would also
+need to be built, likely with significant supporting software. Finally, QIIME 2
+View itself would likely need to be extended to accommodate the visualization of
+provenance graphs representing multiple QIIME 2 results.
 
 \section{Annotating transitions into and out of QIIME 2 analysis \parencite[Issue 80]{keefe_issues_2021}}
 Multiple focus group participants noted that provenance replay would fail to
@@ -332,7 +335,7 @@ easier to identify places where external work may have occurred.
 Because replay has a relatively comprehensive view of the history of a given
 result, and because data integrity bugs have been rare in QIIME 2, tooling to
 notify users that a given Result might be compromised by a data integrity bug
-could be a useful addition to both Provenance Replay and q2view. By querying
+could be a useful addition to both Provenance Replay and QIIME 2 View. By querying
 DAGs for the presence of characteristics that correlate with loss of integrity
 (e.g. failing combinations of OS and a particular version of software) could
 help both researchers and reviewers catch potential problems before they go to

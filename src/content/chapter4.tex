@@ -19,7 +19,7 @@ study was fitted closely to likely user experience with the software in the
 field. The demonstration was conducted in a natively installed QIIME 2
 environment in a graphical Linux desktop environment, allowing familiar visual
 interfaces for looking at and navigating file trees, and interacting with tools
-like q2view in the web browser. Some prospective provenance replay users will
+like QIIME 2 View in the web browser. Some prospective provenance replay users will
 primarily be interacting with QIIME 2 in headless cluster or server
 environments. The command line interface for provenance replay was used as the
 primary interface in the demonstration, to provide as much parity as possible
@@ -156,7 +156,7 @@ tools.
 In the spirit of making reproducibility documentation “too easy not to do” \parencite[19]{whitaker_turing_2019},
 usability is another key non-functional requirement. Users can generate
 reproducibility supplements inline while working in either of QIIME 2’s most
-popular user interfaces. The command line interface targets usability by
+popular user interface types. The command line interface targets usability by
 exposing the minimum possible number of commands, adopting parameter naming
 conventions familiar to QIIME 2 users, and providing sensible defaults that
 allow commands to run with only input and output filepath parameters wherever
@@ -177,8 +177,8 @@ supported interfaces and a bibtex-formatted citation library.}
 \label{fig:simple_py_command}
 \end{figure}
 
-Helptext is available from the command line or the python interpreter, in
-expected ways (e.g. \texttt{-–help} in the CLI and \texttt{?} in ipython).
+Help text is available from the command line or the Python interpreter, in
+expected ways (e.g. \texttt{-–help} in the CLI and \texttt{?} in IPython).
 Effort has been made to keep the installation process as simple as possible, and
 high-level documentation supporting installation and basic use is available in
 the repository \texttt{README} (See Appendices \ref{app:basicDocs} and
@@ -263,9 +263,12 @@ and extension, Provenance Replay allows QIIME 2 users the benefits of
 reproducible science without many of the projected costs associated with
 achieving reproducibility.
 
+\section{First application in peer-reviewed microbiome research}
+
 These tools have been applied to generate a reproducibility supplement for
 publication with a large-scale analysis of relationships between Alzheimer’s
-Disease pathology and the gut microbiome in transgenic mouse models \parencite{borsom_predicting_2022}.
+Disease pathology and the gut microbiome in transgenic mouse models that is
+currently in peer review and available as a pre-print \parencite{borsom_predicting_2022}.
 The supplement includes generated CLI and Python 3 scripts for reproducing the
 analysis, full citations for a curated set of Result artifacts, and complete
 sample metadata and raw data inputs. Scripts were updated to reference these

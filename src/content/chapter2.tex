@@ -420,7 +420,7 @@ output. A node can only be the product of one Action, so multiple in-edges to a
 single node will always represent the same Action. We capture Action-specific
 data in the graph nodes produced by that action, for loose parity with the
 representation of that data in both the Archive structure and in the widely used
-q2view provenance graph visualization. 
+QIIME 2 View provenance graph visualization.
 
 These DAGs are implemented as \texttt{DiGraph} objects, defined by the NetworkX library
 for graph analysis. NetworkX was selected for many reasons. It is widely-used
@@ -533,7 +533,7 @@ This view has potential utility as a tool for deeper inspection of analytical
 workflows, allowing users to study, modify, and re-run all of the fundamental
 Actions being run by Pipelines. 
 
-The collapsed view will be familiar to users of q2view, in which it is used to
+The collapsed view will be familiar to users of QIIME 2 View, in which it is used to
 present analysis provenance with a minimum of visual clutter (Fig \ref{fig:provenance_graph}).
 Support for this fundamental idea that different users might require different
 views of provenance is extended to the Replay component of the software, in

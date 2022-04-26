@@ -86,7 +86,8 @@ from a version-5 Archive, the current and most complex Archive Format version.
 \includegraphics[width=\textwidth]{figures/archive_structure.png}
 \caption[Diagram of the structure of a version-5 QIIME 2 Archive]%
 {A graphical representation of the structure of a version 5 QIIME 2 Archive
-stored as a Zip Archive. The directory structure is represented by gray
+stored as a Zip Archive \parencite{qiime_2_development_team_archive_2018}.
+The directory structure is represented by gray
 directory icons, with arrows indicating levels of nesting, wherein the parent
 directory “points to” all of its contents. Single files are represented by the
 “folded-corner” file icons, and a “file collection” icon in blue represents the
@@ -102,9 +103,9 @@ digest, a \texttt{VERSION} file detailing the Archive version and the version of
 QIIME 2 Framework that produced the Result, and a \texttt{metadata.yaml} file describing
 primary characteristics of the Result itself. The data directory holds the
 Result data, and the \texttt{provenance} directory contains captured provenance data.
-Note that the \texttt{artifacts} directory may contain an arbitrary number of
-provenance-files directories, and that these contain only provenance
-information. By not capturing ancestral data in provenance, we reduce the risk
+Note that the \texttt{artifacts} directory in \texttt{provenance} may contain an arbitrary number of
+provenance-files directories (i.e. one for each Result), and that these contain only provenance
+information. By not capturing ancestral study data in provenance, we reduce the risk
 of unmanageably-sized Archives, at the “cost” of users needing multiple archives
 to hold all of the data from a given analysis. Users generally manage this
 complexity by organizing their Results in a file system, though more
@@ -116,7 +117,8 @@ IDs or locations on disk). (Figure \ref{fig:provenance_files})
 \includegraphics[width=\textwidth]{figures/prov_files.png}
 \caption[Diagram of the provenance file directories in a QIIME 2 Archive]%
 {An expanded graphical representation of the contents of a directory of
-provenance files from a version 5 Archive. Each of these directories is uniquely
+provenance files from a version 5 Archive \parencite{qiime_2_development_team_archive_2018}.
+Each of these directories is uniquely
 identified with the UUID of the ancestor result whose provenance is described
 within. Information about the action that produced this Result is stored in an
 action directory, including \texttt{.tsv}-formatted files representing any metadata used
@@ -174,7 +176,7 @@ will be no \texttt{provenance} directory named with S’s UUID saved in R’s
 \texttt{provenance/artifacts} directory. A record of S’s UUID will, however, be saved in
 the \texttt{action.yaml} file of S’s immediate descendant.
 
-\texttt{DiGraph} nodes are literally UUID strings. The minimal \texttt{DiGraph} node has the
+\texttt{DiGraph} nodes are literally string representations of UUIDs. The minimal \texttt{DiGraph} node has the
 following attributes:
 \begin{itemize}
     \item \texttt{has\_provenance} - a flag indicating whether provenance data exists for this node
@@ -287,7 +289,7 @@ accessible through e.g. \texttt{ArchiveParser.get\_parser}.}
 \section{Handling Changes in Archive structure over time}
 \label{section:archive_versions}
 
-The QIIME 2 Framework defines six Archive Format versions, numbered from 0 to 5,
+The QIIME 2 Framework currently defines six Archive Format versions, numbered from 0 to 5,
 which have increased in complexity as provenance capture has become more robust.
 Results created in the earliest of these Archive Formats (V0) do not contain
 provenance data at all. I have covered the details of these archive structure
@@ -390,16 +392,24 @@ inheritance and low-level parser flexibility in reducing code surface area.}
 
 
 \section{Representing single Results or full analyses with \texttt{DiGraph}s}
+\label{section:rep_full_analyses}
 
 Many studies require information from more than one QIIME 2 Result in order to
-adequately address their research questions. We must therefore support user
-stories in which a user replays multiple Results into a single “analysis-level”
-script. Failure to do so would result in users generating multiple replay
-scripts with potentially high levels of duplication, and then manually or with
-their own software tools, a) incurring unnecessary computing costs to generate
-and then delete many duplicate Results, or b) incurring unnecessary researcher
-or developer costs to merge these replay scripts for a single run without
-duplicate Results. Either of these would likely be prone to user error. 
+adequately address their research questions. Existing tools provide the ability to
+parse single QIIME 2 Results (e.g. the R package \texttt{qiime2R}
+\parencite{bisanz_tutorial_2018} and \texttt{qax} \parencite{telatin_qiime_2021}),
+but the representation of full analyses does not appear to be supported outside
+of \texttt{provenance\_lib} at this time.
+
+In order to work effectively with QIIME 2 analyses captured in provernance,
+we must support user stories in which a user replays multiple Results into a
+single “analysis-level” script. Failure to do so would result in users
+generating multiple replay scripts with potentially high levels of duplication,
+and then manually or with their own software tools, a) incurring unnecessary
+computing costs to generate and then delete many duplicate Results, or b)
+incurring unnecessary researcher or developer costs to merge these replay
+scripts for a single run without duplicate Results. Either of these would likely
+be prone to user error.
 
 The provenance of a single QIIME 2 Result conforms to the properties of a
 directed acyclic graph (DAG), with one or more “input” nodes and a single
@@ -576,7 +586,10 @@ ordered scale of \texttt{ValidationCode}s has been established as an \texttt{Int
     \texttt{VALID}               & 3          & the Archive is known to be invalid                   \\ \hline
     \end{tabular}
     \caption[Defined ValidationCodes, ordered from least to most valid, with their descriptions]%
-    {Defined \texttt{ValidationCodes}, ordered from least to most valid, with their descriptions}
+    {Defined \texttt{ValidationCodes}, ordered from least to most valid, with their descriptions.
+    The use of ordered enum values supports tools like \texttt{union} which use this ordering
+    to retain the minimum \texttt{ValidationCode} from a collection of unioned provenance DAGs
+    in the final 'unioned' DAG.}
     \label{tab:validationCodes}
 \end{table}
 

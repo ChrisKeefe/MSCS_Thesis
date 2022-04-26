@@ -122,7 +122,7 @@ The Provenance Replay code base is unit tested to 100\% coverage, using
 the \texttt{unittest} \parencite{python_software_foundation_unittest_2001} framework,
 \texttt{pytest} \parencite{krekel_pytest_2015} as a test runner, and \texttt{pytest-cov} \parencite{pytest-cov_contributors_welcome_2016}
 for coverage reporting. Automated testing is performed on all pull requests and
-commits to the main branch, using github actions
+commits to the main branch, using GitHub actions
 \parencite{github_features_2022} for continuous integration.
 
 The code complies with PEP8 style guidelines \parencite{van_rossum_pep_2001}
@@ -133,10 +133,11 @@ provide both users and developers with the key information required to
 understand the code and its rationale efficiently. Comments attempt to target
 \textit{why} questions rather than \textit{what is happening here} questions
 wherever possible, and best efforts have been made to write self-documenting
-code with clear and descriptive naming conventions. \texttt{mypy} type annotations
-\parencite{lehtosalo_mypy_2014} are used throughout the code base, improving
-readability and allowing maintainers to confirm the type-correctness of changes,
-without requiring them to do so.
+code with clear and descriptive naming conventions. Type annotations
+are used throughout the code base, improving readability and allowing
+maintainers to confirm the type-correctness of changes, without requiring them
+to do so. \texttt{mypy} \parencite{lehtosalo_mypy_2014} has been used to verify
+the correctness of these type annotations.
 
 Special attention has been paid, as described above, to software extensibility
 in areas where extensibility is known to be of benefit. Specifically, the parser
@@ -200,7 +201,7 @@ provenance Replay supports:
         Results from which they were generated
     \item Validation: the \texttt{ChecksumValidator} confirms Result integrity
         against the MD5Sums captured when Results were first generated
-    \item Reproduction: replay generates executables that require only the input
+    \item Reproduction: replay generates scripts that require only the input
         of original sample data for reproduction/corroboration of any original
         result (using captured sample metadata) when run in a compatible computing
         environment
@@ -233,7 +234,7 @@ Provenance Replay targets the following with a high level of success.
         provenance replay, and will be targeted in future development.
     \item Readability: replay documents are designed for humans, formatted
         nicely, and provide their own usage instructions.
-    \item Learning-readiness: A variety of common interface-specific executable
+    \item Learning-readiness: A variety of common interface-specific script
         output formats are provided, reducing interface-related barriers to
         readability and learning.
     \item Interpretation and communication: By providing multiple user
@@ -251,7 +252,7 @@ searchable and programmatic ways without requiring access to the original
 script, notebook, or lab notes.
 
 By providing variety in user interfaces available for the Provenance Replay
-software itself, and in target user interfaces available for output executables,
+software itself, and in target user interfaces available for output scripts,
 the software allows users to read and interact with these computational
 histories through the familiar language of their preferred interface, improving
 readability, reducing the technical cost of learning new methods, and lowering
